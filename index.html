@@ -187,19 +187,117 @@
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
-    .product-price { font-size: 14px; font-weight: 700; color: var(--price-color); }
-    .mini-add {
-      background: var(--ink-main);
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      padding: 5px 8px;
-      font-size: 11px;
-      font-weight: 600;
-      cursor: pointer;
-      width: 100%;
+    .product-short-desc {
+      font-size: 11.5px;
+      color: var(--ink-muted);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-height: 1.35;
     }
-    .mini-add:hover { background: var(--accent); }
+    .product-price { font-size: 14px; font-weight: 700; color: var(--price-color); }
+
+    /* Reels Horizontal Slider */
+    .reels-slider {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding-bottom: 8px;
+      scrollbar-width: thin;
+    }
+    .reel-slide-card {
+      flex: 0 0 210px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .reel-video-wrap {
+      width: 100%;
+      aspect-ratio: 9 / 14;
+      background: #1C1917;
+      position: relative;
+    }
+    .reel-video-wrap video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .reel-caption {
+      padding: 8px 10px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink-main);
+    }
+
+    /* Slide-out Cart Drawer */
+    .cart-slide-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(28, 25, 23, 0.45);
+      display: none;
+      justify-content: flex-end;
+      z-index: 65;
+    }
+    .cart-slide-backdrop.open { display: flex; }
+    .cart-slide-panel {
+      width: 360px;
+      max-width: 92vw;
+      height: 100%;
+      background: var(--bg-cream);
+      border-left: 1px solid var(--border);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: -10px 0 30px rgba(28, 25, 23, 0.2);
+    }
+    .cart-slide-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+    }
+    .cart-slide-items {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .cart-item-row {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .qty-ctrl {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+    }
+    .qty-btn {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg-soft);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
     .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; }
     .info-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; }
     .badge {
@@ -353,8 +451,7 @@
       word-break: break-word;
     }
     .msg-user { align-self: flex-end; background: var(--ink-main); color: #fff; border-bottom-right-radius: 3px; }
-    .msg-ai { align-self: flex-start; background: var(--bg-card); color: var(--ink-main); border: 1px solid var(--border); border-bottom-left-radius: 3px; }
-    .msg-admin { align-self: flex-start; background: #FFF7ED; color: var(--ink-main); border: 1px solid #FDBA74; border-bottom-left-radius: 3px; }
+    .msg-brand { align-self: flex-start; background: var(--bg-card); color: var(--ink-main); border: 1px solid var(--border); border-bottom-left-radius: 3px; }
     .msg-tag { display: block; font-size: 10px; opacity: 0.72; margin-bottom: 2px; font-weight: 700; }
     .chat-form {
       display: flex;
@@ -385,7 +482,7 @@
     <div class="container header-row">
       <a class="brand-logo" onclick="resetHome()">Bangla<span>Brand</span></a>
       <div class="nav-actions">
-        <button class="btn" onclick="openModal('checkout-modal')">🛒 কার্ট (<span id="cart-count">0</span>)</button>
+        <button class="btn" onclick="openCartSlide()">🛒 কার্ট (<span id="cart-count">0</span>)</button>
       </div>
     </div>
   </header>
@@ -444,6 +541,17 @@
       </div>
       <div class="info-grid" id="reviews-grid"></div>
     </section>
+
+    <section id="sec-reels" class="section-block">
+      <div class="section-head">
+        <h2 class="section-title">🎬 শর্ট ভিডিও ও রিলস</h2>
+        <div style="display:flex;gap:6px;">
+          <button class="btn" onclick="slideReels(-1)">◀ স্লাইড</button>
+          <button class="btn" onclick="slideReels(1)">স্লাইড ▶</button>
+        </div>
+      </div>
+      <div class="reels-slider" id="reels-slider"></div>
+    </section>
   </main>
 
   <footer id="sec-footer" class="site-footer">
@@ -477,11 +585,34 @@
     </div>
   </footer>
 
+  <!-- Slide-out Cart Drawer -->
+  <div class="cart-slide-backdrop" id="cart-slide-backdrop" onclick="if(event.target===this) closeCartSlide()">
+    <aside class="cart-slide-panel">
+      <div class="cart-slide-head">
+        <div>
+          <h3 style="font-size:17px;">🛒 আপনার কার্ট</h3>
+          <span style="font-size:12px;color:var(--ink-muted);">মোট প্রোডাক্ট: <strong id="slide-cart-total-qty">0</strong>টি</span>
+        </div>
+        <button class="modal-close" style="float:none;" onclick="closeCartSlide()">✕</button>
+      </div>
+      <div class="cart-slide-items" id="slide-cart-items"></div>
+      <div style="border-top:1px solid var(--border);padding-top:12px;">
+        <div style="display:flex;justify-content:space-between;font-size:15px;font-weight:700;margin-bottom:10px;">
+          <span>সাবটোটাল:</span>
+          <span style="color:var(--price-color);" id="slide-cart-subtotal">৳0</span>
+        </div>
+        <button class="btn btn-accent" style="width:100%;justify-content:center;padding:10px 14px;" onclick="goToCheckoutFromSlide()">
+          অর্ডার করুন →
+        </button>
+      </div>
+    </aside>
+  </div>
+
   <button class="floating-chat-btn" onclick="toggleChatDrawer()">💬 লাইভ চ্যাট</button>
 
   <div class="chat-drawer" id="live-chat-drawer">
     <div class="chat-head">
-      <span>💬 লাইভ চ্যাট (AI + সাপোর্ট)</span>
+      <span>💬 Bangla Brand লাইভ চ্যাট</span>
       <button onclick="toggleChatDrawer()" style="background:none;border:none;color:#fff;font-size:16px;cursor:pointer;">✕</button>
     </div>
     <div class="chat-messages" id="visitor-chat-messages"></div>
@@ -511,9 +642,13 @@
         { id: "gift", name: "গিফট সেট", icon: "🎁" }
       ],
       products: [
-        { id: "bb-101", title: "এলিগ্যান্ট গোল্ড প্লেটেড পায়েল", category: "payel", price: 650, warranty: "২ বছর কালার গ্যারান্টি", keywords: ["পায়েল", "গোল্ড প্লেটেড পায়েল", "payel", "anklet"], image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=600&q=80", description: "নিখুঁত ফিনিশিং ও আরামদায়ক ফিটসহ প্রিমিয়াম পায়েল।" },
-        { id: "bb-102", title: "রয়্যাল চেইন নেকলেস সেট", category: "necklace", price: 950, warranty: "২ বছর কালার গ্যারান্টি", keywords: ["নেকলেস", "চেইন নেকলেস", "necklace", "jewelry"], image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=600&q=80", description: "শাড়ি, কামিজ বা ওয়েস্টার্ন আউটফিটের সাথে মানানসই নেকলেস।" },
-        { id: "bb-103", title: "মিনিমালিস্ট স্টেইনলেস ব্রেসলেট", category: "bracelet", price: 550, warranty: "২ বছর কালার গ্যারান্টি", keywords: ["ব্রেসলেট", "স্টেইনলেস ব্রেসলেট", "bracelet"], image: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?auto=format&fit=crop&w=600&q=80", description: "আধুনিক ডিজাইনের ব্রেসলেট, উপহার দেওয়ার জন্য দারুণ পছন্দ।" }
+        { id: "bb-101", title: "এলিগ্যান্ট গোল্ড প্লেটেড পায়েল", category: "payel", price: 650, warranty: "২ বছর কালার গ্যারান্টি", keywords: ["পায়েল", "গোল্ড প্লেটেড পায়েল", "payel", "anklet"], image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=600&q=80", description: "নিখুঁত ফিনিশিং ও আরামদায়ক ফিটসহ প্রিমিয়াম পায়েল। প্রতিদিনের ব্যবহার ও উপহারের জন্য দারুণ।" },
+        { id: "bb-102", title: "রয়্যাল চেইন নেকলেস সেট", category: "necklace", price: 950, warranty: "২ বছর কালার গ্যারান্টি", keywords: ["নেকলেস", "চেইন নেকলেস", "necklace", "jewelry"], image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=600&q=80", description: "শাড়ি, কামিজ বা ওয়েস্টার্ন আউটফিটের সাথে মানানসই আধুনিক ডিজাইনের নেকলেস সেট।" },
+        { id: "bb-103", title: "মিনিমালিস্ট স্টেইনলেস ব্রেসলেট", category: "bracelet", price: 550, warranty: "২ বছর কালার গ্যারান্টি", keywords: ["ব্রেসলেট", "স্টেইনলেস ব্রেসলেট", "bracelet"], image: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?auto=format&fit=crop&w=600&q=80", description: "হালকা ও আরামদায়ক স্টেইনলেস ব্রেসলেট, সহজেই মানিয়ে যায় যেকোনো লুকের সাথে।" }
+      ],
+      reels: [
+        { id: "reel-1", title: "গোল্ড প্লেটেড পায়েল লুক", videoUrl: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" },
+        { id: "reel-2", title: "রয়্যাল নেকলেস স্টাইলিং", videoUrl: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" }
       ],
       pageSettings: {
         homeHeading: "জনপ্রিয় কালেকশন",
@@ -529,7 +664,7 @@
         freeShippingUnlockedText: "🎉 অভিনন্দন! আপনি ফ্রি ডেলিভারি পেয়েছেন।",
         freeShippingLockedTemplate: "আর মাত্র ৳{remaining} টাকার পণ্য নিলে ফ্রি ডেলিভারি পাবেন!"
       },
-      sectionsVisible: { categories: true, adsense: true, products: true, bundle: true, guides: true, reviews: true, footer: true },
+      sectionsVisible: { categories: true, adsense: true, products: true, bundle: true, guides: true, reviews: true, reels: true, footer: true },
       adsense: { enabled: true, pubId: "", slotId: "", note: "স্পন্সরড স্লট প্রস্তুত — অ্যাডমিন প্যানেল থেকে আপনার AdSense Publisher ID ও Slot ID যুক্ত করুন।" },
       reviews: [{ name: "নুসরাত জাহান", rating: "★★★★★", comment: "পায়েলের ফিনিশিং খুব সুন্দর, ডেলিভারিও দ্রুত পেয়েছি।" }],
       orders: [],
@@ -548,6 +683,8 @@
         return {
           ...structuredClone(DEFAULT_STATE),
           ...p,
+          categories: Array.isArray(p.categories) && p.categories.length ? p.categories : structuredClone(DEFAULT_STATE.categories),
+          reels: Array.isArray(p.reels) ? p.reels : structuredClone(DEFAULT_STATE.reels),
           pageSettings: { ...DEFAULT_STATE.pageSettings, ...(p.pageSettings || {}) },
           sectionsVisible: { ...DEFAULT_STATE.sectionsVisible, ...(p.sectionsVisible || {}) },
           adsense: { ...DEFAULT_STATE.adsense, ...(p.adsense || {}) },
@@ -579,7 +716,7 @@
           customerName: "ভিজিটর (" + sid.slice(-5) + ")",
           updatedAt: new Date().toLocaleTimeString("bn-BD"),
           messages: [
-            { sender: "ai", text: "স্বাগতম Bangla Brand-এ! পণ্য, দাম, ডেলিভারি বা অফার সম্পর্কে যেকোনো প্রশ্ন করুন।", time: new Date().toLocaleTimeString("bn-BD") }
+            { sender: "brand", text: "স্বাগতম Bangla Brand-এ! পণ্য, দাম, ডেলিভারি বা অফার সম্পর্কে যেকোনো প্রশ্ন করুন।", time: new Date().toLocaleTimeString("bn-BD") }
           ]
         };
         st.chats.unshift(thread);
@@ -603,8 +740,9 @@
       if (!box) return;
       const thread = ensureChatThread(state);
       box.innerHTML = (thread.messages || []).map(m => {
-        const cls = m.sender === "user" ? "msg-user" : (m.sender === "admin" ? "msg-admin" : "msg-ai");
-        const tag = m.sender === "user" ? "আপনি" : (m.sender === "admin" ? "অ্যাডমিন রিপ্লাই" : "AI অ্যাসিস্ট্যান্ট");
+        const isUser = m.sender === "user";
+        const cls = isUser ? "msg-user" : "msg-brand";
+        const tag = isUser ? "আপনি" : "Bangla Brand";
         return `<div class="msg-bubble ${cls}"><span class="msg-tag">${tag} • ${esc(m.time || "")}</span>${esc(m.text)}</div>`;
       }).join("");
       box.scrollTop = box.scrollHeight;
@@ -635,7 +773,7 @@
         const list = prods.slice(0, 4).map(p => `${p.title} (৳${p.price})`).join(", ");
         return `আমাদের জনপ্রিয় পণ্যগুলোর মধ্যে রয়েছে: ${list || "পায়েল, নেকলেস, ব্রেসলেট"}। কোন পণ্যটি দেখতে চান?`;
       }
-      return `আপনার মেসেজটি পেয়েছি। আমাদের পণ্য, দাম বা ডেলিভারি সম্পর্কে জানতে পারেন, আর বিস্তারিত সহায়তার জন্য আমাদের সাপোর্ট টিমও লাইভ চ্যাটে যুক্ত রয়েছে।`;
+      return `আপনার মেসেজটি পেয়েছি। আমাদের পণ্য, দাম বা ডেলিভারি সম্পর্কে জানতে পারেন, আর বিস্তারিত সহায়তার জন্য Bangla Brand টিমও আপনার সাথে রয়েছে।`;
     }
 
     async function sendVisitorChatMessage(e) {
@@ -658,7 +796,7 @@
       if (apiKey) {
         try {
           const catalogSummary = (state.products || []).slice(0, 8).map(p => `${p.title} (৳${p.price}, ${p.category})`).join("; ");
-          const prompt = `You are a helpful Bangla customer support AI for "Bangla Brand" e-commerce store. Products: ${catalogSummary}. Inside Dhaka delivery: ৳${state.pageSettings?.insideDhakaCharge ?? 70}, Outside Dhaka: ৳${state.pageSettings?.outsideDhakaCharge ?? 130}, Free shipping min: ৳${state.pageSettings?.freeShippingMin ?? 1500}. Reply concisely and politely in Bangla to customer message: "${text}"`;
+          const prompt = `You are customer support for "Bangla Brand" e-commerce store. Never mention being an AI or bot; speak naturally on behalf of Bangla Brand. Products: ${catalogSummary}. Inside Dhaka delivery: ৳${state.pageSettings?.insideDhakaCharge ?? 70}, Outside Dhaka: ৳${state.pageSettings?.outsideDhakaCharge ?? 130}, Free shipping min: ৳${state.pageSettings?.freeShippingMin ?? 1500}. Reply concisely and politely in Bangla to customer message: "${text}"`;
           const res = await fetch("https://generativelanguage.googleapis.com/v1beta/interactions", {
             method: "POST",
             headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
@@ -667,9 +805,7 @@
           const data = await res.json();
           const aiTxt = data?.output_text || data?.outputs?.[0]?.text || data?.outputs?.[0]?.content?.[0]?.text || "";
           if (res.ok && aiTxt.trim()) replyText = aiTxt.trim();
-        } catch (err) {
-          // fallback reply already prepared
-        }
+        } catch (err) {}
       }
 
       state = loadState();
@@ -687,6 +823,55 @@
       const unlockedText = ps.freeShippingUnlockedText || "🎉 অভিনন্দন! আপনি ফ্রি ডেলিভারি পেয়েছেন।";
       const lockedTemplate = ps.freeShippingLockedTemplate || "আর মাত্র ৳{remaining} টাকার পণ্য নিলে ফ্রি ডেলিভারি পাবেন!";
       return { enabled, minVal, unlockedText, lockedTemplate };
+    }
+
+    function openCartSlide() {
+      renderSlideCart();
+      document.getElementById("cart-slide-backdrop").classList.add("open");
+    }
+
+    function closeCartSlide() {
+      document.getElementById("cart-slide-backdrop").classList.remove("open");
+    }
+
+    function goToCheckoutFromSlide() {
+      closeCartSlide();
+      openModal("checkout-modal");
+    }
+
+    function changeCartQty(idx, delta) {
+      if (!cart[idx]) return;
+      cart[idx].qty += delta;
+      if (cart[idx].qty <= 0) cart.splice(idx, 1);
+      saveCart();
+      renderSlideCart();
+    }
+
+    function renderSlideCart() {
+      const totalQty = cart.reduce((a, b) => a + b.qty, 0);
+      const subtotal = cart.reduce((a, b) => a + b.price * b.qty, 0);
+      document.getElementById("slide-cart-total-qty").textContent = totalQty;
+      document.getElementById("slide-cart-subtotal").textContent = "৳" + subtotal.toLocaleString("bn-BD");
+
+      const listEl = document.getElementById("slide-cart-items");
+      if (!cart.length) {
+        listEl.innerHTML = `<p style="font-size:14px;color:var(--ink-muted);text-align:center;margin-top:24px;">কার্টে কোনো প্রোডাক্ট নেই।</p>`;
+        return;
+      }
+      listEl.innerHTML = cart.map((item, idx) => `
+        <div class="cart-item-row">
+          <div>
+            <div style="font-size:13.5px;font-weight:600;">${esc(item.title)}</div>
+            <div style="font-size:12.5px;color:var(--price-color);font-weight:700;">৳${(item.price * item.qty).toLocaleString("bn-BD")}</div>
+            <div class="qty-ctrl">
+              <button class="qty-btn" onclick="changeCartQty(${idx}, -1)">-</button>
+              <span style="font-size:13px;font-weight:700;">${item.qty}</span>
+              <button class="qty-btn" onclick="changeCartQty(${idx}, 1)">+</button>
+            </div>
+          </div>
+          <button class="qty-btn" style="color:#B91C1C;" onclick="cart.splice(${idx}, 1); saveCart(); renderSlideCart();">✕</button>
+        </div>
+      `).join("");
     }
 
     function saveCart() {
@@ -721,7 +906,7 @@
     }
 
     function applySectionVisibility() {
-      const map = { categories: "sec-categories", adsense: "sec-adsense", products: "sec-products", bundle: "sec-bundle", guides: "sec-guides", reviews: "sec-reviews", footer: "sec-footer" };
+      const map = { categories: "sec-categories", adsense: "sec-adsense", products: "sec-products", bundle: "sec-bundle", guides: "sec-guides", reviews: "sec-reviews", reels: "sec-reels", footer: "sec-footer" };
       for (const [k, id] of Object.entries(map)) {
         const el = document.getElementById(id);
         if (el) el.style.display = state.sectionsVisible[k] === false ? "none" : "";
@@ -803,8 +988,8 @@
           <img class="product-thumb" src="${p.image}" alt="${esc(p.seoTitle || p.title)}" loading="lazy" />
           <div class="product-body">
             <div class="product-title">${esc(p.title)}</div>
+            <div class="product-short-desc">${esc(p.description || "")}</div>
             <div class="product-price">৳${Number(p.price).toLocaleString("bn-BD")}</div>
-            <button class="mini-add" onclick="event.stopPropagation(); addToCart('${p.id}')">+ কার্টে যোগ করুন</button>
           </div>
         </article>
       `).join("");
@@ -818,35 +1003,101 @@
       if (p.description) {
         document.getElementById("seo-meta-desc").setAttribute("content", p.description.slice(0, 155));
       }
-      const kwHtml = Array.isArray(p.keywords) && p.keywords.length
-        ? `<p style="font-size:12px;color:var(--ink-muted);margin-bottom:8px;"><strong>ট্যাগ:</strong> ${p.keywords.map(k => esc(k)).join(", ")}</p>`
-        : "";
+      const hasVariants = Array.isArray(p.variants) && p.variants.length > 0;
+      const variantSelectorHtml = hasVariants ? `
+        <div class="form-group">
+          <label>কালার ও সাইজ বেছে নিন:</label>
+          <select id="detail-variant-select" onchange="updateDetailVariantPrice('${p.id}')">
+            ${p.variants.map((v, i) => `<option value="${i}">${esc(v.color)} • ${esc(v.size)} (৳${Number(v.price || p.price).toLocaleString("bn-BD")})</option>`).join("")}
+          </select>
+        </div>
+      ` : "";
+
       document.getElementById("product-modal-content").innerHTML = `
         <button class="modal-close" onclick="closeModal('product-modal')">✕</button>
         <img src="${p.image}" alt="${esc(p.seoTitle || p.title)}" style="width:100%;max-height:280px;object-fit:cover;border-radius:12px;margin-bottom:10px;" />
         <span class="badge">${esc(p.warranty || "২ বছর কালার গ্যারান্টি")}</span>
         <h2 style="font-size:20px;">${esc(p.title)}</h2>
-        <p style="font-size:20px;font-weight:700;color:var(--price-color);margin:6px 0;">৳${Number(p.price).toLocaleString("bn-BD")}</p>
+        <p id="detail-price-view" style="font-size:20px;font-weight:700;color:var(--price-color);margin:6px 0;">৳${Number(hasVariants ? (p.variants[0].price || p.price) : p.price).toLocaleString("bn-BD")}</p>
+        ${variantSelectorHtml}
         <p style="font-size:14px;color:var(--ink-muted);margin-bottom:8px;">${esc(p.description)}</p>
-        ${kwHtml}
         <p style="font-size:12px;background:var(--bg-soft);padding:10px;border-radius:10px;margin-bottom:12px;">${esc(state.pageSettings.productNote)}</p>
-        <button class="btn btn-primary" onclick="addToCart('${p.id}'); closeModal('product-modal'); openModal('checkout-modal');">এখনই কিনুন</button>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn" style="flex:1;justify-content:center;padding:10px 14px;" onclick="addSelectedVariantToCart('${p.id}'); closeModal('product-modal'); openCartSlide();">🛒 কার্টে যোগ করুন</button>
+          <button class="btn btn-accent" style="flex:1;justify-content:center;padding:10px 14px;" onclick="addSelectedVariantToCart('${p.id}'); closeModal('product-modal'); openModal('checkout-modal');">⚡ বাই নাউ (Buy Now)</button>
+        </div>
       `;
       openModal("product-modal");
+    }
+
+    function updateDetailVariantPrice(prodId) {
+      const p = state.products.find(x => x.id === prodId);
+      const sel = document.getElementById("detail-variant-select");
+      if (!p || !sel) return;
+      const v = p.variants?.[Number(sel.value)];
+      if (v) {
+        document.getElementById("detail-price-view").textContent = "৳" + Number(v.price || p.price).toLocaleString("bn-BD");
+      }
+    }
+
+    function addSelectedVariantToCart(prodId) {
+      const p = state.products.find(x => x.id === prodId);
+      if (!p) return;
+      const sel = document.getElementById("detail-variant-select");
+      if (sel && Array.isArray(p.variants) && p.variants.length) {
+        const v = p.variants[Number(sel.value)] || p.variants[0];
+        const vPrice = Number(v.price || p.price);
+        const itemId = `${p.id}__${v.color}__${v.size}`;
+        const label = `${p.title} (${v.color}, ${v.size})`;
+        const ex = cart.find(x => x.id === itemId);
+        if (ex) ex.qty += 1;
+        else cart.push({ id: itemId, title: label, price: vPrice, qty: 1 });
+        saveCart();
+        return;
+      }
+      addToCart(prodId);
     }
 
     function addToCart(id) {
       const p = state.products.find(x => x.id === id);
       if (!p) return;
-      const ex = cart.find(x => x.id === id);
+      const firstVar = Array.isArray(p.variants) && p.variants.length ? p.variants[0] : null;
+      const itemId = firstVar ? `${p.id}__${firstVar.color}__${firstVar.size}` : p.id;
+      const itemTitle = firstVar ? `${p.title} (${firstVar.color}, ${firstVar.size})` : p.title;
+      const itemPrice = firstVar ? Number(firstVar.price || p.price) : Number(p.price);
+
+      const ex = cart.find(x => x.id === itemId);
       if (ex) ex.qty += 1;
-      else cart.push({ id: p.id, title: p.title, price: Number(p.price), qty: 1 });
+      else cart.push({ id: itemId, title: itemTitle, price: itemPrice, qty: 1 });
       saveCart();
+    }
+
+    function renderReels() {
+      const box = document.getElementById("reels-slider");
+      if (!box) return;
+      const reels = state.reels || [];
+      if (!reels.length) {
+        box.innerHTML = `<p style="font-size:13px;color:var(--ink-muted);">কোনো রিল যুক্ত করা হয়নি।</p>`;
+        return;
+      }
+      box.innerHTML = reels.map(r => `
+        <article class="reel-slide-card">
+          <div class="reel-video-wrap">
+            <video src="${r.videoUrl}" controls loop muted playsinline preload="metadata"></video>
+          </div>
+          <div class="reel-caption">${esc(r.title || "Bangla Brand Reel")}</div>
+        </article>
+      `).join("");
+    }
+
+    function slideReels(dir) {
+      const box = document.getElementById("reels-slider");
+      if (box) box.scrollBy({ left: dir * 240, behavior: "smooth" });
     }
 
     function renderBundlesGuidesReviews() {
       document.getElementById("bundle-grid").innerHTML = `
-        <div class="info-card"><span class="badge">কম্বো প্যাক</span><h3>পায়েল + ব্রেসলেট জুটি</h3><p style="font-size:13px;color:var(--ink-muted);margin:6px 0 10px;">একসাথে অর্ডার করলে দ্রুত ডেলিভারি সুবিধা।</p><button class="btn" onclick="addToCart('bb-101'); addToCart('bb-103'); openModal('checkout-modal');">কম্বো কার্টে যোগ করুন</button></div>
+        <div class="info-card"><span class="badge">কম্বো প্যাক</span><h3>পায়েল + ব্রেসলেট জুটি</h3><p style="font-size:13px;color:var(--ink-muted);margin:6px 0 10px;">একসাথে অর্ডার করলে দ্রুত ডেলিভারি সুবিধা।</p><button class="btn" onclick="addToCart('bb-101'); addToCart('bb-103'); openCartSlide();">কম্বো কার্টে যোগ করুন</button></div>
       `;
       document.getElementById("guides-grid").innerHTML = `
         <div class="info-card"><span class="badge">কেয়ার গাইড</span><h3>গহনার উজ্জ্বলতা ধরে রাখুন</h3><p style="font-size:13px;color:var(--ink-muted);margin-top:6px;">পারফিউম ও কড়া কেমিক্যাল এড়িয়ে চলুন এবং নরম কাপড়ে মুছে রাখুন।</p></div>
@@ -952,8 +1203,12 @@
       applySectionVisibility();
       renderCategories();
       renderProducts();
+      renderReels();
       renderBundlesGuidesReviews();
       updateCartUI();
+      if (document.getElementById("cart-slide-backdrop")?.classList.contains("open")) {
+        renderSlideCart();
+      }
       if (document.getElementById("live-chat-drawer")?.classList.contains("open")) {
         renderVisitorChat();
       }
