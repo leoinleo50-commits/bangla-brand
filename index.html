@@ -1,10 +1,11 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="bn">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bangla Brand — Premium Lifestyle & Jewelry Store</title>
-  <meta name="description" content="Bangla Brand — প্রিমিয়াম লাইফস্টাইল ও জুয়েলারি কালেকশন। ২ বছরের কালার গ্যারান্টি, সারাদেশে ডেলিভারি এবং Google & AI অপ্টিমাইজড স্টোর।" />
+  <title id="seo-page-title">Bangla Brand — Premium Lifestyle & Jewelry Store</title>
+  <meta id="seo-meta-desc" name="description" content="Bangla Brand — প্রিমিয়াম লাইফস্টাইল ও জুয়েলারি কালেকশন। ২ বছরের কালার গ্যারান্টি, সারাদেশে ডেলিভারি এবং Google & AI অপ্টিমাইজড স্টোর।" />
+  <meta id="seo-meta-keywords" name="keywords" content="Bangla Brand, পায়েল, নেকলেস, ব্রেসলেট, চুড়ি, অনলাইন শপ বাংলাদেশ" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -43,7 +44,6 @@
       gap: 10px;
       flex-wrap: wrap;
     }
-    .topbar a { color: #FDE68A; text-decoration: none; font-weight: 600; }
     header.site-header {
       position: sticky;
       top: 0;
@@ -311,7 +311,6 @@
   <div class="topbar">
     <div class="topbar-inner">
       <span>✨ প্রিমিয়াম কালেকশন • সারাদেশে ক্যাশ অন ডেলিভারি ও ২ বছরের কালার গ্যারান্টি</span>
-      <div><a href="./admin/" target="_self">🔐 অ্যাডমিন ড্যাশবোর্ড (/admin/)</a></div>
     </div>
   </div>
 
@@ -320,7 +319,6 @@
       <a class="brand-logo" onclick="resetHome()">Bangla<span>Brand</span></a>
       <div class="nav-actions">
         <button class="btn" onclick="openModal('checkout-modal')">🛒 কার্ট (<span id="cart-count">0</span>)</button>
-        <a class="btn btn-primary" href="./admin/">Admin</a>
       </div>
     </div>
   </header>
@@ -331,8 +329,8 @@
         <input id="search-input" type="text" placeholder="পায়েল, নেকলেস, ব্রেসলেট বা চুড়ি খুঁজুন..." oninput="renderProducts()" />
         <button class="btn btn-accent" onclick="renderProducts()">খুঁজুন</button>
       </div>
-      <div class="free-shipping-bar">
-        <span id="free-ship-text">৳১,৫০০+ অর্ডারে ফ্রি ডেলিভারি উপভোগ করুন!</span>
+      <div class="free-shipping-bar" id="free-shipping-box">
+        <span id="free-ship-text">🎉 অভিনন্দন! আপনি ফ্রি ডেলিভারি পেয়েছেন।</span>
         <div class="progress-track"><div class="progress-fill" id="free-ship-bar"></div></div>
       </div>
     </div>
@@ -344,7 +342,7 @@
     <section id="sec-adsense" class="adsense-box">
       <span class="adsense-tag">Advertisement • Google AdSense</span>
       <div class="adsense-demo" id="adsense-top-banner">
-        স্পন্সরড স্লট প্রস্তুত — অ্যাডমিন প্যানেল (/admin/) থেকে আপনার AdSense Publisher ID ও Slot ID যুক্ত করুন।
+        স্পন্সরড স্লট প্রস্তুত — অ্যাডমিন প্যানেল থেকে আপনার AdSense Publisher ID ও Slot ID যুক্ত করুন।
       </div>
     </section>
 
@@ -403,7 +401,6 @@
         <ul class="footer-links">
           <li><button onclick="openPolicy('ai')">AI Transparency & Data Policy (llms.txt)</button></li>
           <li><button onclick="openPolicy('contact')">Contact Us & Verified Business Info</button></li>
-          <li><a href="./admin/" style="color:#D6D3D1;font-size:13px;text-decoration:none;">Admin Panel (/admin/)</a></li>
         </ul>
       </div>
     </div>
@@ -421,7 +418,6 @@
 
   <script>
     const STORAGE_KEY = "BANGLA_BRAND_STORE_V1";
-    const FREE_SHIPPING_MIN = 1500;
     const DEFAULT_STATE = {
       categories: [
         { id: "all", name: "সব পণ্য", icon: "✨" },
@@ -432,9 +428,9 @@
         { id: "gift", name: "গিফট সেট", icon: "🎁" }
       ],
       products: [
-        { id: "bb-101", title: "এলিগ্যান্ট গোল্ড প্লেটেড পায়েল", category: "payel", price: 650, warranty: "২ বছর কালার গ্যারান্টি", image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=600&q=80", description: "নিখুঁত ফিনিশিং ও আরামদায়ক ফিটসহ প্রিমিয়াম পায়েল।" },
-        { id: "bb-102", title: "রয়্যাল চেইন নেকলেস সেট", category: "necklace", price: 950, warranty: "২ বছর কালার গ্যারান্টি", image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=600&q=80", description: "শাড়ি, কামিজ বা ওয়েস্টার্ন আউটফিটের সাথে মানানসই নেকলেস।" },
-        { id: "bb-103", title: "মিনিমালিস্ট স্টেইনলেস ব্রেসলেট", category: "bracelet", price: 550, warranty: "২ বছর কালার গ্যারান্টি", image: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?auto=format&fit=crop&w=600&q=80", description: "আধুনিক ডিজাইনের ব্রেসলেট, উপহার দেওয়ার জন্য দারুণ পছন্দ।" }
+        { id: "bb-101", title: "এলিগ্যান্ট গোল্ড প্লেটেড পায়েল", category: "payel", price: 650, warranty: "২ বছর কালার গ্যারান্টি", keywords: ["পায়েল", "গোল্ড প্লেটেড পায়েল", "payel", "anklet"], image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=600&q=80", description: "নিখুঁত ফিনিশিং ও আরামদায়ক ফিটসহ প্রিমিয়াম পায়েল।" },
+        { id: "bb-102", title: "রয়্যাল চেইন নেকলেস সেট", category: "necklace", price: 950, warranty: "২ বছর কালার গ্যারান্টি", keywords: ["নেকলেস", "চেইন নেকলেস", "necklace", "jewelry"], image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=600&q=80", description: "শাড়ি, কামিজ বা ওয়েস্টার্ন আউটফিটের সাথে মানানসই নেকলেস।" },
+        { id: "bb-103", title: "মিনিমালিস্ট স্টেইনলেস ব্রেসলেট", category: "bracelet", price: 550, warranty: "২ বছর কালার গ্যারান্টি", keywords: ["ব্রেসলেট", "স্টেইনলেস ব্রেসলেট", "bracelet"], image: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?auto=format&fit=crop&w=600&q=80", description: "আধুনিক ডিজাইনের ব্রেসলেট, উপহার দেওয়ার জন্য দারুণ পছন্দ।" }
       ],
       pageSettings: {
         homeHeading: "জনপ্রিয় কালেকশন",
@@ -444,10 +440,14 @@
         outsideDhakaCharge: 130,
         checkoutHeading: "দ্রুত চেকআউট (ক্যাশ অন ডেলিভারি)",
         thankYouTitle: "ধন্যবাদ! আপনার অর্ডারটি গ্রহণ করা হয়েছে",
-        deliveryEta: "ঢাকার ভেতরে ১–২ কর্মদিবস এবং ঢাকার বাইরে ২–৪ কর্মদিবস"
+        deliveryEta: "ঢাকার ভেতরে ১–২ কর্মদিবস এবং ঢাকার বাইরে ২–৪ কর্মদিবস",
+        freeShippingEnabled: true,
+        freeShippingMin: 1500,
+        freeShippingUnlockedText: "🎉 অভিনন্দন! আপনি ফ্রি ডেলিভারি পেয়েছেন।",
+        freeShippingLockedTemplate: "আর মাত্র ৳{remaining} টাকার পণ্য নিলে ফ্রি ডেলিভারি পাবেন!"
       },
       sectionsVisible: { categories: true, adsense: true, products: true, bundle: true, guides: true, reviews: true, footer: true },
-      adsense: { enabled: true, pubId: "", slotId: "", note: "স্পন্সরড স্লট প্রস্তুত — অ্যাডমিন প্যানেল (/admin/) থেকে আপনার AdSense Publisher ID ও Slot ID যুক্ত করুন।" },
+      adsense: { enabled: true, pubId: "", slotId: "", note: "স্পন্সরড স্লট প্রস্তুত — অ্যাডমিন প্যানেল থেকে আপনার AdSense Publisher ID ও Slot ID যুক্ত করুন।" },
       reviews: [{ name: "নুসরাত জাহান", rating: "★★★★★", comment: "পায়েলের ফিনিশিং খুব সুন্দর, ডেলিভারিও দ্রুত পেয়েছি।" }],
       orders: [],
       auditLogs: []
@@ -475,6 +475,15 @@
     let activeCategory = "all";
     let cart = JSON.parse(localStorage.getItem("BB_CART_V1") || "[]");
 
+    function getFreeShippingConfig() {
+      const ps = state.pageSettings || {};
+      const enabled = ps.freeShippingEnabled !== false;
+      const minVal = Math.max(0, Number(ps.freeShippingMin ?? 1500));
+      const unlockedText = ps.freeShippingUnlockedText || "🎉 অভিনন্দন! আপনি ফ্রি ডেলিভারি পেয়েছেন।";
+      const lockedTemplate = ps.freeShippingLockedTemplate || "আর মাত্র ৳{remaining} টাকার পণ্য নিলে ফ্রি ডেলিভারি পাবেন!";
+      return { enabled, minVal, unlockedText, lockedTemplate };
+    }
+
     function saveCart() {
       localStorage.setItem("BB_CART_V1", JSON.stringify(cart));
       updateCartUI();
@@ -484,11 +493,26 @@
       const count = cart.reduce((a, b) => a + b.qty, 0);
       const subtotal = cart.reduce((a, b) => a + b.price * b.qty, 0);
       document.getElementById("cart-count").textContent = count;
-      const pct = Math.min(100, Math.round((subtotal / FREE_SHIPPING_MIN) * 100));
+
+      const fsBox = document.getElementById("free-shipping-box");
+      const cfg = getFreeShippingConfig();
+      if (!cfg.enabled) {
+        if (fsBox) fsBox.style.display = "none";
+        return;
+      }
+      if (fsBox) fsBox.style.display = "";
+
+      const isUnlocked = cfg.minVal === 0 || subtotal >= cfg.minVal;
+      const pct = isUnlocked ? 100 : Math.min(100, Math.round((subtotal / cfg.minVal) * 100));
       document.getElementById("free-ship-bar").style.width = pct + "%";
-      document.getElementById("free-ship-text").textContent = subtotal >= FREE_SHIPPING_MIN
-        ? "🎉 অভিনন্দন! আপনি ফ্রি ডেলিভারি পেয়েছেন।"
-        : `আর মাত্র ৳${FREE_SHIPPING_MIN - subtotal} টাকার পণ্য নিলে ফ্রি ডেলিভারি পাবেন!`;
+      if (isUnlocked) {
+        document.getElementById("free-ship-text").textContent = cfg.unlockedText;
+      } else {
+        const remaining = Math.max(0, cfg.minVal - subtotal);
+        document.getElementById("free-ship-text").textContent = cfg.lockedTemplate
+          .replace("{remaining}", remaining.toLocaleString("bn-BD"))
+          .replace("{min}", cfg.minVal.toLocaleString("bn-BD"));
+      }
     }
 
     function applySectionVisibility() {
@@ -515,15 +539,63 @@
     }
 
     function selectCategory(id) { activeCategory = id; renderCategories(); renderProducts(); }
-    function resetHome() { activeCategory = "all"; document.getElementById("search-input").value = ""; renderCategories(); renderProducts(); }
+    function resetHome() {
+      activeCategory = "all";
+      document.getElementById("search-input").value = "";
+      document.getElementById("seo-page-title").textContent = "Bangla Brand — Premium Lifestyle & Jewelry Store";
+      renderCategories();
+      renderProducts();
+    }
+
+    function updateSeoAndSchema(list) {
+      const allKw = [];
+      (state.products || []).forEach(p => {
+        if (p.title) allKw.push(p.title);
+        if (Array.isArray(p.keywords)) allKw.push(...p.keywords);
+      });
+      if (allKw.length) {
+        document.getElementById("seo-meta-keywords").setAttribute("content", [...new Set(allKw)].slice(0, 25).join(", "));
+      }
+      const schema = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": state.pageSettings.homeHeading || "Bangla Brand Store",
+        "numberOfItems": list.length,
+        "itemListElement": list.map((p, idx) => ({
+          "@type": "ListItem",
+          "position": idx + 1,
+          "item": {
+            "@type": "Product",
+            "name": p.seoTitle || p.title,
+            "image": p.image,
+            "description": p.description,
+            "category": p.category,
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "BDT",
+              "price": Number(p.price || 0),
+              "availability": "https://schema.org/InStock"
+            }
+          }
+        }))
+      };
+      document.getElementById("json-ld-store").textContent = JSON.stringify(schema);
+    }
 
     function renderProducts() {
       const q = (document.getElementById("search-input").value || "").trim().toLowerCase();
-      const list = state.products.filter(p => (activeCategory === "all" || p.category === activeCategory) && (!q || p.title.toLowerCase().includes(q)));
+      const sorted = [...state.products].sort((a, b) => Number(b.rankScore || 0) - Number(a.rankScore || 0));
+      const list = sorted.filter(p => {
+        const catOk = activeCategory === "all" || p.category === activeCategory;
+        if (!catOk) return false;
+        if (!q) return true;
+        const kwText = Array.isArray(p.keywords) ? p.keywords.join(" ").toLowerCase() : "";
+        return (p.title || "").toLowerCase().includes(q) || (p.description || "").toLowerCase().includes(q) || kwText.includes(q);
+      });
       document.getElementById("product-count-label").textContent = `${list.length}টি পণ্য`;
       document.getElementById("product-grid").innerHTML = list.map(p => `
         <article class="product-card" onclick="openProductDetail('${p.id}')">
-          <img class="product-thumb" src="${p.image}" alt="${esc(p.title)}" loading="lazy" />
+          <img class="product-thumb" src="${p.image}" alt="${esc(p.seoTitle || p.title)}" loading="lazy" />
           <div class="product-body">
             <div class="product-title">${esc(p.title)}</div>
             <div class="product-price">৳${Number(p.price).toLocaleString("bn-BD")}</div>
@@ -531,19 +603,27 @@
           </div>
         </article>
       `).join("");
-      document.getElementById("json-ld-store").textContent = JSON.stringify({ "@context": "https://schema.org", "@type": "Store", "name": "Bangla Brand" });
+      updateSeoAndSchema(list);
     }
 
     function openProductDetail(id) {
       const p = state.products.find(x => x.id === id);
       if (!p) return;
+      document.getElementById("seo-page-title").textContent = `${p.seoTitle || p.title} | Bangla Brand`;
+      if (p.description) {
+        document.getElementById("seo-meta-desc").setAttribute("content", p.description.slice(0, 155));
+      }
+      const kwHtml = Array.isArray(p.keywords) && p.keywords.length
+        ? `<p style="font-size:12px;color:var(--ink-muted);margin-bottom:8px;"><strong>ট্যাগ:</strong> ${p.keywords.map(k => esc(k)).join(", ")}</p>`
+        : "";
       document.getElementById("product-modal-content").innerHTML = `
         <button class="modal-close" onclick="closeModal('product-modal')">✕</button>
-        <img src="${p.image}" alt="${esc(p.title)}" style="width:100%;max-height:280px;object-fit:cover;border-radius:12px;margin-bottom:10px;" />
+        <img src="${p.image}" alt="${esc(p.seoTitle || p.title)}" style="width:100%;max-height:280px;object-fit:cover;border-radius:12px;margin-bottom:10px;" />
         <span class="badge">${esc(p.warranty || "২ বছর কালার গ্যারান্টি")}</span>
         <h2 style="font-size:20px;">${esc(p.title)}</h2>
         <p style="font-size:20px;font-weight:700;color:var(--price-color);margin:6px 0;">৳${Number(p.price).toLocaleString("bn-BD")}</p>
-        <p style="font-size:14px;color:var(--ink-muted);margin-bottom:10px;">${esc(p.description)}</p>
+        <p style="font-size:14px;color:var(--ink-muted);margin-bottom:8px;">${esc(p.description)}</p>
+        ${kwHtml}
         <p style="font-size:12px;background:var(--bg-soft);padding:10px;border-radius:10px;margin-bottom:12px;">${esc(state.pageSettings.productNote)}</p>
         <button class="btn btn-primary" onclick="addToCart('${p.id}'); closeModal('product-modal'); openModal('checkout-modal');">এখনই কিনুন</button>
       `;
@@ -572,7 +652,6 @@
     }
 
     function openCheckoutView() {
-      const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
       const box = document.getElementById("checkout-modal-content");
       if (!cart.length) {
         box.innerHTML = `<button class="modal-close" onclick="closeModal('checkout-modal')">✕</button><h3>কার্ট খালি</h3><p style="margin:10px 0;font-size:14px;">পণ্য যোগ করে অর্ডার করুন।</p>`;
@@ -596,7 +675,9 @@
       e.preventDefault();
       const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
       const zone = document.getElementById("co-zone").value;
-      const delivery = subtotal >= FREE_SHIPPING_MIN ? 0 : (zone === "dhaka" ? Number(state.pageSettings.insideDhakaCharge || 70) : Number(state.pageSettings.outsideDhakaCharge || 130));
+      const cfg = getFreeShippingConfig();
+      const qualifiesFree = cfg.enabled && (cfg.minVal === 0 || subtotal >= cfg.minVal);
+      const delivery = qualifiesFree ? 0 : (zone === "dhaka" ? Number(state.pageSettings.insideDhakaCharge || 70) : Number(state.pageSettings.outsideDhakaCharge || 130));
       const order = {
         id: "ORD-" + Math.floor(100000 + Math.random() * 900000),
         customer: document.getElementById("co-name").value.trim(),
@@ -649,7 +730,7 @@
         shipping: ["Shipping, Return & Refund Policy", "ডেলিভারি সময় ডেলিভারি ম্যানের সামনে পণ্য যাচাই করুন; ত্রুটিপূর্ণ পণ্যে রিটার্ন/রিপ্লেসমেন্ট নীতি প্রযোজ্য।"],
         terms: ["Terms & Conditions", "স্টক সাপেক্ষে অর্ডার কনফার্ম হয় এবং নির্ধারিত পণ্যে কালার গ্যারান্টি কার্যকর।"],
         adsense: ["Cookie & Google AdSense Disclosure", "বিজ্ঞাপন প্রাসঙ্গিক রাখতে Google ও পার্টনার কুকি ব্যবহৃত হতে পারে।"],
-        ai: ["AI Transparency & Data Policy (llms.txt)", "স্টোর কন্টেন্ট ও অপ্টিমাইজেশনে AI সহায়তা নেওয়া হয়; ব্যক্তিগত ডেটা সুরক্ষিত রাখা হয়।"],
+        ai: ["AI Transparency & Data Policy (llms.txt)", "স্টোর কন্টেন্ট, প্রোডাক্ট SEO ও অপ্টিমাইজেশনে AI সহায়তা নেওয়া হয়; ব্যক্তিগত ডেটা সুরক্ষিত রাখা হয়।"],
         contact: ["Contact Us & Verified Business Info", "Bangla Brand — বাংলাদেশ • WhatsApp ও সাপোর্ট চ্যানেলের মাধ্যমে যোগাযোগযোগ্য।"]
       };
       const [t, b] = map[type] || map.privacy;
@@ -675,6 +756,11 @@
         cart = JSON.parse(localStorage.getItem("BB_CART_V1") || "[]");
         refreshAll();
       }
+    });
+
+    window.addEventListener("focus", () => {
+      cart = JSON.parse(localStorage.getItem("BB_CART_V1") || "[]");
+      refreshAll();
     });
 
     document.getElementById("year-now").textContent = new Date().getFullYear();
