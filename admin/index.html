@@ -102,10 +102,10 @@
   <main class="container" id="admin-panel" style="display:none;">
     <div class="tabs">
       <button class="tab-btn active" onclick="switchTab('products', this)">AI প্রোডাক্ট অ্যাড</button>
+      <button class="tab-btn" onclick="switchTab('site-ai', this)">পুরো সাইট AI কন্ট্রোল</button>
       <button class="tab-btn" onclick="switchTab('ranking-ai', this)">AI প্রোডাক্ট র‍্যাংক ও SEO</button>
       <button class="tab-btn" onclick="switchTab('overview', this)">ওভারভিউ ও অর্ডার</button>
       <button class="tab-btn" onclick="switchTab('delivery', this)">ফ্রি ডেলিভারি কন্ট্রোল</button>
-      <button class="tab-btn" onclick="switchTab('ai-pages', this)">পেজ AI এডিটর</button>
       <button class="tab-btn" onclick="switchTab('sections', this)">সেকশন কন্ট্রোল</button>
       <button class="tab-btn" onclick="switchTab('adsense-seo', this)">AdSense ও SEO ফিড</button>
       <button class="tab-btn" onclick="switchTab('security', this)">Audit / Undo ও পিন</button>
@@ -139,7 +139,7 @@
           </div>
 
           <div class="check-row">
-            <input type="checkbox" id="p-auto-add" />
+            <input type="checkbox" id="p-auto-add" checked />
             <label for="p-auto-add" style="margin:0;color:var(--text);">AI লেখা তৈরি হলে দাম থাকলে সরাসরি স্টোরে Auto-Add করুন</label>
           </div>
 
@@ -174,6 +174,21 @@
       </div>
     </section>
 
+    <section id="tab-site-ai" class="admin-tab" style="display:none;">
+      <div class="card">
+        <h3 style="margin-bottom:6px;">🌐 পুরো সাইট AI কন্ট্রোল (Site-Wide AI)</h3>
+        <p style="font-size:12.5px;color:var(--muted);margin-bottom:12px;">
+          একটি কমান্ডেই পুরো স্টোরের হেডিং, ফ্রি ডেলিভারি সীমা/মেসেজ, ডেলিভারি চার্জ, প্রোডাক্ট র‍্যাংক/SEO এবং সেকশন ভিজিবিলিটি একসাথে আপডেট করতে পারবেন।
+        </p>
+        <div class="form-row">
+          <label>পুরো সাইটের জন্য AI কমান্ড</label>
+          <textarea id="site-ai-command-input" rows="3" placeholder="যেমন: ফ্রি ডেলিভারি ১২০০ টাকা করো, সব প্রোডাক্টের SEO র‍্যাংক বুস্ট করো এবং হেডিং দাও এক্সক্লুসিভ কালেকশন"></textarea>
+        </div>
+        <button class="btn btn-sky" type="button" onclick="runSiteWideAiCommand()">⚡ পুরো সাইটে AI প্রয়োগ করুন</button>
+        <div id="site-ai-status-box" style="margin-top:10px;font-size:13px;color:#FDE68A;"></div>
+      </div>
+    </section>
+
     <section id="tab-ranking-ai" class="admin-tab" style="display:none;">
       <div class="grid-2">
         <div class="card">
@@ -199,9 +214,6 @@
 
         <div class="card">
           <h3 style="margin-bottom:8px;">🤖 AI Search / `llms.txt` স্টোর সারাংশ</h3>
-          <p style="font-size:12.5px;color:var(--muted);margin-bottom:10px;">
-            AI অ্যাসিস্ট্যান্ট ও সার্চ বট যেন আপনার ব্র্যান্ড ও প্রোডাক্ট সহজে বুঝতে পারে, সেজন্য জেনারেট হওয়া সারাংশ:
-          </p>
           <textarea id="llms-summary-box" rows="12" readonly></textarea>
           <button class="btn" style="margin-top:8px;" onclick="copyLlmsSummary()">AI সারাংশ কপি করুন</button>
         </div>
@@ -255,16 +267,6 @@
       </div>
     </section>
 
-    <section id="tab-ai-pages" class="admin-tab" style="display:none;">
-      <div class="card">
-        <h3 style="margin-bottom:6px;">পেজ-বাই-পেজ AI কমান্ড এডিটর</h3>
-        <div class="form-row"><label>পেজ নির্বাচন করুন</label><select id="ai-target-page"><option value="home">হোম পেজ</option><option value="product">প্রোডাক্ট পেজ</option><option value="checkout">চেকআউট পেজ</option><option value="thankyou">থ্যাংকিউ পেজ</option></select></div>
-        <div class="form-row"><label>AI কমান্ড</label><textarea id="ai-command-input" rows="3" placeholder="যেমন: ফ্রি ডেলিভারি ১০০০ টাকা করো অথবা প্রাইস কালার নীল করো"></textarea></div>
-        <button class="btn btn-sky" type="button" onclick="runPageAiCommand()">✨ কমান্ড প্রয়োগ করুন</button>
-        <div id="ai-status-box" style="margin-top:10px;font-size:13px;color:#FDE68A;"></div>
-      </div>
-    </section>
-
     <section id="tab-sections" class="admin-tab" style="display:none;">
       <div class="card"><h3 style="margin-bottom:10px;">সেকশন অন/অফ কন্ট্রোল</h3><div id="section-toggles"></div></div>
     </section>
@@ -308,6 +310,7 @@
     const PIN_KEY = "BB_ADMIN_PIN_V1";
     const AUTH_KEY = "BB_ADMIN_AUTH_V1";
     const GEMINI_KEY_STORAGE = "BB_GEMINI_API_KEY";
+    const GEMINI_MODELS = ["gemini-3.8-flash", "gemini-2.0-flash"];
     let snapshots = [];
     let uploadedDataUrl = "";
     let uploadedMimeType = "image/jpeg";
@@ -343,6 +346,27 @@
       document.querySelectorAll(".tab-btn").forEach(el => el.classList.remove("active"));
       document.getElementById("tab-" + name).style.display = "block";
       if (btn) btn.classList.add("active");
+    }
+
+    async function callGeminiWithFallback(apiKey, parts) {
+      let lastErr = null;
+      for (const model of GEMINI_MODELS) {
+        try {
+          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ contents: [{ parts }] })
+          });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data?.error?.message || `HTTP ${res.status}`);
+          const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+          if (!text) throw new Error("Empty AI response");
+          return { text, model };
+        } catch (err) {
+          lastErr = err;
+        }
+      }
+      throw lastErr || new Error("Gemini call failed");
     }
 
     function setPreviewSrc(src) {
@@ -395,19 +419,22 @@
 
     function fallbackDraftFromFilename(name) {
       const low = String(name || "").toLowerCase();
+      if (low.includes("wallet") || low.includes("purse") || low.includes("ওয়ালেট") || low.includes("মানিব্যাগ")) {
+        return { category: "gift", title: "প্রিমিয়াম লেদার ওয়ালেট — জিপার ও কয়েন পকেট", seoTitle: "প্রিমিয়াম লেদার ওয়ালেট | Bangla Brand", keywords: ["লেদার ওয়ালেট", "মানিব্যাগ", "গিফট", "Bangla Brand"], description: "আকর্ষণীয় ফিনিশিং, কার্ড ও জিপার পকেটসহ প্রিমিয়াম ওয়ালেট। উপহার ও দৈনন্দিন ব্যবহারের জন্য উপযোগী।" };
+      }
       if (low.includes("payel") || low.includes("anklet") || low.includes("পায়েল")) {
-        return { category: "payel", title: "প্রিমিয়াম ডিজাইনার পায়েল — ২ বছর কালার গ্যারান্টি", description: "নিখুঁত ফিনিশিং ও আরামদায়ক ফিটসহ প্রিমিয়াম পায়েল। সারাদেশে ক্যাশ অন ডেলিভারিতে পাওয়া যাচ্ছে।" };
+        return { category: "payel", title: "প্রিমিয়াম ডিজাইনার পায়েল — ২ বছর কালার গ্যারান্টি", seoTitle: "প্রিমিয়াম ডিজাইনার পায়েল | Bangla Brand", keywords: ["পায়েল", "payel", "২ বছর কালার গ্যারান্টি", "Bangla Brand"], description: "নিখুঁত ফিনিশিং ও আরামদায়ক ফিটসহ প্রিমিয়াম পায়েল। সারাদেশে ক্যাশ অন ডেলিভারিতে পাওয়া যাচ্ছে।" };
       }
       if (low.includes("necklace") || low.includes("chain") || low.includes("নেকলেস")) {
-        return { category: "necklace", title: "রয়্যাল চেইন নেকলেস সেট — ট্রেন্ডি জুয়েলারি কালেকশন", description: "শাড়ি, কামিজ ও ওয়েস্টার্ন আউটফিটের সাথে মানানসই প্রিমিয়াম নেকলেস সেট।" };
+        return { category: "necklace", title: "রয়্যাল চেইন নেকলেস সেট — ট্রেন্ডি জুয়েলারি কালেকশন", seoTitle: "রয়্যাল চেইন নেকলেস সেট | Bangla Brand", keywords: ["নেকলেস", "চেইন নেকলেস", "necklace", "Bangla Brand"], description: "শাড়ি, কামিজ ও ওয়েস্টার্ন আউটফিটের সাথে মানানসই প্রিমিয়াম নেকলেস সেট।" };
       }
       if (low.includes("bracelet") || low.includes("ব্রেসলেট")) {
-        return { category: "bracelet", title: "মডার্ন স্টাইলিশ ব্রেসলেট — গিফট ও ডেইলি ওয়্যার", description: "মসৃণ ফিনিশিং ও টেকসই ডিজাইনের ব্রেসলেট, উপহার বা দৈনন্দিন ব্যবহারের জন্য সেরা।" };
+        return { category: "bracelet", title: "মডার্ন স্টাইলিশ ব্রেসলেট — গিফট ও ডেইলি ওয়্যার", seoTitle: "মডার্ন স্টাইলিশ ব্রেসলেট | Bangla Brand", keywords: ["ব্রেসলেট", "bracelet", "গিফট", "Bangla Brand"], description: "মসৃণ ফিনিশিং ও টেকসই ডিজাইনের ব্রেসলেট, উপহার বা দৈনন্দিন ব্যবহারের জন্য সেরা।" };
       }
       if (low.includes("bangle") || low.includes("চুড়ি") || low.includes("কাঁকন")) {
-        return { category: "bangles", title: "ট্র্যাডিশনাল চুড়ি / কাঁকন সেট — উৎসব কালেকশন", description: "উৎসব ও বিশেষ দিনের জন্য মানানসই প্রিমিয়াম চুড়ি/কাঁকন সেট।" };
+        return { category: "bangles", title: "ট্র্যাডিশনাল চুড়ি / কাঁকন সেট — উৎসব কালেকশন", seoTitle: "ট্র্যাডিশনাল চুড়ি ও কাঁকন | Bangla Brand", keywords: ["চুড়ি", "কাঁকন", "bangles", "Bangla Brand"], description: "উৎসব ও বিশেষ দিনের জন্য মানানসই প্রিমিয়াম চুড়ি/কাঁকন সেট।" };
       }
-      return { category: "gift", title: "প্রিমিয়াম লাইফস্টাইল প্রোডাক্ট — Bangla Brand", description: "যত্নসহকারে তৈরি প্রিমিয়াম কোয়ালিটির পণ্য, নিরাপদ প্যাকেজিংয়ে সারাদেশে ডেলিভারি।" };
+      return { category: "gift", title: "প্রিমিয়াম লাইফস্টাইল প্রোডাক্ট — Bangla Brand", seoTitle: "প্রিমিয়াম লাইফস্টাইল প্রোডাক্ট | Bangla Brand", keywords: ["লাইফস্টাইল প্রোডাক্ট", "গিফট", "Bangla Brand"], description: "যত্নসহকারে তৈরি প্রিমিয়াম কোয়ালিটির পণ্য, নিরাপদ প্যাকেজিংয়ে সারাদেশে ডেলিভারি।" };
     }
 
     function commitProductToStore(title, category, price, image, description, extraMeta) {
@@ -423,7 +450,7 @@
         price: Number(price),
         warranty: "২ বছর কালার গ্যারান্টি",
         keywords: extraMeta?.keywords || [cleanTitle, category, "Bangla Brand", "অনলাইন শপ বাংলাদেশ"],
-        rankScore: Number(extraMeta?.rankScore || 85),
+        rankScore: Number(extraMeta?.rankScore || 88),
         image: image || "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=600&q=80",
         description: cleanDesc
       });
@@ -455,22 +482,11 @@
         const promptText = `Look at this product image and generate SEO-friendly Bangla e-commerce details for search & AI ranking. Choose category strictly from: payel, necklace, bracelet, bangles, gift. Return ONLY valid JSON with keys: "title" (clear searchable Bangla title), "seoTitle" (search title under 60 chars), "category" (one of the 5 ids), "keywords" (array of 4-6 Bangla/English search keywords), "description" (2-3 clear keyword-rich Bangla sentences).`;
 
         try {
-          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              contents: [{
-                parts: [
-                  { text: promptText },
-                  { inlineData: { mimeType: uploadedMimeType, data: base64Data } }
-                ]
-              }]
-            })
-          });
-          const data = await res.json();
-          if (!res.ok) throw new Error(data?.error?.message || `HTTP ${res.status}`);
-          const rawTxt = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
-          const m = rawTxt.match(/\{[\s\S]*\}/);
+          const { text, model } = await callGeminiWithFallback(apiKey, [
+            { text: promptText },
+            { inlineData: { mimeType: uploadedMimeType, data: base64Data } }
+          ]);
+          const m = text.match(/\{[\s\S]*\}/);
           if (!m) throw new Error("JSON পাওয়া যায়নি");
           const parsed = JSON.parse(m[0]);
           drafted = {
@@ -480,7 +496,7 @@
             keywords: Array.isArray(parsed.keywords) ? parsed.keywords : [],
             description: String(parsed.description || "").trim()
           };
-          statusEl.textContent = "✓ Gemini AI ছবি দেখে SEO-অপ্টিমাইজড Title, Category ও Description লিখে দিয়েছে।";
+          statusEl.textContent = `✓ (${model}) ছবি দেখে SEO-অপ্টিমাইজড Title, Category ও Description লিখে দিয়েছে।`;
         } catch (err) {
           drafted = fallbackDraftFromFilename(uploadedFileName || urlVal);
           statusEl.textContent = `AI API এরর (${err.message}) — প্রাথমিক SEO ড্রাফট বসানো হয়েছে।`;
@@ -551,25 +567,18 @@
         const compactList = targets.map(p => ({ id: p.id, title: p.title, category: p.category, price: p.price, description: p.description }));
         const promptText = `Optimize these e-commerce products for Google Search and AI shopping assistants in Bangladesh. Focus keywords: "${focusKw || "premium quality, color guarantee, cash on delivery"}". Products: ${JSON.stringify(compactList)}. Return ONLY valid JSON array of objects, each with: "id", "seoTitle", "keywords" (array of 4-6 strings), "description" (clear persuasive Bangla description with natural keywords), "rankScore" (number 80-98).`;
         try {
-          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
-          });
-          const data = await res.json();
-          if (!res.ok) throw new Error(data?.error?.message || `HTTP ${res.status}`);
-          const rawTxt = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
-          const m = rawTxt.match(/\[[\s\S]*\]/);
+          const { text, model } = await callGeminiWithFallback(apiKey, [{ text: promptText }]);
+          const m = text.match(/\[[\s\S]*\]/);
           if (!m) throw new Error("JSON array পাওয়া যায়নি");
           const arr = JSON.parse(m[0]);
           aiMap = {};
           arr.forEach(item => { if (item && item.id) aiMap[item.id] = item; });
-          statusEl.textContent = `✓ Gemini AI ${targets.length}টি প্রোডাক্টের SEO ও র‍্যাংক স্কোর আপডেট করেছে।`;
+          statusEl.textContent = `✓ (${model}) ${targets.length}টি প্রোডাক্টের SEO ও র‍্যাংক স্কোর আপডেট করেছে।`;
         } catch (err) {
           statusEl.textContent = `AI API এরর (${err.message}) — স্মার্ট SEO অপ্টিমাইজেশন প্রয়োগ করা হয়েছে।`;
         }
       } else {
-        statusEl.textContent = "✓ স্মার্ট SEO ও র‍্যাংক অপ্টিমাইজেশন সম্পন্ন হয়েছে (Gemini API Key দিলে আরও উন্নত র‍্যাংক কপি তৈরি হবে)।";
+        statusEl.textContent = "✓ স্মার্ট SEO ও র‍্যাংক অপ্টিমাইজেশন সম্পন্ন হয়েছে।";
       }
 
       s.products = products.map(p => {
@@ -585,11 +594,72 @@
             rankScore: Number(aiItem.rankScore || 92)
           };
         }
-        const localBoost = buildLocalSeoBoost(p, focusKw);
-        return { ...p, ...localBoost };
+        return { ...p, ...buildLocalSeoBoost(p, focusKw) };
       });
 
       saveStore(s, `AI প্রোডাক্ট র‍্যাংক বুস্ট (${targets.length}টি পণ্য)`);
+    }
+
+    async function runSiteWideAiCommand() {
+      const cmd = document.getElementById("site-ai-command-input").value.trim();
+      if (!cmd) return alert("কমান্ড লিখুন।");
+      const statusBox = document.getElementById("site-ai-status-box");
+      const apiKey = (localStorage.getItem(GEMINI_KEY_STORAGE) || document.getElementById("gemini-api-key").value || "").trim();
+      const s = loadStore();
+      s.pageSettings = s.pageSettings || {};
+      s.sectionsVisible = s.sectionsVisible || {};
+      s.products = s.products || [];
+
+      let appliedAny = false;
+      if (apiKey) {
+        statusBox.textContent = "পুরো সাইটজুড়ে AI কমান্ড বিশ্লেষণ করছে...";
+        const promptText = `You are a full-store AI controller for "Bangla Brand". Current pageSettings: ${JSON.stringify(s.pageSettings)}. Current sectionsVisible: ${JSON.stringify(s.sectionsVisible)}. Product count: ${s.products.length}. User command: "${cmd}". Return ONLY valid JSON with optional keys: "pageSettings" (updated fields like homeHeading, priceColor, freeShippingEnabled, freeShippingMin, freeShippingUnlockedText, freeShippingLockedTemplate, insideDhakaCharge, outsideDhakaCharge, deliveryEta), "sectionsVisible" (boolean flags), "boostAllProductsSeo" (boolean), "summary" (short Bangla summary).`;
+        try {
+          const { text, model } = await callGeminiWithFallback(apiKey, [{ text: promptText }]);
+          const m = text.match(/\{[\s\S]*\}/);
+          if (!m) throw new Error("JSON পাওয়া যায়নি");
+          const parsed = JSON.parse(m[0]);
+          if (parsed.pageSettings && typeof parsed.pageSettings === "object") {
+            s.pageSettings = { ...s.pageSettings, ...parsed.pageSettings };
+            appliedAny = true;
+          }
+          if (parsed.sectionsVisible && typeof parsed.sectionsVisible === "object") {
+            s.sectionsVisible = { ...s.sectionsVisible, ...parsed.sectionsVisible };
+            appliedAny = true;
+          }
+          if (parsed.boostAllProductsSeo && s.products.length) {
+            s.products = s.products.map(p => ({ ...p, ...buildLocalSeoBoost(p, "") }));
+            appliedAny = true;
+          }
+          saveStore(s, `Site-Wide AI (${model}): ${parsed.summary || cmd}`);
+          statusBox.textContent = "✓ " + (parsed.summary || "পুরো সাইটে AI আপডেট সম্পন্ন হয়েছে।");
+          return;
+        } catch (err) {
+          statusBox.textContent = `AI API এরর (${err.message}) — স্মার্ট লোকাল ইঞ্জিন প্রয়োগ করা হচ্ছে...`;
+        }
+      }
+
+      const nums = cmd.match(/\d+/g);
+      if (cmd.includes("ফ্রি ডেলিভারি") && nums && nums.length >= 1) {
+        s.pageSettings.freeShippingMin = Number(nums[0]);
+        s.pageSettings.freeShippingEnabled = true;
+        appliedAny = true;
+      }
+      if (cmd.includes("নীল")) { s.pageSettings.priceColor = "#1D4ED8"; appliedAny = true; }
+      else if (cmd.includes("লাল")) { s.pageSettings.priceColor = "#DC2626"; appliedAny = true; }
+      else if (cmd.includes("সবুজ")) { s.pageSettings.priceColor = "#15803D"; appliedAny = true; }
+
+      if ((cmd.includes("র‍্যাংক") || cmd.includes("seo") || cmd.includes("SEO")) && s.products.length) {
+        s.products = s.products.map(p => ({ ...p, ...buildLocalSeoBoost(p, "") }));
+        appliedAny = true;
+      }
+
+      if (!appliedAny) {
+        s.pageSettings.homeHeading = cmd;
+      }
+
+      saveStore(s, `Site-Wide AI: ${cmd}`);
+      statusBox.textContent = "✓ পুরো সাইটে আপডেট প্রয়োগ করা হয়েছে।";
     }
 
     function buildLlmsText(s) {
@@ -604,7 +674,7 @@
       ];
       prods.forEach(p => {
         const kws = Array.isArray(p.keywords) ? p.keywords.join(", ") : "";
-        lines.push(`- ${p.title} | Price: BDT ${p.price} | Category: ${p.category} | Score: ${p.rankScore || 85}/100`);
+        lines.push(`- ${p.title} | Price: BDT ${p.price} | Category: ${p.category} | Score: ${p.rankScore || 88}/100`);
         if (p.description) lines.push(`  Summary: ${p.description}`);
         if (kws) lines.push(`  Keywords: ${kws}`);
       });
@@ -635,63 +705,6 @@
       s.pageSettings.insideDhakaCharge = Math.max(0, Number(document.getElementById("dc-inside").value || 0));
       s.pageSettings.outsideDhakaCharge = Math.max(0, Number(document.getElementById("dc-outside").value || 0));
       saveStore(s, "ফ্রি ডেলিভারি সেটিংস আপডেট হয়েছে");
-    }
-
-    function applyLocalRules(s, page, cmd) {
-      s.pageSettings = s.pageSettings || {};
-      if (cmd.includes("নীল")) s.pageSettings.priceColor = "#1D4ED8";
-      else if (cmd.includes("লাল")) s.pageSettings.priceColor = "#DC2626";
-      else if (cmd.includes("সবুজ")) s.pageSettings.priceColor = "#15803D";
-      const nums = cmd.match(/\d+/g);
-      if (cmd.includes("ফ্রি ডেলিভারি") && nums && nums.length >= 1) {
-        s.pageSettings.freeShippingMin = Number(nums[0]);
-      } else if (page === "checkout" && nums && nums.length >= 2) {
-        s.pageSettings.insideDhakaCharge = Number(nums[0]);
-        s.pageSettings.outsideDhakaCharge = Number(nums[1]);
-      } else if (page === "thankyou") {
-        s.pageSettings.deliveryEta = cmd;
-      } else if (page === "home" && !cmd.includes("কালার")) {
-        s.pageSettings.homeHeading = cmd;
-      } else if (page === "product") {
-        s.pageSettings.productNote = cmd;
-      }
-    }
-
-    async function runPageAiCommand() {
-      const page = document.getElementById("ai-target-page").value;
-      const cmd = document.getElementById("ai-command-input").value.trim();
-      if (!cmd) return alert("কমান্ড লিখুন।");
-      const apiKey = (localStorage.getItem(GEMINI_KEY_STORAGE) || document.getElementById("gemini-api-key").value || "").trim();
-      const s = loadStore();
-      const statusBox = document.getElementById("ai-status-box");
-
-      if (apiKey) {
-        statusBox.textContent = "Gemini AI প্রসেস করছে...";
-        const sysPrompt = `You are a store page editor. Target page: "${page}". Current pageSettings: ${JSON.stringify(s.pageSettings || {})}. Command: "${cmd}". Return ONLY valid JSON with updated pageSettings fields and a short bangla "summary".`;
-        try {
-          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ contents: [{ parts: [{ text: sysPrompt }] }] })
-          });
-          const data = await res.json();
-          const txt = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
-          const m = txt.match(/\{[\s\S]*\}/);
-          if (!m) throw new Error("JSON পাওয়া যায়নি");
-          const parsed = JSON.parse(m[0]);
-          const { summary, ...updates } = parsed;
-          s.pageSettings = { ...(s.pageSettings || {}), ...updates };
-          saveStore(s, `Gemini AI (${page}): ${summary || cmd}`);
-          statusBox.textContent = "✓ " + (summary || "AI আপডেট সম্পন্ন হয়েছে।");
-          return;
-        } catch (err) {
-          statusBox.textContent = "AI API এরর (" + err.message + ") — লোকাল রুল প্রয়োগ করা হচ্ছে...";
-        }
-      }
-
-      applyLocalRules(s, page, cmd);
-      saveStore(s, `লোকাল AI কমান্ড (${page}): ${cmd}`);
-      statusBox.textContent = "✓ লোকাল রুল অনুযায়ী আপডেট হয়েছে।";
     }
 
     function renderAllAdmin() {
@@ -726,7 +739,7 @@
         <div class="section-row">
           <div style="display:flex;align-items:center;gap:10px;">
             <img src="${p.image}" alt="${esc(p.title)}" style="width:46px;height:46px;object-fit:cover;border-radius:8px;border:1px solid var(--border);" />
-            <div><strong>${esc(p.title)}</strong><br/><span style="font-size:12px;color:var(--muted);">৳${p.price} • ${esc(p.category)} • SEO স্কোর: ${p.rankScore || 85}</span></div>
+            <div><strong>${esc(p.title)}</strong><br/><span style="font-size:12px;color:var(--muted);">৳${p.price} • ${esc(p.category)} • SEO স্কোর: ${p.rankScore || 88}</span></div>
           </div>
           <button class="btn btn-danger" onclick="deleteProduct('${p.id}')">মুছুন</button>
         </div>
@@ -743,7 +756,7 @@
             <strong>${esc(p.title)}</strong><br/>
             <span style="font-size:12px;color:var(--muted);">SEO: ${esc(p.seoTitle || p.title)}</span>
           </div>
-          <span class="btn btn-gold" style="pointer-events:none;">Score ${p.rankScore || 85}</span>
+          <span class="btn btn-gold" style="pointer-events:none;">Score ${p.rankScore || 88}</span>
         </div>
       `).join("");
 
