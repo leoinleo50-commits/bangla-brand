@@ -310,7 +310,7 @@
     const PIN_KEY = "BB_ADMIN_PIN_V1";
     const AUTH_KEY = "BB_ADMIN_AUTH_V1";
     const GEMINI_KEY_STORAGE = "BB_GEMINI_API_KEY";
-    const GEMINI_MODELS = ["gemini-3.8-flash", "gemini-2.0-flash"];
+    const GEMINI_MODEL = "gemini-3.8-flash";
     let snapshots = [];
     let uploadedDataUrl = "";
     let uploadedMimeType = "image/jpeg";
@@ -348,25 +348,63 @@
       if (btn) btn.classList.add("active");
     }
 
-    async function callGeminiWithFallback(apiKey, parts) {
-      let lastErr = null;
-      for (const model of GEMINI_MODELS) {
-        try {
-          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ contents: [{ parts }] })
-          });
-          const data = await res.json();
-          if (!res.ok) throw new Error(data?.error?.message || `HTTP ${res.status}`);
-          const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
-          if (!text) throw new Error("Empty AI response");
-          return { text, model };
-        } catch (err) {
-          lastErr = err;
+    function extractTextFromAnyResponse(data) {
+      if (typeof data?.output_text === "string" && data.output_text.trim()) return data.output_text;
+      if (Array.isArray(data?.outputs)) {
+        for (const out of data.outputs) {
+          if (typeof out?.text === "string" && out.text.trim()) return out.text;
+          if (Array.isArray(out?.content)) {
+            for (const c of out.content) {
+              if (typeof c?.text === "string" && c.text.trim()) return c.text;
+            }
+          }
         }
       }
-      throw lastErr || new Error("Gemini call failed");
+      const candText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (typeof candText === "string" && candText.trim()) return candText;
+      return "";
+    }
+
+    async function callGemini38(apiKey, promptText, inlineBase64, mimeType) {
+      const interactionInput = inlineBase64
+        ? [
+            { type: "text", text: promptText },
+            { type: "image", inline_data: { mime_type: mimeType || "image/jpeg", data: inlineBase64 } }
+          ]
+        : promptText;
+
+      try {
+        const res = await fetch("https://generativelanguage.googleapis.com/v1beta/interactions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-goog-api-key": apiKey
+          },
+          body: JSON.stringify({
+            model: GEMINI_MODEL,
+            input: interactionInput
+          })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data?.error?.message || `HTTP ${res.status}`);
+        const txt = extractTextFromAnyResponse(data);
+        if (!txt) throw new Error("Empty Interactions response");
+        return { text: txt, via: "Interactions API (gemini-3.8-flash)" };
+      } catch (interErr) {
+        const parts = inlineBase64
+          ? [{ text: promptText }, { inlineData: { mimeType: mimeType || "image/jpeg", data: inlineBase64 } }]
+          : [{ text: promptText }];
+        const res2 = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${encodeURIComponent(apiKey)}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ contents: [{ parts }] })
+        });
+        const data2 = await res2.json();
+        if (!res2.ok) throw new Error(data2?.error?.message || interErr.message);
+        const txt2 = extractTextFromAnyResponse(data2);
+        if (!txt2) throw new Error("Empty response");
+        return { text: txt2, via: "gemini-3.8-flash" };
+      }
     }
 
     function setPreviewSrc(src) {
@@ -482,10 +520,7 @@
         const promptText = `Look at this product image and generate SEO-friendly Bangla e-commerce details for search & AI ranking. Choose category strictly from: payel, necklace, bracelet, bangles, gift. Return ONLY valid JSON with keys: "title" (clear searchable Bangla title), "seoTitle" (search title under 60 chars), "category" (one of the 5 ids), "keywords" (array of 4-6 Bangla/English search keywords), "description" (2-3 clear keyword-rich Bangla sentences).`;
 
         try {
-          const { text, model } = await callGeminiWithFallback(apiKey, [
-            { text: promptText },
-            { inlineData: { mimeType: uploadedMimeType, data: base64Data } }
-          ]);
+          const { text, via } = await callGemini38(apiKey, promptText, base64Data, uploadedMimeType);
           const m = text.match(/\{[\s\S]*\}/);
           if (!m) throw new Error("JSON পাওয়া যায়নি");
           const parsed = JSON.parse(m[0]);
@@ -496,7 +531,7 @@
             keywords: Array.isArray(parsed.keywords) ? parsed.keywords : [],
             description: String(parsed.description || "").trim()
           };
-          statusEl.textContent = `✓ (${model}) ছবি দেখে SEO-অপ্টিমাইজড Title, Category ও Description লিখে দিয়েছে।`;
+          statusEl.textContent = `✓ (${via}) ছবি দেখে SEO-অপ্টিমাইজড Title, Category ও Description লিখে দিয়েছে।`;
         } catch (err) {
           drafted = fallbackDraftFromFilename(uploadedFileName || urlVal);
           statusEl.textContent = `AI API এরর (${err.message}) — প্রাথমিক SEO ড্রাফট বসানো হয়েছে।`;
@@ -567,13 +602,13 @@
         const compactList = targets.map(p => ({ id: p.id, title: p.title, category: p.category, price: p.price, description: p.description }));
         const promptText = `Optimize these e-commerce products for Google Search and AI shopping assistants in Bangladesh. Focus keywords: "${focusKw || "premium quality, color guarantee, cash on delivery"}". Products: ${JSON.stringify(compactList)}. Return ONLY valid JSON array of objects, each with: "id", "seoTitle", "keywords" (array of 4-6 strings), "description" (clear persuasive Bangla description with natural keywords), "rankScore" (number 80-98).`;
         try {
-          const { text, model } = await callGeminiWithFallback(apiKey, [{ text: promptText }]);
+          const { text, via } = await callGemini38(apiKey, promptText, null, null);
           const m = text.match(/\[[\s\S]*\]/);
           if (!m) throw new Error("JSON array পাওয়া যায়নি");
           const arr = JSON.parse(m[0]);
           aiMap = {};
           arr.forEach(item => { if (item && item.id) aiMap[item.id] = item; });
-          statusEl.textContent = `✓ (${model}) ${targets.length}টি প্রোডাক্টের SEO ও র‍্যাংক স্কোর আপডেট করেছে।`;
+          statusEl.textContent = `✓ (${via}) ${targets.length}টি প্রোডাক্টের SEO ও র‍্যাংক স্কোর আপডেট করেছে।`;
         } catch (err) {
           statusEl.textContent = `AI API এরর (${err.message}) — স্মার্ট SEO অপ্টিমাইজেশন প্রয়োগ করা হয়েছে।`;
         }
@@ -615,7 +650,7 @@
         statusBox.textContent = "পুরো সাইটজুড়ে AI কমান্ড বিশ্লেষণ করছে...";
         const promptText = `You are a full-store AI controller for "Bangla Brand". Current pageSettings: ${JSON.stringify(s.pageSettings)}. Current sectionsVisible: ${JSON.stringify(s.sectionsVisible)}. Product count: ${s.products.length}. User command: "${cmd}". Return ONLY valid JSON with optional keys: "pageSettings" (updated fields like homeHeading, priceColor, freeShippingEnabled, freeShippingMin, freeShippingUnlockedText, freeShippingLockedTemplate, insideDhakaCharge, outsideDhakaCharge, deliveryEta), "sectionsVisible" (boolean flags), "boostAllProductsSeo" (boolean), "summary" (short Bangla summary).`;
         try {
-          const { text, model } = await callGeminiWithFallback(apiKey, [{ text: promptText }]);
+          const { text, via } = await callGemini38(apiKey, promptText, null, null);
           const m = text.match(/\{[\s\S]*\}/);
           if (!m) throw new Error("JSON পাওয়া যায়নি");
           const parsed = JSON.parse(m[0]);
@@ -631,7 +666,7 @@
             s.products = s.products.map(p => ({ ...p, ...buildLocalSeoBoost(p, "") }));
             appliedAny = true;
           }
-          saveStore(s, `Site-Wide AI (${model}): ${parsed.summary || cmd}`);
+          saveStore(s, `Site-Wide AI (${via}): ${parsed.summary || cmd}`);
           statusBox.textContent = "✓ " + (parsed.summary || "পুরো সাইটে AI আপডেট সম্পন্ন হয়েছে।");
           return;
         } catch (err) {
