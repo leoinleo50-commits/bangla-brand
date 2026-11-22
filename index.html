@@ -661,12 +661,24 @@
     function closeModal(id) { document.getElementById(id).classList.remove("open"); }
     function esc(s) { return String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
 
+    function refreshAll() {
+      state = loadState();
+      applySectionVisibility();
+      renderCategories();
+      renderProducts();
+      renderBundlesGuidesReviews();
+      updateCartUI();
+    }
+
+    window.addEventListener("storage", (ev) => {
+      if (ev.key === STORAGE_KEY || ev.key === "BB_CART_V1") {
+        cart = JSON.parse(localStorage.getItem("BB_CART_V1") || "[]");
+        refreshAll();
+      }
+    });
+
     document.getElementById("year-now").textContent = new Date().getFullYear();
-    applySectionVisibility();
-    renderCategories();
-    renderProducts();
-    renderBundlesGuidesReviews();
-    updateCartUI();
+    refreshAll();
   </script>
 </body>
-</html>za
+</html>
