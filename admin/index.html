@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
   <title>Admin Dashboard — Bangla Brand</title>
-  <link href="[https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap](https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap)" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
       --bg: #0F172A;
@@ -19,10 +21,30 @@
       --ok: #22C55E;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Hind Siliguri', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    body {
+      font-family: 'Hind Siliguri', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
     .container { max-width: 1160px; margin: 0 auto; padding: 16px; }
-    header.admin-top { background: var(--panel); border-bottom: 1px solid var(--border); padding: 12px 16px; position: sticky; top: 0; z-index: 30; }
-    .top-inner { max-width: 1160px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+    header.admin-top {
+      background: var(--panel);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 16px;
+      position: sticky;
+      top: 0;
+      z-index: 30;
+    }
+    .top-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
     .btn {
       background: var(--panel-soft);
       color: var(--text);
@@ -41,14 +63,46 @@
     .btn-gold { background: var(--accent); color: #0F172A; border-color: var(--accent); }
     .btn-sky { background: var(--accent-2); color: #0F172A; border-color: var(--accent-2); }
     .btn-danger { background: rgba(239, 68, 68, 0.15); color: #FCA5A5; border-color: #EF4444; }
-    #lock-screen { max-width: 400px; margin: 70px auto; background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 24px; text-align: center; }
-    .tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 16px; }
-    .tab-btn { white-space: nowrap; padding: 8px 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--panel); color: var(--muted); font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+    #lock-screen {
+      max-width: 400px;
+      margin: 70px auto;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+    .tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+      scrollbar-width: thin;
+    }
+    .tab-btn {
+      white-space: nowrap;
+      padding: 8px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
     .tab-btn.active { background: var(--accent); color: #0F172A; border-color: var(--accent); }
     .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
     .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 16px; }
-    .card { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 16px; margin-bottom: 14px; }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
     .stat-val { font-size: 22px; font-weight: 700; color: var(--accent); }
     .stat-lbl { font-size: 12px; color: var(--muted); }
     .form-row { margin-bottom: 10px; }
@@ -95,15 +149,55 @@
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
     th, td { padding: 9px 8px; border-bottom: 1px solid var(--border); text-align: left; }
     th { color: var(--muted); }
-    .section-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: var(--panel-soft); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; gap: 10px; flex-wrap: wrap; }
-    .thread-item { padding: 10px 12px; background: var(--panel-soft); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; cursor: pointer; }
+    .section-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 12px;
+      background: var(--panel-soft);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 8px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .thread-item {
+      padding: 10px 12px;
+      background: var(--panel-soft);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 8px;
+      cursor: pointer;
+    }
     .thread-item.active { border-color: var(--accent); background: #23324D; }
-    .admin-chat-log { height: 280px; overflow-y: auto; padding: 10px; background: var(--panel-soft); border: 1px solid var(--border); border-radius: 12px; display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
-    .a-msg { max-width: 85%; padding: 8px 11px; border-radius: 10px; font-size: 13px; }
+    .admin-chat-log {
+      height: 280px;
+      overflow-y: auto;
+      padding: 10px;
+      background: var(--panel-soft);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .a-msg { max-width: 85%; padding: 8px 11px; border-radius: 10px; font-size: 13px; white-space: pre-line; }
     .a-msg-user { align-self: flex-start; background: #334155; color: #F8FAFC; }
     .a-msg-ai { align-self: flex-end; background: #1E3A8A; color: #E0F2FE; }
     .a-msg-admin { align-self: flex-end; background: var(--accent); color: #0F172A; font-weight: 600; }
-    .toast { position: fixed; bottom: 18px; right: 18px; background: var(--ok); color: #052E16; font-weight: 700; padding: 10px 16px; border-radius: 12px; display: none; z-index: 80; }
+    .toast {
+      position: fixed;
+      bottom: 18px;
+      right: 18px;
+      background: var(--ok);
+      color: #052E16;
+      font-weight: 700;
+      padding: 10px 16px;
+      border-radius: 12px;
+      display: none;
+      z-index: 80;
+    }
   </style>
 </head>
 <body>
@@ -111,6 +205,7 @@
     <div class="top-inner">
       <div><strong>⚙️ Bangla Brand Admin</strong> <span style="font-size:12px;color:var(--muted);">/admin/</span></div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <a class="btn" href="../index.html" target="_blank">🌐 স্টোর দেখুন</a>
         <button class="btn btn-danger" onclick="lockAdmin()">🔒 লক করুন</button>
       </div>
     </div>
@@ -127,21 +222,36 @@
 
   <main class="container" id="admin-panel" style="display:none;">
     <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('products', this)">ক্যাটাগরি ও প্রোডাক্ট</button>
-      <button class="tab-btn" onclick="switchTab('reels', this)">🎬 রিলস (Reels)</button>
-      <button class="tab-btn" onclick="switchTab('live-chat', this)">লাইভ চ্যাট (<span id="chat-badge">0</span>)</button>
-      <button class="tab-btn" onclick="switchTab('site-ai', this)">পুরো সাইট AI কন্ট্রোল</button>
-      <button class="tab-btn" onclick="switchTab('ranking-ai', this)">AI প্রোডাক্ট র‍্যাংক ও SEO</button>
-      <button class="tab-btn" onclick="switchTab('overview', this)">ওভারভিউ ও অর্ডার</button>
-      <button class="tab-btn" onclick="switchTab('delivery', this)">ফ্রি ডেলিভারি কন্ট্রোল</button>
-      <button class="tab-btn" onclick="switchTab('sections', this)">সেকশন কন্ট্রোল</button>
-      <button class="tab-btn" onclick="switchTab('adsense-seo', this)">AdSense ও SEO ফিড</button>
-      <button class="tab-btn" onclick="switchTab('security', this)">Audit / Undo ও পিন</button>
+      <button class="tab-btn active" onclick="switchTab('product-manager', this)">📦 প্রোডাক্ট ম্যানেজার</button>
+      <button class="tab-btn" onclick="switchTab('reels', this)">🎬 রিলস ও অ্যাড</button>
+      <button class="tab-btn" onclick="switchTab('live-chat', this)">💬 লাইভ চ্যাট (<span id="chat-badge">0</span>)</button>
+      <button class="tab-btn" onclick="switchTab('site-ai', this)">🌐 পুরো সাইট AI কন্ট্রোল</button>
+      <button class="tab-btn" onclick="switchTab('ranking-ai', this)">🚀 AI প্রোডাক্ট র‍্যাংক ও SEO</button>
+      <button class="tab-btn" onclick="switchTab('overview', this)">📊 ওভারভিউ ও অর্ডার</button>
+      <button class="tab-btn" onclick="switchTab('delivery', this)">🚚 ফ্রি ডেলিভারি কন্ট্রোল</button>
+      <button class="tab-btn" onclick="switchTab('sections', this)">🎛️ সেকশন কন্ট্রোল</button>
+      <button class="tab-btn" onclick="switchTab('adsense-seo', this)">📢 AdSense ও SEO ফিড</button>
+      <button class="tab-btn" onclick="switchTab('security', this)">🔐 Audit / Undo ও পিন</button>
     </div>
 
-    <section id="tab-products" class="admin-tab">
+    <!-- Product Manager Tab -->
+    <section id="tab-product-manager" class="admin-tab">
       <div class="card">
-        <h3 style="margin-bottom:8px;">📁 নতুন ক্যাটাগরি তৈরি করুন</h3>
+        <h3 style="margin-bottom:8px;">🤖 AI প্রোডাক্ট ম্যানেজার (ম্যানুয়াল বা AI উভয়ভাবেই নিয়ন্ত্রণ)</h3>
+        <div class="form-row">
+          <label>AI কমান্ড (প্রোডাক্ট, ক্যাটাগরি, সাইজ বা কালার ম্যানেজ করতে নির্দেশ দিন)</label>
+          <input type="text" id="pm-ai-prompt" placeholder="যেমন: 'আংটি' ক্যাটাগরি তৈরি করো এবং গোল্ড, সিলভার কালারে S, M, L সাইজসহ প্রোডাক্ট রেডি করো" />
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button type="button" class="btn btn-sky" onclick="runProductManagerAi()">⚡ AI দিয়ে প্রোডাক্ট/ক্যাটাগরি/ভেরিয়েন্ট সেট করুন</button>
+          <button type="button" class="btn" onclick="applyPresetSizes(['S', 'M', 'L', 'XL'])">সাইজ S, M, L, XL বসান</button>
+          <button type="button" class="btn" onclick="applyPresetSizes(['ফ্রি সাইজ'])">ফ্রি সাইজ বসান</button>
+        </div>
+        <div id="pm-ai-status" style="margin-top:8px;font-size:12.5px;color:#FDE68A;"></div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-bottom:8px;">📁 ক্যাটাগরি অ্যাড / ম্যানেজ</h3>
         <form onsubmit="createCategory(event)" class="grid-3">
           <div class="form-row" style="margin:0;">
             <label>ক্যাটাগরির নাম *</label>
@@ -160,10 +270,7 @@
 
       <div class="grid-2">
         <div class="card">
-          <h3 style="margin-bottom:8px;">📸 সিঙ্গেল বা ভেরিয়েন্ট প্রোডাক্ট যুক্ত করুন</h3>
-          <p style="font-size:12.5px;color:var(--muted);margin-bottom:12px;">
-            ছবি দিয়ে AI থেকে লেখা নিতে পারেন অথবা সিঙ্গেল বা ভেরিয়েন্ট (কালার ও সাইজ) প্রোডাক্ট যুক্ত করতে পারেন।
-          </p>
+          <h3 style="margin-bottom:8px;">📸 প্রোডাক্ট অ্যাড (সিঙ্গেল ও ভেরিয়েন্ট — কালার ও সাইজ)</h3>
 
           <div class="form-row">
             <label>Gemini API Key (AIza... কী)</label>
@@ -174,7 +281,7 @@
           </div>
 
           <div class="form-row">
-            <label>প্রোডাক্টের ছবি আপলোড করুন (গ্যালারি/ক্যামেরা)</label>
+            <label>প্রোডাক্টের ছবি আপলোড করুন</label>
             <input type="file" id="p-file" accept="image/*" onchange="handleImageFile(event)" />
             <img id="p-preview" class="img-preview" alt="Preview" />
           </div>
@@ -182,11 +289,6 @@
           <div class="form-row">
             <label>অথবা ছবির লিংক (URL)</label>
             <input type="url" id="p-img" placeholder="https://..." oninput="handleUrlPreview()" />
-          </div>
-
-          <div class="check-row">
-            <input type="checkbox" id="p-auto-add" checked />
-            <label for="p-auto-add" style="margin:0;color:var(--text);">AI লেখা তৈরি হলে দাম থাকলে সরাসরি স্টোরে Auto-Add করুন</label>
           </div>
 
           <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
@@ -205,32 +307,28 @@
               <label>প্রোডাক্টের ধরন</label>
               <select id="p-type" onchange="toggleVariantBuilder()">
                 <option value="single">সিঙ্গেল প্রোডাক্ট (Single Product)</option>
-                <option value="variant">ভেরিয়েন্ট প্রোডাক্ট (কালার ও সাইজসহ)</option>
+                <option value="variant">ভেরিয়েন্ট প্রোডাক্ট (কালার ও সাইজসহ)</option>
               </select>
             </div>
             <div class="form-row"><label>দাম (৳) *</label><input type="number" id="p-price" required min="1" placeholder="যেমন: 650" /></div>
 
             <div class="variant-box" id="variant-builder" style="display:none;">
-              <strong style="font-size:13px;color:var(--accent-2);display:block;margin-bottom:8px;">🎨 কালার ও সাইজ ভেরিয়েন্ট যুক্ত করুন</strong>
-              <div class="grid-3">
-                <div class="form-row" style="margin:0;">
-                  <label>কালার (Color)</label>
-                  <input type="text" id="v-color" placeholder="যেমন: গোল্ড / সিলভার" />
-                </div>
-                <div class="form-row" style="margin:0;">
-                  <label>সাইজ (Size)</label>
-                  <input type="text" id="v-size" placeholder="যেমন: M / L / ফ্রি সাইজ" />
-                </div>
-                <div class="form-row" style="margin:0;">
-                  <label>ভেরিয়েন্ট দাম (ঐচ্ছিক)</label>
-                  <input type="number" id="v-price" min="1" placeholder="খালি রাখলে মূল দাম" />
-                </div>
+              <strong style="font-size:13px;color:var(--accent-2);display:block;margin-bottom:8px;">🎨 কালার ও সাইজ ম্যানেজ করুন</strong>
+              <div class="form-row">
+                <label>কালারসমূহ (কমা দিয়ে লিখুন, যেমন: গোল্ড, সিলভার, ব্ল্যাক)</label>
+                <input type="text" id="v-colors-input" placeholder="গোল্ড, সিলভার" />
               </div>
-              <button type="button" class="btn btn-sky" style="margin-top:8px;" onclick="addVariantRow()">+ ভেরিয়েন্ট যোগ করুন</button>
-              <div id="draft-variants-list" style="margin-top:8px;"></div>
+              <div class="form-row">
+                <label>সাইজসমূহ (কমা দিয়ে লিখুন, যেমন: S, M, L, XL বা ফ্রি সাইজ)</label>
+                <input type="text" id="v-sizes-input" placeholder="S, M, L, XL" />
+              </div>
+              <div class="check-row" style="margin-bottom:0;">
+                <input type="checkbox" id="v-same-price" checked />
+                <label for="v-same-price" style="margin:0;color:var(--text);">প্রত্যেকটা সাইজের জন্য একই দাম হবে (উপরের মূল দাম ৳ কার্যকর)</label>
+              </div>
             </div>
 
-            <div class="form-row"><label>ডিসক্রিপশন</label><textarea id="p-desc" rows="3" placeholder="AI ছবি দেখে ডিসক্রিপশন লিখে দেবে..."></textarea></div>
+            <div class="form-row"><label>ডিসক্রিপশন</label><textarea id="p-desc" rows="3" placeholder="পণ্যের সংক্ষিপ্ত বিবরণ..."></textarea></div>
             <button type="submit" class="btn btn-gold">স্টোরে যুক্ত করুন</button>
           </form>
         </div>
@@ -242,13 +340,11 @@
       </div>
     </section>
 
+    <!-- Reels & Ad Slot Tab -->
     <section id="tab-reels" class="admin-tab" style="display:none;">
       <div class="grid-2">
         <div class="card">
-          <h3 style="margin-bottom:8px;">🎬 নতুন রিল (Reel) যুক্ত করুন</h3>
-          <p style="font-size:12.5px;color:var(--muted);margin-bottom:12px;">
-            ডিভাইস থেকে ছোট ভিডিও আপলোড করুন অথবা সরাসরি `.mp4` ভিডিও লিংক দিন। হোম পেজে ফুটারের ওপরে এটি স্লাইড হবে।
-          </p>
+          <h3 style="margin-bottom:8px;">🎬 নতুন রিল (Reel) ও প্রোডাক্ট লিংক যুক্ত করুন</h3>
           <form onsubmit="addReelItem(event)">
             <div class="form-row">
               <label>রিল টাইটেল *</label>
@@ -262,8 +358,21 @@
               <label>অথবা ভিডিও লিংক (URL)</label>
               <input type="url" id="reel-url" placeholder="https://.../video.mp4" />
             </div>
+            <div class="form-row">
+              <label>লিংকড প্রোডাক্ট (অল রিলস পেজ থেকে অর্ডারের জন্য)</label>
+              <select id="reel-linked-product"></select>
+            </div>
             <button type="submit" class="btn btn-gold">+ রিল যুক্ত করুন</button>
           </form>
+
+          <hr style="border:none;border-top:1px solid var(--border);margin:16px 0;" />
+
+          <h3 style="margin-bottom:8px;">📢 রিলস সেকশনে Google Ad / কাস্টম অ্যাড কোড</h3>
+          <div class="form-row">
+            <label>AdSense / Banner / Script কোড (কোনো রেস্ট্রিকশন নেই)</label>
+            <textarea id="reels-ad-code" rows="4" placeholder="Google AdSense <ins> বা কাস্টম অ্যাড HTML কোড এখানে দিন..."></textarea>
+          </div>
+          <button type="button" class="btn btn-sky" onclick="saveReelsAdCode()">রিলস অ্যাড সেভ করুন</button>
         </div>
 
         <div class="card">
@@ -273,6 +382,7 @@
       </div>
     </section>
 
+    <!-- Live Chat Tab -->
     <section id="tab-live-chat" class="admin-tab" style="display:none;">
       <div class="grid-2">
         <div class="card">
@@ -290,6 +400,7 @@
       </div>
     </section>
 
+    <!-- Site-Wide AI Tab -->
     <section id="tab-site-ai" class="admin-tab" style="display:none;">
       <div class="card">
         <h3 style="margin-bottom:6px;">🌐 পুরো সাইট AI কন্ট্রোল (Site-Wide AI)</h3>
@@ -302,6 +413,7 @@
       </div>
     </section>
 
+    <!-- Ranking & SEO AI Tab -->
     <section id="tab-ranking-ai" class="admin-tab" style="display:none;">
       <div class="grid-2">
         <div class="card">
@@ -330,6 +442,7 @@
       </div>
     </section>
 
+    <!-- Overview & Orders Tab -->
     <section id="tab-overview" class="admin-tab" style="display:none;">
       <div class="grid-4">
         <div class="card"><div class="stat-lbl">মোট পণ্য</div><div class="stat-val" id="st-products">0</div></div>
@@ -348,6 +461,7 @@
       </div>
     </section>
 
+    <!-- Free Delivery Tab -->
     <section id="tab-delivery" class="admin-tab" style="display:none;">
       <div class="card">
         <h3 style="margin-bottom:10px;">🚚 ফ্রি ডেলিভারি কন্ট্রোল</h3>
@@ -377,10 +491,12 @@
       </div>
     </section>
 
+    <!-- Sections Toggle Tab -->
     <section id="tab-sections" class="admin-tab" style="display:none;">
       <div class="card"><h3 style="margin-bottom:10px;">সেকশন অন/অফ কন্ট্রোল</h3><div id="section-toggles"></div></div>
     </section>
 
+    <!-- AdSense & SEO Feed Tab -->
     <section id="tab-adsense-seo" class="admin-tab" style="display:none;">
       <div class="grid-2">
         <div class="card">
@@ -397,6 +513,7 @@
       </div>
     </section>
 
+    <!-- Security & Undo Tab -->
     <section id="tab-security" class="admin-tab" style="display:none;">
       <div class="grid-2">
         <div class="card">
@@ -435,21 +552,49 @@
     let uploadedFileName = "";
     let uploadedReelDataUrl = "";
     let selectedChatId = "";
-    let draftVariants = [];
 
     function getPin() { return localStorage.getItem(PIN_KEY) || "1234"; }
-    function unlockAdmin(e) { e.preventDefault(); if (document.getElementById("pin-input").value.trim() === getPin()) { sessionStorage.setItem(AUTH_KEY, "1"); showPanel(); } else alert("ভুল পিন!"); }
-    function lockAdmin() { sessionStorage.removeItem(AUTH_KEY); document.getElementById("admin-panel").style.display = "none"; document.getElementById("lock-screen").style.display = "block"; }
-    function showPanel() { document.getElementById("lock-screen").style.display = "none"; document.getElementById("admin-panel").style.display = "block"; document.getElementById("gemini-api-key").value = localStorage.getItem(GEMINI_KEY_STORAGE) || ""; renderAllAdmin(); }
-    function saveGeminiKey() { localStorage.setItem(GEMINI_KEY_STORAGE, document.getElementById("gemini-api-key").value.trim()); showToast("Gemini API Key সেভ হয়েছে"); }
-    function loadStore() { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); }
+    function unlockAdmin(e) {
+      e.preventDefault();
+      if (document.getElementById("pin-input").value.trim() === getPin()) {
+        sessionStorage.setItem(AUTH_KEY, "1");
+        showPanel();
+      } else {
+        alert("ভুল পিন!");
+      }
+    }
+    function lockAdmin() {
+      sessionStorage.removeItem(AUTH_KEY);
+      document.getElementById("admin-panel").style.display = "none";
+      document.getElementById("lock-screen").style.display = "block";
+    }
+    function showPanel() {
+      document.getElementById("lock-screen").style.display = "none";
+      document.getElementById("admin-panel").style.display = "block";
+      document.getElementById("gemini-api-key").value = localStorage.getItem(GEMINI_KEY_STORAGE) || "";
+      renderAllAdmin();
+    }
+    function saveGeminiKey() {
+      localStorage.setItem(GEMINI_KEY_STORAGE, document.getElementById("gemini-api-key").value.trim());
+      showToast("Gemini API Key সেভ হয়েছে");
+    }
+    function loadStore() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+      } catch (e) {
+        return {};
+      }
+    }
 
     function saveStore(data, label) {
       const prev = localStorage.getItem(STORAGE_KEY);
       if (prev) snapshots.unshift(prev);
       if (snapshots.length > 10) snapshots.pop();
       data.auditLogs = data.auditLogs || [];
-      if (label) { data.auditLogs.unshift(`${new Date().toLocaleTimeString("bn-BD")} — ${label}`); data.auditLogs = data.auditLogs.slice(0, 15); }
+      if (label) {
+        data.auditLogs.unshift(`${new Date().toLocaleTimeString("bn-BD")} — ${label}`);
+        data.auditLogs = data.auditLogs.slice(0, 15);
+      }
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
       renderAllAdmin();
       showToast(label || "আপডেট সম্পন্ন");
@@ -463,18 +608,36 @@
     }
 
     function switchTab(name, btn) {
-      document.querySelectorAll(".admin-tab").forEach(el => el.style.display = "none");
-      document.querySelectorAll(".tab-btn").forEach(el => el.classList.remove("active"));
-      document.getElementById("tab-" + name).style.display = "block";
+      document.querySelectorAll(".admin-tab").forEach(el => { el.style.display = "none"; });
+      document.querySelectorAll(".tab-btn").forEach(el => { el.classList.remove("active"); });
+      const target = document.getElementById("tab-" + name);
+      if (target) target.style.display = "block";
       if (btn) btn.classList.add("active");
+    }
+
+    function parseCommaList(val) {
+      return String(val || "")
+        .split(",")
+        .map(x => x.trim())
+        .filter(Boolean);
+    }
+
+    function applyPresetSizes(arr) {
+      document.getElementById("p-type").value = "variant";
+      toggleVariantBuilder();
+      document.getElementById("v-sizes-input").value = arr.join(", ");
+      document.getElementById("v-same-price").checked = true;
+    }
+
+    function saveReelsAdCode() {
+      const s = loadStore();
+      s.reelsAdHtml = document.getElementById("reels-ad-code").value;
+      saveStore(s, "রিলস অ্যাড কোড সেভ হয়েছে");
     }
 
     function handleReelFile(e) {
       const file = e.target.files?.[0];
       if (!file) return;
-      if (file.size > 6 * 1024 * 1024) {
-        alert("ব্রাউজার স্টোরেজে সংরক্ষণের জন্য ৬ MB-এর ছোট ভিডিও ফাইল বা সরাসরি ভিডিও URL ব্যবহার করুন।");
-      }
       const reader = new FileReader();
       reader.onload = () => {
         uploadedReelDataUrl = String(reader.result || "");
@@ -487,6 +650,7 @@
       e.preventDefault();
       const title = document.getElementById("reel-title").value.trim();
       const url = document.getElementById("reel-url").value.trim();
+      const linkedProductId = document.getElementById("reel-linked-product").value || "";
       const videoUrl = uploadedReelDataUrl || url;
       if (!videoUrl) return alert("ভিডিও ফাইল আপলোড করুন অথবা ভিডিও লিংক দিন।");
       const s = loadStore();
@@ -494,7 +658,8 @@
       s.reels.unshift({
         id: "reel-" + Date.now().toString().slice(-5),
         title,
-        videoUrl
+        videoUrl,
+        linkedProductId
       });
       uploadedReelDataUrl = "";
       document.getElementById("reel-title").value = "";
@@ -510,7 +675,9 @@
     }
 
     function ensureCategories(s) {
-      s.categories = Array.isArray(s.categories) && s.categories.length ? s.categories : [{ id: "all", name: "সব পণ্য", icon: "✨" }, ...DEFAULT_CATEGORIES];
+      s.categories = Array.isArray(s.categories) && s.categories.length
+        ? s.categories
+        : [{ id: "all", name: "সব পণ্য", icon: "✨" }, ...DEFAULT_CATEGORIES];
       if (!s.categories.some(c => c.id === "all")) {
         s.categories.unshift({ id: "all", name: "সব পণ্য", icon: "✨" });
       }
@@ -545,49 +712,6 @@
     function toggleVariantBuilder() {
       const t = document.getElementById("p-type").value;
       document.getElementById("variant-builder").style.display = t === "variant" ? "block" : "none";
-      renderDraftVariants();
-    }
-
-    function addVariantRow() {
-      const color = (document.getElementById("v-color").value || "").trim();
-      const size = (document.getElementById("v-size").value || "").trim();
-      const vPriceRaw = document.getElementById("v-price").value;
-      const basePrice = Number(document.getElementById("p-price").value || 0);
-      const price = vPriceRaw ? Number(vPriceRaw) : (basePrice > 0 ? basePrice : 0);
-
-      if (!color && !size) return alert("অন্তত কালার অথবা সাইজ লিখুন।");
-      if (!(price > 0)) return alert("দাম (৳) লিখুন।");
-
-      draftVariants.push({
-        id: "var-" + Date.now().toString().slice(-4) + "-" + Math.floor(Math.random() * 90 + 10),
-        color: color || "স্ট্যান্ডার্ড",
-        size: size || "ফ্রি সাইজ",
-        price
-      });
-      document.getElementById("v-color").value = "";
-      document.getElementById("v-size").value = "";
-      document.getElementById("v-price").value = "";
-      renderDraftVariants();
-    }
-
-    function removeDraftVariant(idx) {
-      draftVariants.splice(idx, 1);
-      renderDraftVariants();
-    }
-
-    function renderDraftVariants() {
-      const box = document.getElementById("draft-variants-list");
-      if (!box) return;
-      if (!draftVariants.length) {
-        box.innerHTML = `<span style="font-size:12px;color:var(--muted);">এখনো কোনো ভেরিয়েন্ট যোগ করা হয়নি।</span>`;
-        return;
-      }
-      box.innerHTML = draftVariants.map((v, i) => `
-        <span class="variant-chip">
-          <strong>${esc(v.color)}</strong> • ${esc(v.size)} (৳${Number(v.price).toLocaleString("bn-BD")})
-          <button type="button" onclick="removeDraftVariant(${i})" style="background:none;border:none;color:#FCA5A5;cursor:pointer;font-weight:700;">✕</button>
-        </span>
-      `).join("");
     }
 
     function selectChatThread(id) {
@@ -679,7 +803,7 @@
       let lastErr = null;
       for (let attempt = 1; attempt <= maxAttempts; attempt++) {
         try {
-          const res = await fetch("[https://generativelanguage.googleapis.com/v1beta/interactions](https://generativelanguage.googleapis.com/v1beta/interactions)", {
+          const res = await fetch("https://generativelanguage.googleapis.com/v1beta/interactions", {
             method: "POST",
             headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
             body: JSON.stringify({ model: GEMINI_MODEL, input: interactionInput })
@@ -695,6 +819,72 @@
         }
       }
       throw lastErr || new Error("Gemini call failed");
+    }
+
+    async function runProductManagerAi() {
+      const promptCmd = (document.getElementById("pm-ai-prompt").value || "").trim();
+      if (!promptCmd) return alert("প্রোডাক্ট ম্যানেজার AI কমান্ড লিখুন।");
+      const statusEl = document.getElementById("pm-ai-status");
+      const apiKey = (localStorage.getItem(GEMINI_KEY_STORAGE) || document.getElementById("gemini-api-key").value || "").trim();
+      const s = loadStore();
+      const cats = ensureCategories(s);
+      const validCats = cats.filter(c => c.id !== "all").map(c => c.id);
+
+      statusEl.textContent = "AI প্রোডাক্ট ম্যানেজার কমান্ড বিশ্লেষণ করছে...";
+      let aiObj = null;
+
+      if (apiKey) {
+        try {
+          const promptText = `You are a professional e-commerce Product Manager AI for "Bangla Brand". Categories: ${validCats.join(", ")}. Command: "${promptCmd}". Return ONLY valid JSON with keys: "newCategoryName", "newCategoryIcon", "productType" ("single" or "variant"), "title", "category", "price" (number), "colors" (array of strings), "sizes" (array of strings), "samePriceForAllSizes" (boolean), "description", "note".`;
+          const { text } = await callGemini38(apiKey, promptText, null, null);
+          const m = text.match(/\{[\s\S]*\}/);
+          if (m) aiObj = JSON.parse(m[0]);
+        } catch (err) {
+          // fallback below
+        }
+      }
+
+      if (!aiObj) {
+        const priceMatch = promptCmd.match(/\d+/);
+        const extractedPrice = priceMatch ? Number(priceMatch[0]) : 750;
+        const sizeMatches = promptCmd.match(/\b(XS|S|M|L|XL|XXL|ফ্রি সাইজ)\b/gi);
+        aiObj = {
+          productType: "variant",
+          title: document.getElementById("p-title").value.trim() || promptCmd.slice(0, 48),
+          category: validCats[0] || "gift",
+          price: extractedPrice,
+          colors: ["গোল্ড", "সিলভার"],
+          sizes: sizeMatches && sizeMatches.length ? [...new Set(sizeMatches)] : ["S", "M", "L", "ফ্রি সাইজ"],
+          samePriceForAllSizes: true,
+          description: "প্রিমিয়াম কোয়ালিটির পণ্য, সব সাইজে একই দামে পাওয়া যাচ্ছে।",
+          note: "স্মার্ট প্রোডাক্ট ম্যানেজার দ্বারা ফর্ম পূরণ করা হয়েছে।"
+        };
+      }
+
+      if (aiObj.newCategoryName) {
+        const cName = String(aiObj.newCategoryName).trim();
+        const cIcon = String(aiObj.newCategoryIcon || "✦").trim();
+        if (cName && !cats.some(c => c.name === cName)) {
+          const slug = "cat-" + Date.now().toString().slice(-4);
+          s.categories.push({ id: slug, name: cName, icon: cIcon });
+          saveStore(s, `AI ক্যাটাগরি তৈরি: ${cName}`);
+          aiObj.category = slug;
+        }
+      }
+
+      if (aiObj.title) document.getElementById("p-title").value = String(aiObj.title);
+      if (aiObj.category && [...document.getElementById("p-cat").options].some(o => o.value === aiObj.category)) {
+        document.getElementById("p-cat").value = aiObj.category;
+      }
+      document.getElementById("p-type").value = aiObj.productType === "single" ? "single" : "variant";
+      toggleVariantBuilder();
+      if (Number(aiObj.price) > 0) document.getElementById("p-price").value = Number(aiObj.price);
+      if (Array.isArray(aiObj.colors)) document.getElementById("v-colors-input").value = aiObj.colors.join(", ");
+      if (Array.isArray(aiObj.sizes)) document.getElementById("v-sizes-input").value = aiObj.sizes.join(", ");
+      document.getElementById("v-same-price").checked = aiObj.samePriceForAllSizes !== false;
+      if (aiObj.description) document.getElementById("p-desc").value = String(aiObj.description);
+
+      statusEl.textContent = "✓ " + (aiObj.note || "প্রোডাক্ট ম্যানেজার ফর্ম আপডেট হয়েছে। প্রয়োজনে এডিট করে 'স্টোরে যুক্ত করুন' চাপুন।");
     }
 
     function setPreviewSrc(src) {
@@ -747,43 +937,6 @@
       return { category: "gift", title: "প্রিমিয়াম লাইফস্টাইল প্রোডাক্ট — Bangla Brand", seoTitle: "প্রিমিয়াম লাইফস্টাইল প্রোডাক্ট | Bangla Brand", keywords: ["লাইফস্টাইল প্রোডাক্ট", "গিফট", "Bangla Brand"], description: "যত্নসহকারে তৈরি প্রিমিয়াম কোয়ালিটির পণ্য, নিরাপদ প্যাকেজিংয়ে সারাদেশে ডেলিভারি।" };
     }
 
-    function commitProductToStore(title, category, price, image, description, extraMeta, productType, variantsList) {
-      const s = loadStore();
-      ensureCategories(s);
-      s.products = s.products || [];
-      const cleanTitle = title.trim();
-      const cleanDesc = (description || "প্রিমিয়াম কোয়ালিটির পণ্য।").trim();
-      const finalVariants = productType === "variant" && Array.isArray(variantsList) && variantsList.length ? variantsList : [];
-      const effectivePrice = finalVariants.length ? Number(finalVariants[0].price || price) : Number(price);
-
-      s.products.unshift({
-        id: "bb-" + Date.now().toString().slice(-5),
-        title: cleanTitle,
-        seoTitle: extraMeta?.seoTitle || `${cleanTitle} | Bangla Brand`,
-        category: category || "gift",
-        productType: finalVariants.length ? "variant" : "single",
-        variants: finalVariants,
-        price: effectivePrice,
-        warranty: "২ বছর কালার গ্যারান্টি",
-        keywords: extraMeta?.keywords || [cleanTitle, category, "Bangla Brand", "অনলাইন শপ বাংলাদেশ"],
-        rankScore: Number(extraMeta?.rankScore || 88),
-        image: image || "[https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=600&q=80](https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=600&q=80)",
-        description: cleanDesc
-      });
-
-      draftVariants = [];
-      document.getElementById("p-type").value = "single";
-      toggleVariantBuilder();
-      saveStore(s, `প্রোডাক্ট যুক্ত হয়েছে: ${cleanTitle}`);
-      document.getElementById("p-title").value = "";
-      document.getElementById("p-price").value = "";
-      document.getElementById("p-desc").value = "";
-      document.getElementById("p-img").value = "";
-      document.getElementById("p-file").value = "";
-      uploadedDataUrl = "";
-      setPreviewSrc("");
-    }
-
     async function generateProductFromPhoto() {
       const statusEl = document.getElementById("photo-ai-status");
       const urlVal = document.getElementById("p-img").value.trim();
@@ -817,44 +970,65 @@
         }
       } else {
         drafted = fallbackDraftFromFilename(uploadedFileName || urlVal);
-        statusEl.textContent = apiKey ? "✓ ছবির লিংক থেকে SEO ড্রাফট বসানো হয়েছে।" : "✓ ড্রাফট বসানো হয়েছে।";
+        statusEl.textContent = "✓ প্রাথমিক SEO ড্রাফট বসানো হয়েছে।";
       }
 
       document.getElementById("p-title").value = drafted.title;
       if (validCats.includes(drafted.category)) document.getElementById("p-cat").value = drafted.category;
       document.getElementById("p-desc").value = drafted.description;
-
-      const autoAdd = document.getElementById("p-auto-add").checked;
-      const priceNum = Number(document.getElementById("p-price").value);
-      if (autoAdd && priceNum > 0 && document.getElementById("p-type").value === "single") {
-        commitProductToStore(drafted.title, document.getElementById("p-cat").value, priceNum, activeImg, drafted.description, drafted, "single", []);
-        statusEl.textContent += " এবং সরাসরি স্টোরে যুক্ত করা হয়েছে!";
-      } else if (autoAdd && !(priceNum > 0)) {
-        statusEl.textContent += " — Auto-Add-এর জন্য দাম (৳) লিখে 'স্টোরে যুক্ত করুন' চাপুন।";
-      }
     }
 
     function addProduct(e) {
       e.preventDefault();
+      const s = loadStore();
+      ensureCategories(s);
+      s.products = s.products || [];
+
       const title = document.getElementById("p-title").value.trim();
-      const cat = document.getElementById("p-cat").value;
+      const cat = document.getElementById("p-cat").value || "gift";
       const pType = document.getElementById("p-type").value;
       const price = Number(document.getElementById("p-price").value);
-      const img = uploadedDataUrl || document.getElementById("p-img").value.trim() || "[https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=600&q=80](https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=600&q=80)";
+      const img = uploadedDataUrl || document.getElementById("p-img").value.trim() || "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=600&q=80";
       const desc = document.getElementById("p-desc").value.trim() || "প্রিমিয়াম কোয়ালিটির পণ্য।";
 
-      if (pType === "variant") {
-        const inlineColor = (document.getElementById("v-color").value || "").trim();
-        const inlineSize = (document.getElementById("v-size").value || "").trim();
-        if (!draftVariants.length && (inlineColor || inlineSize)) {
-          addVariantRow();
-        }
-        if (!draftVariants.length) {
-          return alert("ভেরিয়েন্ট প্রোডাক্টের জন্য অন্তত একটি কালার বা সাইজ ভেরিয়েন্ট যোগ করুন।");
-        }
+      const colors = pType === "variant" ? parseCommaList(document.getElementById("v-colors-input").value) : [];
+      const sizes = pType === "variant" ? parseCommaList(document.getElementById("v-sizes-input").value) : [];
+      const samePriceForAllSizes = document.getElementById("v-same-price")?.checked !== false;
+
+      if (pType === "variant" && !colors.length && !sizes.length) {
+        return alert("ভেরিয়েন্ট প্রোডাক্টের জন্য অন্তত একটি কালার বা সাইজ লিখুন।");
       }
 
-      commitProductToStore(title, cat, price, img, desc, null, pType, draftVariants);
+      s.products.unshift({
+        id: "bb-" + Date.now().toString().slice(-5),
+        title,
+        seoTitle: `${title} | Bangla Brand`,
+        category: cat,
+        productType: pType === "variant" ? "variant" : "single",
+        colors,
+        sizes,
+        samePriceForAllSizes,
+        price,
+        warranty: "২ বছর কালার গ্যারান্টি",
+        keywords: [title, cat, "Bangla Brand", "অনলাইন শপ বাংলাদেশ"],
+        rankScore: 88,
+        image: img,
+        description: desc
+      });
+
+      document.getElementById("p-title").value = "";
+      document.getElementById("p-price").value = "";
+      document.getElementById("p-desc").value = "";
+      document.getElementById("p-img").value = "";
+      document.getElementById("p-file").value = "";
+      document.getElementById("v-colors-input").value = "";
+      document.getElementById("v-sizes-input").value = "";
+      document.getElementById("p-type").value = "single";
+      toggleVariantBuilder();
+      uploadedDataUrl = "";
+      setPreviewSrc("");
+
+      saveStore(s, `প্রোডাক্ট যুক্ত হয়েছে: ${title}`);
     }
 
     function buildLocalSeoBoost(prod, focusKw) {
@@ -1003,15 +1177,28 @@
         </span>
       `).join("");
 
-      renderDraftVariants();
+      const linkedSel = document.getElementById("reel-linked-product");
+      if (linkedSel) {
+        linkedSel.innerHTML = `<option value="">লিংকড প্রোডাক্ট নেই</option>` + products.map(p => `<option value="${esc(p.id)}">${esc(p.title)} (৳${p.price})</option>`).join("");
+      }
+      const adCodeEl = document.getElementById("reels-ad-code");
+      if (adCodeEl && document.activeElement !== adCodeEl) {
+        adCodeEl.value = s.reelsAdHtml || "";
+      }
 
       document.getElementById("reel-count-badge").textContent = reels.length;
-      document.getElementById("admin-reels-list").innerHTML = reels.length ? reels.map(r => `
-        <div class="section-row">
-          <div><strong>${esc(r.title || "Reel")}</strong><br/><span style="font-size:11.5px;color:var(--muted);">${esc((r.videoUrl || "").slice(0, 55))}</span></div>
-          <button class="btn btn-danger" onclick="deleteReelItem('${esc(r.id)}')">মুছুন</button>
-        </div>
-      `).join("") : `<p style="font-size:13px;color:var(--muted);">এখনো কোনো রিল যুক্ত করা হয়নি।</p>`;
+      document.getElementById("admin-reels-list").innerHTML = reels.length ? reels.map(r => {
+        const lp = products.find(p => p.id === r.linkedProductId);
+        return `
+          <div class="section-row">
+            <div>
+              <strong>${esc(r.title || "Reel")}</strong>
+              <br/><span style="font-size:11.5px;color:var(--muted);">লিংক: ${esc(lp ? lp.title : "নেই")}</span>
+            </div>
+            <button class="btn btn-danger" onclick="deleteReelItem('${esc(r.id)}')">মুছুন</button>
+          </div>
+        `;
+      }).join("") : `<p style="font-size:13px;color:var(--muted);">এখনো কোনো রিল যুক্ত করা হয়নি।</p>`;
 
       document.getElementById("st-products").textContent = products.length;
       document.getElementById("st-orders").textContent = orders.length;
@@ -1036,8 +1223,9 @@
       }).join("") : `<tr><td colspan="6" style="color:var(--muted);">এখনো কোনো অর্ডার আসেনি।</td></tr>`;
 
       document.getElementById("admin-product-list").innerHTML = products.map(p => {
-        const vInfo = Array.isArray(p.variants) && p.variants.length
-          ? ` • ভেরিয়েন্ট: ${p.variants.map(v => `${v.color}/${v.size}`).join(", ")}`
+        const hasVar = p.productType === "variant" || (Array.isArray(p.sizes) && p.sizes.length) || (Array.isArray(p.colors) && p.colors.length);
+        const vInfo = hasVar
+          ? ` • ভেরিয়েন্ট (কালার: ${(p.colors || []).join("/") || "-"}, সাইজ: ${(p.sizes || []).join("/") || "-"} • একই দাম)`
           : " • সিঙ্গেল";
         return `
           <div class="section-row">
@@ -1085,9 +1273,22 @@
       }
     });
 
-    function changePin() { const p = document.getElementById("new-pin-input").value.trim(); if (p.length < 4) return alert("অন্তত ৪ ডিজিট দিন।"); localStorage.setItem(PIN_KEY, p); document.getElementById("new-pin-input").value = ""; showToast("পিন পরিবর্তন হয়েছে"); }
-    function showToast(msg) { const t = document.getElementById("toast"); t.textContent = msg; t.style.display = "block"; setTimeout(() => { t.style.display = "none"; }, 2400); }
-    function esc(s) { return String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+    function changePin() {
+      const p = document.getElementById("new-pin-input").value.trim();
+      if (p.length < 4) return alert("অন্তত ৪ ডিজিট দিন।");
+      localStorage.setItem(PIN_KEY, p);
+      document.getElementById("new-pin-input").value = "";
+      showToast("পিন পরিবর্তন হয়েছে");
+    }
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.style.display = "block";
+      setTimeout(() => { t.style.display = "none"; }, 2400);
+    }
+    function esc(s) {
+      return String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
     if (sessionStorage.getItem(AUTH_KEY) === "1") showPanel();
   </script>
 </body>
