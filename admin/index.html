@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="bn">
 <head>
   <meta charset="UTF-8" />
@@ -77,6 +77,13 @@
     th, td { padding: 9px 8px; border-bottom: 1px solid var(--border); text-align: left; }
     th { color: var(--muted); }
     .section-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: var(--panel-soft); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; gap: 10px; flex-wrap: wrap; }
+    .thread-item { padding: 10px 12px; background: var(--panel-soft); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; cursor: pointer; }
+    .thread-item.active { border-color: var(--accent); background: #23324D; }
+    .admin-chat-log { height: 280px; overflow-y: auto; padding: 10px; background: var(--panel-soft); border: 1px solid var(--border); border-radius: 12px; display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+    .a-msg { max-width: 85%; padding: 8px 11px; border-radius: 10px; font-size: 13px; }
+    .a-msg-user { align-self: flex-start; background: #334155; color: #F8FAFC; }
+    .a-msg-ai { align-self: flex-end; background: #1E3A8A; color: #E0F2FE; }
+    .a-msg-admin { align-self: flex-end; background: var(--accent); color: #0F172A; font-weight: 600; }
     .toast { position: fixed; bottom: 18px; right: 18px; background: var(--ok); color: #052E16; font-weight: 700; padding: 10px 16px; border-radius: 12px; display: none; z-index: 80; }
   </style>
 </head>
@@ -102,6 +109,7 @@
   <main class="container" id="admin-panel" style="display:none;">
     <div class="tabs">
       <button class="tab-btn active" onclick="switchTab('products', this)">AI প্রোডাক্ট অ্যাড</button>
+      <button class="tab-btn" onclick="switchTab('live-chat', this)">লাইভ চ্যাট (<span id="chat-badge">0</span>)</button>
       <button class="tab-btn" onclick="switchTab('site-ai', this)">পুরো সাইট AI কন্ট্রোল</button>
       <button class="tab-btn" onclick="switchTab('ranking-ai', this)">AI প্রোডাক্ট র‍্যাংক ও SEO</button>
       <button class="tab-btn" onclick="switchTab('overview', this)">ওভারভিউ ও অর্ডার</button>
@@ -174,6 +182,23 @@
       </div>
     </section>
 
+    <section id="tab-live-chat" class="admin-tab" style="display:none;">
+      <div class="grid-2">
+        <div class="card">
+          <h3 style="margin-bottom:10px;">কাস্টমার চ্যাট তালিকা</h3>
+          <div id="admin-chat-threads"></div>
+        </div>
+        <div class="card">
+          <h3 style="margin-bottom:8px;">ম্যানুয়াল রিপ্লাই (<span id="active-chat-title">কোনো চ্যাট সিলেক্ট করা হয়নি</span>)</h3>
+          <div class="admin-chat-log" id="admin-chat-messages"></div>
+          <form onsubmit="sendAdminManualReply(event)" style="display:flex;gap:8px;">
+            <input type="text" id="admin-reply-input" placeholder="কাস্টমারকে ম্যানুয়ালি রিপ্লাই লিখুন..." required />
+            <button type="submit" class="btn btn-gold">রিপ্লাই পাঠান</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
     <section id="tab-site-ai" class="admin-tab" style="display:none;">
       <div class="card">
         <h3 style="margin-bottom:6px;">🌐 পুরো সাইট AI কন্ট্রোল (Site-Wide AI)</h3>
@@ -193,9 +218,6 @@
       <div class="grid-2">
         <div class="card">
           <h3 style="margin-bottom:8px;">🚀 AI প্রোডাক্ট র‍্যাংক ও SEO বুস্টার</h3>
-          <p style="font-size:12.5px;color:var(--muted);margin-bottom:12px;">
-            AI আপনার প্রোডাক্টগুলোর টাইটেল, কিওয়ার্ড, সার্চ ডিসক্রিপশন ও র‍্যাংক স্কোর অপ্টিমাইজ করে স্টোরে সেভ করবে এবং Schema/Feed আপডেট করবে।
-          </p>
           <div class="form-row">
             <label>নির্দিষ্ট প্রোডাক্ট বেছে নিন (একক অপ্টিমাইজেশনের জন্য)</label>
             <select id="rank-target-product"></select>
@@ -315,6 +337,7 @@
     let uploadedDataUrl = "";
     let uploadedMimeType = "image/jpeg";
     let uploadedFileName = "";
+    let selectedChatId = "";
 
     function getPin() { return localStorage.getItem(PIN_KEY) || "1234"; }
     function unlockAdmin(e) { e.preventDefault(); if (document.getElementById("pin-input").value.trim() === getPin()) { sessionStorage.setItem(AUTH_KEY, "1"); showPanel(); } else alert("ভুল পিন!"); }
@@ -348,6 +371,64 @@
       if (btn) btn.classList.add("active");
     }
 
+    function selectChatThread(id) {
+      selectedChatId = id;
+      renderAdminChatPanel(loadStore().chats || []);
+    }
+
+    function renderAdminChatPanel(chats) {
+      document.getElementById("chat-badge").textContent = chats.length;
+      if (!selectedChatId && chats.length) selectedChatId = chats[0].id;
+
+      document.getElementById("admin-chat-threads").innerHTML = chats.length ? chats.map(c => {
+        const lastMsg = (c.messages || []).slice(-1)[0];
+        return `
+          <div class="thread-item ${c.id === selectedChatId ? "active" : ""}" onclick="selectChatThread('${esc(c.id)}')">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <strong>${esc(c.customerName || c.id)}</strong>
+              <span style="font-size:11px;color:var(--muted);">${esc(c.updatedAt || "")}</span>
+            </div>
+            <div style="font-size:12.5px;color:var(--muted);margin-top:3px;">${esc(lastMsg ? lastMsg.text : "কোনো মেসেজ নেই")}</div>
+          </div>
+        `;
+      }).join("") : `<p style="font-size:13px;color:var(--muted);">এখনো কোনো ভিজিটর চ্যাট শুরু করেনি।</p>`;
+
+      const activeThread = chats.find(c => c.id === selectedChatId);
+      const logBox = document.getElementById("admin-chat-messages");
+      const titleEl = document.getElementById("active-chat-title");
+      if (!activeThread) {
+        titleEl.textContent = "কোনো চ্যাট সিলেক্ট করা হয়নি";
+        logBox.innerHTML = `<p style="font-size:13px;color:var(--muted);">বাম পাশ থেকে কোনো কাস্টমার চ্যাট সিলেক্ট করুন।</p>`;
+        return;
+      }
+
+      titleEl.textContent = activeThread.customerName || activeThread.id;
+      logBox.innerHTML = (activeThread.messages || []).map(m => {
+        const cls = m.sender === "user" ? "a-msg-user" : (m.sender === "admin" ? "a-msg-admin" : "a-msg-ai");
+        const who = m.sender === "user" ? "কাস্টমার" : (m.sender === "admin" ? "অ্যাডমিন (ম্যানুয়াল)" : "AI");
+        return `<div class="a-msg ${cls}"><div style="font-size:10px;opacity:0.8;margin-bottom:2px;">${who} • ${esc(m.time || "")}</div>${esc(m.text)}</div>`;
+      }).join("");
+      logBox.scrollTop = logBox.scrollHeight;
+    }
+
+    function sendAdminManualReply(e) {
+      e.preventDefault();
+      const inp = document.getElementById("admin-reply-input");
+      const txt = (inp.value || "").trim();
+      if (!txt) return;
+      const s = loadStore();
+      s.chats = s.chats || [];
+      if (!selectedChatId && s.chats.length) selectedChatId = s.chats[0].id;
+      const thread = s.chats.find(c => c.id === selectedChatId);
+      if (!thread) return alert("আগে একটি কাস্টমার চ্যাট সিলেক্ট করুন।");
+      const nowTime = new Date().toLocaleTimeString("bn-BD");
+      thread.messages = thread.messages || [];
+      thread.messages.push({ sender: "admin", text: txt, time: nowTime });
+      thread.updatedAt = nowTime;
+      inp.value = "";
+      saveStore(s, `ম্যানুয়াল রিপ্লাই (${thread.id})`);
+    }
+
     function extractTextFromAnyResponse(data) {
       if (typeof data?.output_text === "string" && data.output_text.trim()) return data.output_text;
       if (Array.isArray(data?.outputs)) {
@@ -365,6 +446,8 @@
       return "";
     }
 
+    function sleepMs(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
+
     async function callGemini38(apiKey, promptText, inlineBase64, mimeType) {
       const interactionInput = inlineBase64
         ? [
@@ -373,48 +456,32 @@
           ]
         : promptText;
 
-      try {
-        const res = await fetch("https://generativelanguage.googleapis.com/v1beta/interactions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-goog-api-key": apiKey
-          },
-          body: JSON.stringify({
-            model: GEMINI_MODEL,
-            input: interactionInput
-          })
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data?.error?.message || `HTTP ${res.status}`);
-        const txt = extractTextFromAnyResponse(data);
-        if (!txt) throw new Error("Empty Interactions response");
-        return { text: txt, via: "Interactions API (gemini-3.8-flash)" };
-      } catch (interErr) {
-        const parts = inlineBase64
-          ? [{ text: promptText }, { inlineData: { mimeType: mimeType || "image/jpeg", data: inlineBase64 } }]
-          : [{ text: promptText }];
-        const res2 = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${encodeURIComponent(apiKey)}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ contents: [{ parts }] })
-        });
-        const data2 = await res2.json();
-        if (!res2.ok) throw new Error(data2?.error?.message || interErr.message);
-        const txt2 = extractTextFromAnyResponse(data2);
-        if (!txt2) throw new Error("Empty response");
-        return { text: txt2, via: "gemini-3.8-flash" };
+      const maxAttempts = 3;
+      let lastErr = null;
+      for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+        try {
+          const res = await fetch("https://generativelanguage.googleapis.com/v1beta/interactions", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
+            body: JSON.stringify({ model: GEMINI_MODEL, input: interactionInput })
+          });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data?.error?.message || `HTTP ${res.status}`);
+          const txt = extractTextFromAnyResponse(data);
+          if (!txt) throw new Error("Empty Interactions response");
+          return { text: txt, via: `Interactions API (${GEMINI_MODEL})` };
+        } catch (interErr) {
+          lastErr = interErr;
+          if (attempt < maxAttempts) await sleepMs(900 * attempt);
+        }
       }
+      throw lastErr || new Error("Gemini call failed");
     }
 
     function setPreviewSrc(src) {
       const img = document.getElementById("p-preview");
-      if (src) {
-        img.src = src;
-        img.style.display = "block";
-      } else {
-        img.style.display = "none";
-      }
+      if (src) { img.src = src; img.style.display = "block"; }
+      else { img.style.display = "none"; }
     }
 
     function handleImageFile(e) {
@@ -433,10 +500,8 @@
           let h = tmpImg.height || 600;
           if (w > h && w > maxSide) { h = Math.round((h * maxSide) / w); w = maxSide; }
           else if (h > maxSide) { w = Math.round((w * maxSide) / h); h = maxSide; }
-          canvas.width = w;
-          canvas.height = h;
-          const ctx = canvas.getContext("2d");
-          ctx.drawImage(tmpImg, 0, 0, w, h);
+          canvas.width = w; canvas.height = h;
+          canvas.getContext("2d").drawImage(tmpImg, 0, 0, w, h);
           uploadedDataUrl = canvas.toDataURL("image/jpeg", 0.78);
           uploadedMimeType = "image/jpeg";
           document.getElementById("p-img").value = "";
@@ -449,10 +514,7 @@
 
     function handleUrlPreview() {
       const url = document.getElementById("p-img").value.trim();
-      if (url) {
-        uploadedDataUrl = "";
-        setPreviewSrc(url);
-      }
+      if (url) { uploadedDataUrl = ""; setPreviewSrc(url); }
     }
 
     function fallbackDraftFromFilename(name) {
@@ -506,10 +568,7 @@
       const statusEl = document.getElementById("photo-ai-status");
       const urlVal = document.getElementById("p-img").value.trim();
       const activeImg = uploadedDataUrl || urlVal;
-      if (!activeImg) {
-        return alert("আগে একটি প্রোডাক্টের ছবি আপলোড করুন অথবা ছবির লিংক দিন।");
-      }
-
+      if (!activeImg) return alert("আগে একটি প্রোডাক্টের ছবি আপলোড করুন অথবা ছবির লিংক দিন।");
       const apiKey = (localStorage.getItem(GEMINI_KEY_STORAGE) || document.getElementById("gemini-api-key").value || "").trim();
       const validCategories = ["payel", "necklace", "bracelet", "bangles", "gift"];
       statusEl.textContent = "ছবি ও SEO কিওয়ার্ড বিশ্লেষণ করে Title, Category ও Description তৈরি হচ্ছে...";
@@ -518,7 +577,6 @@
       if (apiKey && uploadedDataUrl) {
         const base64Data = uploadedDataUrl.split(",")[1] || "";
         const promptText = `Look at this product image and generate SEO-friendly Bangla e-commerce details for search & AI ranking. Choose category strictly from: payel, necklace, bracelet, bangles, gift. Return ONLY valid JSON with keys: "title" (clear searchable Bangla title), "seoTitle" (search title under 60 chars), "category" (one of the 5 ids), "keywords" (array of 4-6 Bangla/English search keywords), "description" (2-3 clear keyword-rich Bangla sentences).`;
-
         try {
           const { text, via } = await callGemini38(apiKey, promptText, base64Data, uploadedMimeType);
           const m = text.match(/\{[\s\S]*\}/);
@@ -534,13 +592,11 @@
           statusEl.textContent = `✓ (${via}) ছবি দেখে SEO-অপ্টিমাইজড Title, Category ও Description লিখে দিয়েছে।`;
         } catch (err) {
           drafted = fallbackDraftFromFilename(uploadedFileName || urlVal);
-          statusEl.textContent = `AI API এরর (${err.message}) — প্রাথমিক SEO ড্রাফট বসানো হয়েছে।`;
+          statusEl.textContent = `AI সার্ভার সাময়িক ব্যস্ত (${err.message}) — প্রাথমিক SEO ড্রাফট বসানো হয়েছে।`;
         }
       } else {
         drafted = fallbackDraftFromFilename(uploadedFileName || urlVal);
-        statusEl.textContent = apiKey
-          ? "✓ ছবির লিংক থেকে SEO ড্রাফট বসানো হয়েছে (ফাইল আপলোড করলে ছবি দেখে আরও নির্ভুল লিখবে)।"
-          : "✓ ড্রাফট বসানো হয়েছে (ছবি দেখে আসল AI লেখার জন্য Gemini API Key সেভ করুন)।";
+        statusEl.textContent = apiKey ? "✓ ছবির লিংক থেকে SEO ড্রাফট বসানো হয়েছে।" : "✓ ড্রাফট বসানো হয়েছে।";
       }
 
       document.getElementById("p-title").value = drafted.title;
@@ -574,29 +630,20 @@
       const seoTitle = `${prod.title} — ${uniqueKw[1] || "Premium"} | Bangla Brand`.slice(0, 65);
       const cleanDesc = (prod.description || "").replace(/\s*\[SEO:[^\]]+\]/g, "").trim();
       const boostedDesc = `${cleanDesc} ${uniqueKw.slice(0, 4).join(", ")} — সারাদেশে ডেলিভারি সুবিধা সহ Bangla Brand-এ সেরা দামে কিনুন।`.trim();
-      return {
-        title: prod.title,
-        seoTitle,
-        keywords: uniqueKw,
-        description: boostedDesc,
-        rankScore: Math.min(99, Math.max(85, Number(prod.rankScore || 80) + 8))
-      };
+      return { title: prod.title, seoTitle, keywords: uniqueKw, description: boostedDesc, rankScore: Math.min(99, Math.max(85, Number(prod.rankScore || 80) + 8)) };
     }
 
     async function optimizeProductsWithAi(allProducts) {
       const s = loadStore();
       const products = s.products || [];
       if (!products.length) return alert("স্টোরে কোনো প্রোডাক্ট নেই।");
-
       const targetId = document.getElementById("rank-target-product").value;
       const focusKw = document.getElementById("rank-focus-kw").value.trim();
       const targets = allProducts ? products : products.filter(p => p.id === targetId);
       if (!targets.length) return alert("একটি প্রোডাক্ট নির্বাচন করুন।");
-
       const statusEl = document.getElementById("rank-ai-status");
       const apiKey = (localStorage.getItem(GEMINI_KEY_STORAGE) || document.getElementById("gemini-api-key").value || "").trim();
       statusEl.textContent = `${targets.length}টি প্রোডাক্টের র‍্যাংক ও SEO অপ্টিমাইজেশন চলছে...`;
-
       let aiMap = null;
       if (apiKey) {
         const compactList = targets.map(p => ({ id: p.id, title: p.title, category: p.category, price: p.price, description: p.description }));
@@ -610,28 +657,20 @@
           arr.forEach(item => { if (item && item.id) aiMap[item.id] = item; });
           statusEl.textContent = `✓ (${via}) ${targets.length}টি প্রোডাক্টের SEO ও র‍্যাংক স্কোর আপডেট করেছে।`;
         } catch (err) {
-          statusEl.textContent = `AI API এরর (${err.message}) — স্মার্ট SEO অপ্টিমাইজেশন প্রয়োগ করা হয়েছে।`;
+          statusEl.textContent = `AI সার্ভার সাময়িক ব্যস্ত (${err.message}) — স্মার্ট SEO অপ্টিমাইজেশন প্রয়োগ করা হয়েছে।`;
         }
       } else {
         statusEl.textContent = "✓ স্মার্ট SEO ও র‍্যাংক অপ্টিমাইজেশন সম্পন্ন হয়েছে।";
       }
-
       s.products = products.map(p => {
         const shouldBoost = allProducts || p.id === targetId;
         if (!shouldBoost) return p;
         const aiItem = aiMap?.[p.id];
         if (aiItem) {
-          return {
-            ...p,
-            seoTitle: String(aiItem.seoTitle || p.title).trim(),
-            keywords: Array.isArray(aiItem.keywords) && aiItem.keywords.length ? aiItem.keywords : buildLocalSeoBoost(p, focusKw).keywords,
-            description: String(aiItem.description || p.description).trim(),
-            rankScore: Number(aiItem.rankScore || 92)
-          };
+          return { ...p, seoTitle: String(aiItem.seoTitle || p.title).trim(), keywords: Array.isArray(aiItem.keywords) && aiItem.keywords.length ? aiItem.keywords : buildLocalSeoBoost(p, focusKw).keywords, description: String(aiItem.description || p.description).trim(), rankScore: Number(aiItem.rankScore || 92) };
         }
         return { ...p, ...buildLocalSeoBoost(p, focusKw) };
       });
-
       saveStore(s, `AI প্রোডাক্ট র‍্যাংক বুস্ট (${targets.length}টি পণ্য)`);
     }
 
@@ -644,85 +683,49 @@
       s.pageSettings = s.pageSettings || {};
       s.sectionsVisible = s.sectionsVisible || {};
       s.products = s.products || [];
-
       let appliedAny = false;
       if (apiKey) {
         statusBox.textContent = "পুরো সাইটজুড়ে AI কমান্ড বিশ্লেষণ করছে...";
-        const promptText = `You are a full-store AI controller for "Bangla Brand". Current pageSettings: ${JSON.stringify(s.pageSettings)}. Current sectionsVisible: ${JSON.stringify(s.sectionsVisible)}. Product count: ${s.products.length}. User command: "${cmd}". Return ONLY valid JSON with optional keys: "pageSettings" (updated fields like homeHeading, priceColor, freeShippingEnabled, freeShippingMin, freeShippingUnlockedText, freeShippingLockedTemplate, insideDhakaCharge, outsideDhakaCharge, deliveryEta), "sectionsVisible" (boolean flags), "boostAllProductsSeo" (boolean), "summary" (short Bangla summary).`;
+        const promptText = `You are a full-store AI controller for "Bangla Brand". Current pageSettings: ${JSON.stringify(s.pageSettings)}. Current sectionsVisible: ${JSON.stringify(s.sectionsVisible)}. Product count: ${s.products.length}. User command: "${cmd}". Return ONLY valid JSON with optional keys: "pageSettings" (updated fields), "sectionsVisible" (boolean flags), "boostAllProductsSeo" (boolean), "summary" (short Bangla summary).`;
         try {
           const { text, via } = await callGemini38(apiKey, promptText, null, null);
           const m = text.match(/\{[\s\S]*\}/);
           if (!m) throw new Error("JSON পাওয়া যায়নি");
           const parsed = JSON.parse(m[0]);
-          if (parsed.pageSettings && typeof parsed.pageSettings === "object") {
-            s.pageSettings = { ...s.pageSettings, ...parsed.pageSettings };
-            appliedAny = true;
-          }
-          if (parsed.sectionsVisible && typeof parsed.sectionsVisible === "object") {
-            s.sectionsVisible = { ...s.sectionsVisible, ...parsed.sectionsVisible };
-            appliedAny = true;
-          }
-          if (parsed.boostAllProductsSeo && s.products.length) {
-            s.products = s.products.map(p => ({ ...p, ...buildLocalSeoBoost(p, "") }));
-            appliedAny = true;
-          }
+          if (parsed.pageSettings && typeof parsed.pageSettings === "object") { s.pageSettings = { ...s.pageSettings, ...parsed.pageSettings }; appliedAny = true; }
+          if (parsed.sectionsVisible && typeof parsed.sectionsVisible === "object") { s.sectionsVisible = { ...s.sectionsVisible, ...parsed.sectionsVisible }; appliedAny = true; }
+          if (parsed.boostAllProductsSeo && s.products.length) { s.products = s.products.map(p => ({ ...p, ...buildLocalSeoBoost(p, "") })); appliedAny = true; }
           saveStore(s, `Site-Wide AI (${via}): ${parsed.summary || cmd}`);
           statusBox.textContent = "✓ " + (parsed.summary || "পুরো সাইটে AI আপডেট সম্পন্ন হয়েছে।");
           return;
         } catch (err) {
-          statusBox.textContent = `AI API এরর (${err.message}) — স্মার্ট লোকাল ইঞ্জিন প্রয়োগ করা হচ্ছে...`;
+          statusBox.textContent = `AI সার্ভার সাময়িক ব্যস্ত (${err.message}) — স্মার্ট লোকাল ইঞ্জিন প্রয়োগ করা হচ্ছে...`;
         }
       }
-
       const nums = cmd.match(/\d+/g);
-      if (cmd.includes("ফ্রি ডেলিভারি") && nums && nums.length >= 1) {
-        s.pageSettings.freeShippingMin = Number(nums[0]);
-        s.pageSettings.freeShippingEnabled = true;
-        appliedAny = true;
-      }
+      if (cmd.includes("ফ্রি ডেলিভারি") && nums && nums.length >= 1) { s.pageSettings.freeShippingMin = Number(nums[0]); s.pageSettings.freeShippingEnabled = true; appliedAny = true; }
       if (cmd.includes("নীল")) { s.pageSettings.priceColor = "#1D4ED8"; appliedAny = true; }
       else if (cmd.includes("লাল")) { s.pageSettings.priceColor = "#DC2626"; appliedAny = true; }
       else if (cmd.includes("সবুজ")) { s.pageSettings.priceColor = "#15803D"; appliedAny = true; }
-
-      if ((cmd.includes("র‍্যাংক") || cmd.includes("seo") || cmd.includes("SEO")) && s.products.length) {
-        s.products = s.products.map(p => ({ ...p, ...buildLocalSeoBoost(p, "") }));
-        appliedAny = true;
-      }
-
-      if (!appliedAny) {
-        s.pageSettings.homeHeading = cmd;
-      }
-
+      if ((cmd.includes("র‍্যাংক") || cmd.includes("seo") || cmd.includes("SEO")) && s.products.length) { s.products = s.products.map(p => ({ ...p, ...buildLocalSeoBoost(p, "") })); appliedAny = true; }
+      if (!appliedAny) s.pageSettings.homeHeading = cmd;
       saveStore(s, `Site-Wide AI: ${cmd}`);
       statusBox.textContent = "✓ পুরো সাইটে আপডেট প্রয়োগ করা হয়েছে।";
     }
 
     function buildLlmsText(s) {
       const prods = s.products || [];
-      const lines = [
-        "# Bangla Brand — AI & Search Discovery Summary",
-        "Brand: Bangla Brand",
-        "Category: Lifestyle & Jewelry Store (Bangladesh)",
-        `Delivery: ${s.pageSettings?.deliveryEta || "ঢাকার ভেতরে ১–২ দিন ও বাইরে ২–৪ দিন"}`,
-        "",
-        "## Products"
-      ];
+      const lines = ["# Bangla Brand — AI & Search Discovery Summary", "Brand: Bangla Brand", ""];
       prods.forEach(p => {
         const kws = Array.isArray(p.keywords) ? p.keywords.join(", ") : "";
-        lines.push(`- ${p.title} | Price: BDT ${p.price} | Category: ${p.category} | Score: ${p.rankScore || 88}/100`);
+        lines.push(`- ${p.title} | Price: BDT ${p.price} | Score: ${p.rankScore || 88}/100`);
         if (p.description) lines.push(`  Summary: ${p.description}`);
         if (kws) lines.push(`  Keywords: ${kws}`);
       });
       return lines.join("\n");
     }
 
-    function copyLlmsSummary() {
-      const b = document.getElementById("llms-summary-box");
-      b.select();
-      document.execCommand("copy");
-      showToast("AI সারাংশ কপি হয়েছে");
-    }
-
+    function copyLlmsSummary() { const b = document.getElementById("llms-summary-box"); b.select(); document.execCommand("copy"); showToast("AI সারাংশ কপি হয়েছে"); }
     function deleteProduct(id) { const s = loadStore(); s.products = (s.products || []).filter(p => p.id !== id); saveStore(s, "প্রোডাক্ট মোছা হয়েছে"); }
     function updateOrderStatus(idx, st) { const s = loadStore(); if (s.orders?.[idx]) { s.orders[idx].status = st; saveStore(s, `স্ট্যাটাস → ${st}`); } }
     function toggleSection(k) { const s = loadStore(); s.sectionsVisible = s.sectionsVisible || {}; s.sectionsVisible[k] = !(s.sectionsVisible[k] !== false); saveStore(s, `সেকশন '${k}' আপডেট হয়েছে`); }
@@ -747,6 +750,7 @@
       const ps = s.pageSettings || {};
       const products = s.products || [];
       const orders = s.orders || [];
+      const chats = s.chats || [];
       const revenue = orders.reduce((sum, o) => sum + Number(o.total || 0), 0);
       const minVal = Math.max(0, Number(ps.freeShippingMin ?? 1500));
 
@@ -755,6 +759,8 @@
       document.getElementById("st-revenue").textContent = "৳" + revenue.toLocaleString("bn-BD");
       document.getElementById("st-free-ship").textContent = ps.freeShippingEnabled === false ? "OFF" : "৳" + minVal.toLocaleString("bn-BD");
       document.getElementById("pr-count-badge").textContent = products.length;
+
+      renderAdminChatPanel(chats);
 
       document.getElementById("fs-enabled").checked = ps.freeShippingEnabled !== false;
       document.getElementById("fs-min").value = minVal;
@@ -787,10 +793,7 @@
 
       document.getElementById("rank-product-scores").innerHTML = products.map(p => `
         <div class="section-row">
-          <div>
-            <strong>${esc(p.title)}</strong><br/>
-            <span style="font-size:12px;color:var(--muted);">SEO: ${esc(p.seoTitle || p.title)}</span>
-          </div>
+          <div><strong>${esc(p.title)}</strong><br/><span style="font-size:12px;color:var(--muted);">SEO: ${esc(p.seoTitle || p.title)}</span></div>
           <span class="btn btn-gold" style="pointer-events:none;">Score ${p.rankScore || 88}</span>
         </div>
       `).join("");
@@ -807,16 +810,16 @@
       document.getElementById("ads-pub-id").value = s.adsense?.pubId || "";
       document.getElementById("ads-slot-id").value = s.adsense?.slotId || "";
       document.getElementById("merchant-feed-box").value = JSON.stringify(products.map(p => ({
-        id: p.id,
-        title: p.seoTitle || p.title,
-        price: `${p.price} BDT`,
-        availability: "in stock",
-        condition: "new",
-        image_link: p.image,
-        description: p.description
+        id: p.id, title: p.seoTitle || p.title, price: `${p.price} BDT`, availability: "in stock", condition: "new", image_link: p.image, description: p.description
       })), null, 2);
       document.getElementById("audit-list").innerHTML = (s.auditLogs || []).length ? s.auditLogs.map(x => `<div style="padding:4px 0;border-bottom:1px solid var(--border);">${esc(x)}</div>`).join("") : "কোনো লগ নেই।";
     }
+
+    window.addEventListener("storage", (ev) => {
+      if (ev.key === STORAGE_KEY && sessionStorage.getItem(AUTH_KEY) === "1") {
+        renderAllAdmin();
+      }
+    });
 
     function changePin() { const p = document.getElementById("new-pin-input").value.trim(); if (p.length < 4) return alert("অন্তত ৪ ডিজিট দিন।"); localStorage.setItem(PIN_KEY, p); document.getElementById("new-pin-input").value = ""; showToast("পিন পরিবর্তন হয়েছে"); }
     function showToast(msg) { const t = document.getElementById("toast"); t.textContent = msg; t.style.display = "block"; setTimeout(() => { t.style.display = "none"; }, 2400); }
