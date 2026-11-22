@@ -82,6 +82,7 @@
       align-items: center;
       gap: 6px;
       text-decoration: none;
+      font-family: inherit;
     }
     .btn-primary { background: var(--ink-main); color: #fff; border-color: var(--ink-main); }
     .btn-accent { background: var(--accent); color: #fff; border-color: var(--accent); }
@@ -292,18 +293,84 @@
       font-size: 12px;
       color: #A8A29E;
     }
-    .floating-wa {
+    .floating-chat-btn {
       position: fixed;
       right: 16px;
       bottom: 16px;
       z-index: 45;
-      background: #16A34A;
+      background: var(--accent);
       color: #fff;
-      text-decoration: none;
-      padding: 10px 14px;
+      border: none;
+      padding: 11px 16px;
       border-radius: 999px;
       font-size: 13px;
       font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(28, 25, 23, 0.22);
+    }
+    .chat-drawer {
+      position: fixed;
+      right: 16px;
+      bottom: 68px;
+      width: 340px;
+      max-width: calc(100vw - 32px);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 14px 36px rgba(28, 25, 23, 0.24);
+      z-index: 55;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .chat-drawer.open { display: flex; }
+    .chat-head {
+      background: var(--ink-main);
+      color: #fff;
+      padding: 11px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .chat-messages {
+      height: 290px;
+      overflow-y: auto;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: var(--bg-cream);
+    }
+    .msg-bubble {
+      max-width: 85%;
+      padding: 8px 11px;
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+    .msg-user { align-self: flex-end; background: var(--ink-main); color: #fff; border-bottom-right-radius: 3px; }
+    .msg-ai { align-self: flex-start; background: var(--bg-card); color: var(--ink-main); border: 1px solid var(--border); border-bottom-left-radius: 3px; }
+    .msg-admin { align-self: flex-start; background: #FFF7ED; color: var(--ink-main); border: 1px solid #FDBA74; border-bottom-left-radius: 3px; }
+    .msg-tag { display: block; font-size: 10px; opacity: 0.72; margin-bottom: 2px; font-weight: 700; }
+    .chat-form {
+      display: flex;
+      gap: 6px;
+      padding: 8px;
+      border-top: 1px solid var(--border);
+      background: var(--bg-card);
+    }
+    .chat-form input {
+      flex: 1;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 10px;
+      font-family: inherit;
+      font-size: 13px;
+      outline: none;
     }
   </style>
 </head>
@@ -410,7 +477,19 @@
     </div>
   </footer>
 
-  <a class="floating-wa" href="https://wa.me/8801700000000" target="_blank" rel="noopener">💬 WhatsApp</a>
+  <button class="floating-chat-btn" onclick="toggleChatDrawer()">💬 লাইভ চ্যাট</button>
+
+  <div class="chat-drawer" id="live-chat-drawer">
+    <div class="chat-head">
+      <span>💬 লাইভ চ্যাট (AI + সাপোর্ট)</span>
+      <button onclick="toggleChatDrawer()" style="background:none;border:none;color:#fff;font-size:16px;cursor:pointer;">✕</button>
+    </div>
+    <div class="chat-messages" id="visitor-chat-messages"></div>
+    <form class="chat-form" onsubmit="sendVisitorChatMessage(event)">
+      <input type="text" id="visitor-chat-input" placeholder="প্রোডাক্ট, দাম বা ডেলিভারি নিয়ে লিখুন..." required />
+      <button type="submit" class="btn btn-accent" style="padding:7px 11px;border-radius:10px;">পাঠান</button>
+    </form>
+  </div>
 
   <div class="modal-backdrop" id="product-modal"><div class="modal-panel" id="product-modal-content"></div></div>
   <div class="modal-backdrop" id="checkout-modal"><div class="modal-panel" id="checkout-modal-content"></div></div>
@@ -418,6 +497,10 @@
 
   <script>
     const STORAGE_KEY = "BANGLA_BRAND_STORE_V1";
+    const CHAT_SESSION_KEY = "BB_VISITOR_CHAT_ID";
+    const GEMINI_KEY_STORAGE = "BB_GEMINI_API_KEY";
+    const GEMINI_MODEL = "gemini-3.8-flash";
+
     const DEFAULT_STATE = {
       categories: [
         { id: "all", name: "সব পণ্য", icon: "✨" },
@@ -450,6 +533,7 @@
       adsense: { enabled: true, pubId: "", slotId: "", note: "স্পন্সরড স্লট প্রস্তুত — অ্যাডমিন প্যানেল থেকে আপনার AdSense Publisher ID ও Slot ID যুক্ত করুন।" },
       reviews: [{ name: "নুসরাত জাহান", rating: "★★★★★", comment: "পায়েলের ফিনিশিং খুব সুন্দর, ডেলিভারিও দ্রুত পেয়েছি।" }],
       orders: [],
+      chats: [],
       auditLogs: []
     };
 
@@ -466,7 +550,8 @@
           ...p,
           pageSettings: { ...DEFAULT_STATE.pageSettings, ...(p.pageSettings || {}) },
           sectionsVisible: { ...DEFAULT_STATE.sectionsVisible, ...(p.sectionsVisible || {}) },
-          adsense: { ...DEFAULT_STATE.adsense, ...(p.adsense || {}) }
+          adsense: { ...DEFAULT_STATE.adsense, ...(p.adsense || {}) },
+          chats: Array.isArray(p.chats) ? p.chats : []
         };
       } catch (e) { return structuredClone(DEFAULT_STATE); }
     }
@@ -474,6 +559,126 @@
     let state = loadState();
     let activeCategory = "all";
     let cart = JSON.parse(localStorage.getItem("BB_CART_V1") || "[]");
+
+    function getOrCreateChatSession() {
+      let id = sessionStorage.getItem(CHAT_SESSION_KEY);
+      if (!id) {
+        id = "CHAT-" + Math.floor(10000 + Math.random() * 90000);
+        sessionStorage.setItem(CHAT_SESSION_KEY, id);
+      }
+      return id;
+    }
+
+    function ensureChatThread(st) {
+      const sid = getOrCreateChatSession();
+      st.chats = st.chats || [];
+      let thread = st.chats.find(t => t.id === sid);
+      if (!thread) {
+        thread = {
+          id: sid,
+          customerName: "ভিজিটর (" + sid.slice(-5) + ")",
+          updatedAt: new Date().toLocaleTimeString("bn-BD"),
+          messages: [
+            { sender: "ai", text: "স্বাগতম Bangla Brand-এ! পণ্য, দাম, ডেলিভারি বা অফার সম্পর্কে যেকোনো প্রশ্ন করুন।", time: new Date().toLocaleTimeString("bn-BD") }
+          ]
+        };
+        st.chats.unshift(thread);
+      }
+      return thread;
+    }
+
+    function toggleChatDrawer() {
+      const dr = document.getElementById("live-chat-drawer");
+      dr.classList.toggle("open");
+      if (dr.classList.contains("open")) {
+        state = loadState();
+        ensureChatThread(state);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        renderVisitorChat();
+      }
+    }
+
+    function renderVisitorChat() {
+      const box = document.getElementById("visitor-chat-messages");
+      if (!box) return;
+      const thread = ensureChatThread(state);
+      box.innerHTML = (thread.messages || []).map(m => {
+        const cls = m.sender === "user" ? "msg-user" : (m.sender === "admin" ? "msg-admin" : "msg-ai");
+        const tag = m.sender === "user" ? "আপনি" : (m.sender === "admin" ? "অ্যাডমিন রিপ্লাই" : "AI অ্যাসিস্ট্যান্ট");
+        return `<div class="msg-bubble ${cls}"><span class="msg-tag">${tag} • ${esc(m.time || "")}</span>${esc(m.text)}</div>`;
+      }).join("");
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function buildSmartStoreAiReply(userText, st) {
+      const q = userText.toLowerCase();
+      const ps = st.pageSettings || {};
+      const prods = st.products || [];
+      const inside = ps.insideDhakaCharge ?? 70;
+      const outside = ps.outsideDhakaCharge ?? 130;
+      const fsMin = ps.freeShippingMin ?? 1500;
+
+      const matched = prods.filter(p =>
+        (p.title || "").toLowerCase().includes(q) ||
+        (p.category || "").toLowerCase().includes(q) ||
+        q.split(/\s+/).some(w => w.length > 1 && ((p.title || "").toLowerCase().includes(w) || (p.category || "").toLowerCase().includes(w)))
+      );
+
+      if (matched.length) {
+        const lines = matched.slice(0, 3).map(p => `• ${p.title} — ৳${Number(p.price).toLocaleString("bn-BD")}`);
+        return `আমাদের স্টোরে এই পণ্যগুলো রয়েছে:\n${lines.join("\n")}\nক্যাশ অন ডেলিভারিতে সারাদেশে ডেলিভারি দেওয়া হয়।`;
+      }
+      if (q.includes("ডেলিভারি") || q.includes("চার্জ") || q.includes("ফ্রি") || q.includes("delivery")) {
+        return `ঢাকার ভেতরে ডেলিভারি চার্জ ৳${inside} এবং ঢাকার বাইরে ৳${outside}। ${ps.freeShippingEnabled !== false ? `৳${fsMin} বা তার বেশি অর্ডারে ফ্রি ডেলিভারি সুবিধা রয়েছে।` : ""} সময়: ${ps.deliveryEta || "১–৪ কর্মদিবস"}।`;
+      }
+      if (q.includes("দাম") || q.includes("প্রাইস") || q.includes("price") || q.includes("পণ্য")) {
+        const list = prods.slice(0, 4).map(p => `${p.title} (৳${p.price})`).join(", ");
+        return `আমাদের জনপ্রিয় পণ্যগুলোর মধ্যে রয়েছে: ${list || "পায়েল, নেকলেস, ব্রেসলেট"}। কোন পণ্যটি দেখতে চান?`;
+      }
+      return `আপনার মেসেজটি পেয়েছি। আমাদের পণ্য, দাম বা ডেলিভারি সম্পর্কে জানতে পারেন, আর বিস্তারিত সহায়তার জন্য আমাদের সাপোর্ট টিমও লাইভ চ্যাটে যুক্ত রয়েছে।`;
+    }
+
+    async function sendVisitorChatMessage(e) {
+      e.preventDefault();
+      const inp = document.getElementById("visitor-chat-input");
+      const text = (inp.value || "").trim();
+      if (!text) return;
+      inp.value = "";
+
+      state = loadState();
+      const thread = ensureChatThread(state);
+      const nowTime = new Date().toLocaleTimeString("bn-BD");
+      thread.messages.push({ sender: "user", text, time: nowTime });
+      thread.updatedAt = nowTime;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      renderVisitorChat();
+
+      let replyText = buildSmartStoreAiReply(text, state);
+      const apiKey = (localStorage.getItem(GEMINI_KEY_STORAGE) || "").trim();
+      if (apiKey) {
+        try {
+          const catalogSummary = (state.products || []).slice(0, 8).map(p => `${p.title} (৳${p.price}, ${p.category})`).join("; ");
+          const prompt = `You are a helpful Bangla customer support AI for "Bangla Brand" e-commerce store. Products: ${catalogSummary}. Inside Dhaka delivery: ৳${state.pageSettings?.insideDhakaCharge ?? 70}, Outside Dhaka: ৳${state.pageSettings?.outsideDhakaCharge ?? 130}, Free shipping min: ৳${state.pageSettings?.freeShippingMin ?? 1500}. Reply concisely and politely in Bangla to customer message: "${text}"`;
+          const res = await fetch("https://generativelanguage.googleapis.com/v1beta/interactions", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
+            body: JSON.stringify({ model: GEMINI_MODEL, input: prompt })
+          });
+          const data = await res.json();
+          const aiTxt = data?.output_text || data?.outputs?.[0]?.text || data?.outputs?.[0]?.content?.[0]?.text || "";
+          if (res.ok && aiTxt.trim()) replyText = aiTxt.trim();
+        } catch (err) {
+          // fallback reply already prepared
+        }
+      }
+
+      state = loadState();
+      const updatedThread = ensureChatThread(state);
+      updatedThread.messages.push({ sender: "ai", text: replyText, time: new Date().toLocaleTimeString("bn-BD") });
+      updatedThread.updatedAt = new Date().toLocaleTimeString("bn-BD");
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      renderVisitorChat();
+    }
 
     function getFreeShippingConfig() {
       const ps = state.pageSettings || {};
@@ -731,7 +936,7 @@
         terms: ["Terms & Conditions", "স্টক সাপেক্ষে অর্ডার কনফার্ম হয় এবং নির্ধারিত পণ্যে কালার গ্যারান্টি কার্যকর।"],
         adsense: ["Cookie & Google AdSense Disclosure", "বিজ্ঞাপন প্রাসঙ্গিক রাখতে Google ও পার্টনার কুকি ব্যবহৃত হতে পারে।"],
         ai: ["AI Transparency & Data Policy (llms.txt)", "স্টোর কন্টেন্ট, প্রোডাক্ট SEO ও অপ্টিমাইজেশনে AI সহায়তা নেওয়া হয়; ব্যক্তিগত ডেটা সুরক্ষিত রাখা হয়।"],
-        contact: ["Contact Us & Verified Business Info", "Bangla Brand — বাংলাদেশ • WhatsApp ও সাপোর্ট চ্যানেলের মাধ্যমে যোগাযোগযোগ্য।"]
+        contact: ["Contact Us & Verified Business Info", "Bangla Brand — বাংলাদেশ • লাইভ চ্যাট ও সাপোর্ট চ্যানেলের মাধ্যমে যোগাযোগযোগ্য।"]
       };
       const [t, b] = map[type] || map.privacy;
       document.getElementById("info-modal-content").innerHTML = `<button class="modal-close" onclick="closeModal('info-modal')">✕</button><h2 style="margin-bottom:10px;">${t}</h2><p style="font-size:14px;color:var(--ink-muted);">${b}</p>`;
@@ -749,6 +954,9 @@
       renderProducts();
       renderBundlesGuidesReviews();
       updateCartUI();
+      if (document.getElementById("live-chat-drawer")?.classList.contains("open")) {
+        renderVisitorChat();
+      }
     }
 
     window.addEventListener("storage", (ev) => {
