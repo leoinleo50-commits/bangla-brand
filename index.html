@@ -3,494 +3,118 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bangla Brand — Official Store & Product Assistant</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <title>Bangla Brand — V2 Storefront</title>
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
-
-  <!-- =====================================================================
-       [শুরু] ১. স্টাইল ও ডিজাইন (CSS)
-       ===================================================================== -->
   <style>
     :root {
-      --bg: #0b1120;
-      --panel: #111827;
-      --panel-2: #1e293b;
-      --border: #334155;
-      --text: #f8fafc;
-      --muted: #94a3b8;
-      --gold: #f59e0b;
-      --sky: #38bdf8;
-      --ok: #22c55e;
+      --bg: #070B19;
+      --card: rgba(18, 26, 47, 0.75);
+      --border: rgba(255, 255, 255, 0.08);
+      --cyan: #06B6D4;
+      --purple: #8B5CF6;
+      --amber: #F59E0B;
+      --text: #F1F5F9;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Hind Siliguri', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.55;
-    }
-    .container { max-width: 1200px; margin: 0 auto; padding: 16px; }
-    header.site-nav {
-      background: var(--panel);
-      border-bottom: 1px solid var(--border);
-      padding: 12px 16px;
-      position: sticky;
-      top: 0;
-      z-index: 30;
-    }
-    .nav-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .btn {
-      background: var(--panel-2);
-      color: var(--text);
-      border: 1px solid var(--border);
-      padding: 7px 13px;
-      border-radius: 10px;
-      font-family: inherit;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .btn-gold { background: var(--gold); color: #0f172a; border-color: var(--gold); }
-    .btn-ok { background: var(--ok); color: #052e16; border-color: var(--ok); }
+    body { font-family: 'Hind Siliguri', sans-serif; background: var(--bg); color: var(--text); padding-bottom: 60px; }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 16px; }
 
-    .hero {
-      background: linear-gradient(135deg, #111827 0%, #1e293b 100%);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 22px;
-      margin-bottom: 16px;
-    }
-    .cat-bar {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 8px;
-      margin-bottom: 16px;
-    }
-    .cat-btn {
-      white-space: nowrap;
-      padding: 7px 14px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: var(--panel);
-      color: var(--muted);
-      font-family: inherit;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    .cat-btn.active { background: var(--gold); color: #0f172a; border-color: var(--gold); }
+    header { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--border); }
+    .logo { font-size: 20px; font-weight: 700; color: var(--cyan); }
+    .btn-admin { padding: 8px 14px; background: rgba(255,255,255,0.06); border: 1px solid var(--border); color: #fff; border-radius: 8px; text-decoration: none; font-size: 13px; }
 
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 14px;
-      margin-bottom: 24px;
-    }
-    .p-card {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .p-card img { width: 100%; height: 190px; object-fit: cover; background: var(--panel-2); }
-    .p-body { padding: 14px; }
-    .p-cat { font-size: 11px; color: var(--sky); font-weight: 700; }
-    .p-title { font-size: 16px; font-weight: 700; margin: 3px 0; }
-    .p-desc { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
-    .p-foot {
-      padding: 0 14px 14px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-    }
-    .p-price { font-size: 17px; font-weight: 700; color: var(--gold); }
+    .grid-prods { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 20px; }
+    .p-box { background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+    .p-box img { width: 100%; height: 180px; object-fit: cover; }
+    .p-info { padding: 12px; }
+    .p-title { font-weight: 700; font-size: 15px; }
+    .p-price { color: var(--amber); font-weight: 700; font-size: 16px; margin-top: 4px; }
+    .btn-buy { width: 100%; padding: 8px; background: var(--cyan); border: none; color: #070B19; font-weight: 700; border-radius: 8px; margin-top: 8px; cursor: pointer; }
 
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(2, 6, 23, 0.78);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-      z-index: 60;
-    }
-    .modal-card {
-      width: 100%;
-      max-width: 440px;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 18px;
-    }
-    .form-row { margin-bottom: 10px; }
-    .form-row label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 4px; }
-    .form-row input, .form-row select {
-      width: 100%;
-      padding: 9px 11px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: var(--panel-2);
-      color: var(--text);
-      font-family: inherit;
-      font-size: 14px;
-    }
-
-    .chat-fab {
-      position: fixed;
-      bottom: 18px;
-      right: 18px;
-      background: var(--gold);
-      color: #0f172a;
-      border: none;
-      border-radius: 999px;
-      padding: 11px 16px;
-      font-family: inherit;
-      font-weight: 700;
-      font-size: 14px;
-      cursor: pointer;
-      z-index: 50;
-    }
-    .chat-win {
-      position: fixed;
-      bottom: 72px;
-      right: 18px;
-      width: 330px;
-      max-width: calc(100vw - 36px);
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 12px;
-      display: none;
-      z-index: 55;
-    }
-    .chat-msgs {
-      height: 230px;
-      overflow-y: auto;
-      background: var(--panel-2);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 9px;
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-      margin-bottom: 8px;
-    }
-    .c-msg { max-width: 86%; padding: 7px 10px; border-radius: 9px; font-size: 12.5px; white-space: pre-line; }
-    .c-u { align-self: flex-end; background: var(--gold); color: #0f172a; font-weight: 600; }
-    .c-b { align-self: flex-start; background: #0f172a; border: 1px solid var(--border); color: var(--text); }
+    /* অর্ডার মডাল */
+    .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; padding: 16px; }
+    .modal-box { background: #121A2F; border: 1px solid var(--border); border-radius: 16px; padding: 20px; width: 100%; max-width: 400px; }
+    .inp { width: 100%; padding: 8px 12px; margin-bottom: 10px; border-radius: 8px; border: 1px solid var(--border); background: #070B19; color: #fff; }
   </style>
-  <!-- =====================================================================
-       [শেষ] ১. স্টাইল ও ডিজাইন (CSS)
-       ===================================================================== -->
 </head>
 <body>
-  <!-- =====================================================================
-       [শুরু] ২. টপ নেভিগেশন
-       ===================================================================== -->
-  <header class="site-nav">
-    <div class="nav-inner">
-      <div><strong>🛍️ Bangla Brand Store</strong> <span style="font-size:12px;color:var(--muted);">Live Connected</span></div>
-      <div style="display:flex;gap:8px;align-items:center;">
-        <input type="text" id="search-input" placeholder="পণ্য খুঁজুন..." oninput="renderStore()" style="padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:var(--panel-2);color:var(--text);font-family:inherit;font-size:13px;" />
-        <a class="btn" href="admin.html">⚙️ অ্যাডমিন</a>
-      </div>
-    </div>
-  </header>
-  <!-- =====================================================================
-       [শেষ] ২. টপ নেভিগেশন
-       ===================================================================== -->
+  <div class="wrap">
+    <header>
+      <div class="logo">🛍️ Bangla Brand Store V2</div>
+      <a href="admin.html" class="btn-admin">⚙️ অ্যাডমিন প্যানেল</a>
+    </header>
 
-  <main class="container">
-    <!-- ===================================================================
-         [শুরু] ৩. হিরো ব্যানার ও ক্যাটাগরি ফিল্টার
-         =================================================================== -->
-    <section class="hero">
-      <h1 style="font-size:22px;margin-bottom:4px;">প্রিমিয়াম পণ্যসমূহ</h1>
-      <p style="font-size:13.5px;color:var(--muted);">পছন্দের পণ্য বেছে অর্ডার করুন। প্রোডাক্ট সংক্রান্ত যেকোনো তথ্য জানতে নিচের চ্যাটবটে প্রশ্ন করুন।</p>
-    </section>
+    <h2 style="margin-top:20px;">আমাদের পণ্যসমূহ</h2>
+    <div class="grid-prods" id="store-prods"></div>
+  </div>
 
-    <div class="cat-bar" id="cat-bar"></div>
-    <!-- ===================================================================
-         [শেষ] ৩. হিরো ব্যানার ও ক্যাটাগরি ফিল্টার
-         =================================================================== -->
-
-    <!-- ===================================================================
-         [শুরু] ৪. প্রোডাক্ট গ্রিড
-         =================================================================== -->
-    <section class="products-grid" id="products-grid"></section>
-    <!-- ===================================================================
-         [শেষ] ৪. প্রোডাক্ট গ্রিড
-         =================================================================== -->
-  </main>
-
-  <!-- =====================================================================
-       [শুরু] ৫. অর্ডার মডাল
-       ===================================================================== -->
-  <div class="modal-backdrop" id="order-modal">
-    <div class="modal-card">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-        <h3>অর্ডার সম্পন্ন করুন</h3>
-        <button class="btn" onclick="closeOrderModal()">✕</button>
-      </div>
-      <div id="order-prod-summary" style="font-size:13px;color:var(--sky);margin-bottom:10px;"></div>
-      <form onsubmit="submitCustomerOrder(event)">
-        <div class="form-row">
-          <label>আপনার নাম *</label>
-          <input type="text" id="cust-name" required />
-        </div>
-        <div class="form-row">
-          <label>মোবাইল নম্বর *</label>
-          <input type="text" id="cust-phone" required />
-        </div>
-        <div class="form-row">
-          <label>সম্পূর্ণ ঠিকানা *</label>
-          <input type="text" id="cust-address" required />
-        </div>
-        <div class="form-row">
-          <label>পরিমাণ</label>
-          <input type="number" id="cust-qty" value="1" min="1" oninput="updateOrderModalTotal()" />
-        </div>
-        <div class="form-row">
-          <label>ডেলিভারি এলাকা</label>
-          <select id="cust-area" onchange="updateOrderModalTotal()">
-            <option value="inside">ঢাকার ভেতরে (৳70)</option>
-            <option value="outside" selected>ঢাকার বাইরে (৳120)</option>
-          </select>
-        </div>
-        <div class="form-row">
-          <label>পেমেন্ট পদ্ধতি</label>
-          <select id="cust-payment">
-            <option value="COD">ক্যাশ অন ডেলিভারি (COD)</option>
-            <option value="bKash">bKash</option>
-            <option value="Nagad">Nagad</option>
-          </select>
-        </div>
-        <div id="cust-total-line" style="font-size:15px;font-weight:700;color:var(--gold);margin-bottom:12px;"></div>
-        <button type="submit" class="btn btn-ok" style="width:100%;justify-content:center;padding:10px;">✅ অর্ডার কনফার্ম করুন</button>
+  <div class="modal" id="buy-modal">
+    <div class="modal-box">
+      <h3>অর্ডার বুকিং ফর্ম</h3>
+      <p id="m-prod-name" style="color:var(--cyan);margin-bottom:12px;"></p>
+      <form onsubmit="placeOrder(event)">
+        <input type="text" id="c-name" class="inp" placeholder="আপনার নাম" required />
+        <input type="text" id="c-phone" class="inp" placeholder="ফোন নম্বর" required />
+        <input type="text" id="c-addr" class="inp" placeholder="ঠিকানা" required />
+        <button type="submit" class="btn-buy" style="background:var(--amber);">অর্ডার কনফার্ম করুন</button>
+        <button type="button" onclick="closeModal()" class="btn-buy" style="background:transparent;color:#fff;border:1px solid var(--border);margin-top:4px;">বাতিল</button>
       </form>
     </div>
   </div>
-  <!-- =====================================================================
-       [শেষ] ৫. অর্ডার মডাল
-       ===================================================================== -->
 
-  <!-- =====================================================================
-       [শুরু] ৬. কাস্টমার চ্যাটবট উইজেট
-       ===================================================================== -->
-  <button class="chat-fab" onclick="toggleChatWin()">💬 প্রোডাক্ট চ্যাট</button>
-  <div class="chat-win" id="chat-win">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-      <strong style="font-size:13px;">🛍️ প্রোডাক্ট হেল্প বট</strong>
-      <button class="btn" style="padding:3px 8px;font-size:11px;" onclick="toggleChatWin()">✕</button>
-    </div>
-    <div class="chat-msgs" id="chat-msgs">
-      <div class="c-msg c-b">হ্যালো! আমি শুধু আমাদের প্রোডাক্ট, দাম ও স্টক সম্পর্কে সাহায্য করতে পারি। কোন পণ্যটি জানতে চান?</div>
-    </div>
-    <form onsubmit="sendCustomerChat(event)" style="display:flex;gap:6px;">
-      <input type="text" id="chat-input" placeholder="পণ্যের নাম বা দাম জানতে লিখুন..." required style="flex:1;padding:7px 9px;border-radius:8px;border:1px solid var(--border);background:var(--panel-2);color:var(--text);font-family:inherit;font-size:13px;" />
-      <button type="submit" class="btn btn-gold" style="padding:7px 10px;">➤</button>
-    </form>
-  </div>
-  <!-- =====================================================================
-       [শেষ] ৬. কাস্টমার চ্যাটবট উইজেট
-       ===================================================================== -->
-
-  <!-- =====================================================================
-       [শুরু] ৭. জাভাস্ক্রিপ্ট কানেকশন
-       ===================================================================== -->
   <script>
     const DB_KEY = "BB_COMMERCE_BRAIN_DB_V1";
-    let activeCategory = "ALL";
-    let selectedProduct = null;
-
-    function getTodayISO() {
-      return new Date().toISOString().slice(0, 10);
-    }
+    let selectedP = null;
 
     function loadDB() {
-      try {
-        return JSON.parse(localStorage.getItem(DB_KEY) || "{}") || {};
-      } catch (e) {
-        return {};
-      }
-    }
-
-    function saveDB(db) {
-      localStorage.setItem(DB_KEY, JSON.stringify(db));
-    }
-
-    function esc(v) {
-      return String(v ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+      try { return JSON.parse(localStorage.getItem(DB_KEY) || "{}") || {}; } catch(e){ return {}; }
     }
 
     function renderStore() {
       const db = loadDB();
       const prods = db.products || [];
-      const query = (document.getElementById("search-input").value || "").trim().toLowerCase();
-
-      const cats = ["ALL", ...new Set(prods.map(p => p.category).filter(Boolean))];
-      document.getElementById("cat-bar").innerHTML = cats.map(c => `
-        <button class="cat-btn ${activeCategory === c ? "active" : ""}" onclick="setCat('${esc(c)}')">
-          ${c === "ALL" ? "সব পণ্য" : esc(c)}
-        </button>
-      `).join("");
-
-      const filtered = prods.filter(p => {
-        const matchCat = activeCategory === "ALL" || p.category === activeCategory;
-        const matchQ = !query ||
-          String(p.title || "").toLowerCase().includes(query) ||
-          String(p.category || "").toLowerCase().includes(query) ||
-          String(p.description || "").toLowerCase().includes(query);
-        return matchCat && matchQ;
-      });
-
-      const grid = document.getElementById("products-grid");
-      grid.innerHTML = filtered.length ? filtered.map(p => `
-        <article class="p-card">
-          <div>
-            <img src="${esc(p.image || "https://via.placeholder.com/300x200?text=Product")}" alt="${esc(p.title)}" />
-            <div class="p-body">
-              <div class="p-cat">${esc(p.category || "সাধারণ")} • স্টক: ${esc(p.stock ?? 0)}</div>
-              <div class="p-title">${esc(p.title)}</div>
-              <div class="p-desc">${esc(p.description || "")}</div>
-            </div>
+      document.getElementById("store-prods").innerHTML = prods.length ? prods.map(p => `
+        <div class="p-box">
+          <img src="${p.image}" />
+          <div class="p-info">
+            <div class="p-title">${p.title}</div>
+            <div class="p-price">৳${p.price}</div>
+            <button class="btn-buy" onclick="openBuyModal('${p.id}')">অর্ডার করুন</button>
           </div>
-          <div class="p-foot">
-            <div class="p-price">৳${esc(p.price)}</div>
-            <button class="btn btn-gold" onclick="openOrderModal('${esc(p.id)}')">অর্ডার করুন</button>
-          </div>
-        </article>
-      `).join("") : `<p style="color:var(--muted);">কোনো পণ্য পাওয়া যায়নি। অ্যাডমিন প্যানেল থেকে পণ্য যুক্ত করুন।</p>`;
+        </div>
+      `).join("") : `<p style="color:var(--text-muted);">কোনো পণ্য যুক্ত করা হয়নি।</p>`;
     }
 
-    function setCat(c) {
-      activeCategory = c;
-      renderStore();
-    }
-
-    function openOrderModal(prodId) {
+    function openBuyModal(id) {
       const db = loadDB();
-      selectedProduct = (db.products || []).find(p => p.id === prodId);
-      if (!selectedProduct) return;
-      document.getElementById("order-prod-summary").textContent = `${selectedProduct.title} — ৳${selectedProduct.price}`;
-      document.getElementById("cust-qty").value = 1;
-      updateOrderModalTotal();
-      document.getElementById("order-modal").style.display = "flex";
+      selectedP = (db.products || []).find(x => x.id === id);
+      if(!selectedP) return;
+      document.getElementById("m-prod-name").textContent = `${selectedP.title} (৳${selectedP.price})`;
+      document.getElementById("buy-modal").style.display = "flex";
     }
+    function closeModal() { document.getElementById("buy-modal").style.display = "none"; }
 
-    function closeOrderModal() {
-      document.getElementById("order-modal").style.display = "none";
-      selectedProduct = null;
-    }
-
-    function updateOrderModalTotal() {
-      if (!selectedProduct) return;
-      const qty = Math.max(1, Number(document.getElementById("cust-qty").value) || 1);
-      const ship = document.getElementById("cust-area").value === "inside" ? 70 : 120;
-      const total = Number(selectedProduct.price) * qty + ship;
-      document.getElementById("cust-total-line").textContent = `সর্বমোট (ডেলিভারিসহ): ৳${total}`;
-    }
-
-    function submitCustomerOrder(e) {
+    function placeOrder(e) {
       e.preventDefault();
-      if (!selectedProduct) return;
       const db = loadDB();
       db.orders = db.orders || [];
-      const qty = Math.max(1, Number(document.getElementById("cust-qty").value) || 1);
-      const ship = document.getElementById("cust-area").value === "inside" ? 70 : 120;
-      const total = Number(selectedProduct.price) * qty + ship;
-
-      const orderObj = {
-        id: "ORD-" + Math.floor(1000 + Math.random() * 9000),
-        name: document.getElementById("cust-name").value.trim(),
-        phone: document.getElementById("cust-phone").value.trim(),
-        address: document.getElementById("cust-address").value.trim(),
-        productTitle: selectedProduct.title,
-        qty,
-        shipping: ship,
-        total,
-        payment: document.getElementById("cust-payment").value,
+      db.orders.unshift({
+        id: "ORD-" + Math.floor(1000 + Math.random()*9000),
+        name: document.getElementById("c-name").value,
+        phone: document.getElementById("c-phone").value,
+        address: document.getElementById("c-addr").value,
+        productTitle: selectedP.title,
+        qty: 1,
+        total: selectedP.price + 100,
         status: "Pending",
-        date: getTodayISO()
-      };
-
-      db.orders.unshift(orderObj);
-      saveDB(db);
-      closeOrderModal();
-      document.getElementById("cust-name").value = "";
-      document.getElementById("cust-phone").value = "";
-      document.getElementById("cust-address").value = "";
-      alert(`ধন্যবাদ! আপনার অর্ডার (#${orderObj.id}) সফলভাবে গৃহীত হয়েছে।`);
-    }
-
-    function toggleChatWin() {
-      const win = document.getElementById("chat-win");
-      win.style.display = win.style.display === "block" ? "none" : "block";
-    }
-
-    function replyProductOnlyBot(question) {
-      const q = question.toLowerCase();
-      const blocked = ["অর্ডার", "order", "কনফার্ম", "ক্যান্সেল", "হোল্ড", "বিক্রি", "আয়", "revenue", "অ্যাডমিন", "admin", "webhook", "api"];
-      if (blocked.some(w => q.includes(w))) {
-        return "আমি শুধু প্রোডাক্টের নাম, ক্যাটাগরি, দাম ও স্টক সম্পর্কে তথ্য দিতে পারি।";
-      }
-
-      const db = loadDB();
-      const prods = db.products || [];
-      if (!prods.length) return "বর্তমানে স্টোরে কোনো প্রোডাক্ট নেই।";
-
-      const matches = prods.filter(p =>
-        q.includes(String(p.title || "").toLowerCase()) ||
-        q.includes(String(p.category || "").toLowerCase()) ||
-        String(p.title || "").toLowerCase().split(" ").some(w => w.length > 2 && q.includes(w))
-      );
-
-      if (matches.length) {
-        return matches.map(p =>
-          `🛍️ ${p.title} (${p.category})\n• দাম: ৳${p.price}\n• স্টক: ${Number(p.stock) > 0 ? p.stock + " টি উপলব্ধ" : "স্টক শেষ"}\n• বিবরণ: ${p.description || ""}`
-        ).join("\n\n");
-      }
-
-      return "আমাদের উপলব্ধ প্রোডাক্টসমূহ:\n" + prods.map(p => `• ${p.title} — ৳${p.price} (${p.category})`).join("\n");
-    }
-
-    function sendCustomerChat(e) {
-      e.preventDefault();
-      const inp = document.getElementById("chat-input");
-      const text = inp.value.trim();
-      if (!text) return;
-
-      const box = document.getElementById("chat-msgs");
-      box.innerHTML += `<div class="c-msg c-u">${esc(text)}</div>`;
-      const botText = replyProductOnlyBot(text);
-      box.innerHTML += `<div class="c-msg c-b">${esc(botText)}</div>`;
-      box.scrollTop = box.scrollHeight;
-      inp.value = "";
+        date: new Date().toISOString().slice(0,10)
+      });
+      localStorage.setItem(DB_KEY, JSON.stringify(db));
+      closeModal();
+      alert("অর্ডার সফলভাবে গ্রহণ করা হয়েছে!");
     }
 
     renderStore();
   </script>
-  <!-- =====================================================================
-       [শেষ] ৭. জাভাস্ক্রিপ্ট কানেকশন
-       ===================================================================== -->
 </body>
 </html>
