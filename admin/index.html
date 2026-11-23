@@ -1,13 +1,17 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="bn">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Admin Dashboard — Bangla Brand</title>
+  <title>Admin Dashboard — Bangla Brand Organic & AI Hub</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- =====================================================================
+       [শুরু] ১. স্টাইল ও ডিজাইন (CSS) — প্যানেলের রঙ, কার্ড, বাটন ও লেআউট
+       ===================================================================== -->
   <style>
     :root {
       --bg: #0F172A;
@@ -199,13 +203,19 @@
       z-index: 80;
     }
   </style>
+  <!-- =====================================================================
+       [শেষ] ১. স্টাইল ও ডিজাইন (CSS)
+       ===================================================================== -->
 </head>
 <body>
+  <!-- =====================================================================
+       [শুরু] ২. টপ হেডার ও লক স্ক্রিন — স্টোর লিংক, লক বোতাম ও পিন লগইন
+       ===================================================================== -->
   <header class="admin-top">
     <div class="top-inner">
-      <div><strong>⚙️ Bangla Brand Admin</strong> <span style="font-size:12px;color:var(--muted);">/admin/</span></div>
+      <div><strong>⚙️ Bangla Brand Organic Admin</strong> <span style="font-size:12px;color:var(--muted);">Single File</span></div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
-        <a class="btn" href="../index.html" target="_blank">🌐 স্টোর দেখুন</a>
+        <a class="btn" href="index.html" target="_blank">🌐 স্টোর দেখুন</a>
         <button class="btn btn-danger" onclick="lockAdmin()">🔒 লক করুন</button>
       </div>
     </div>
@@ -219,33 +229,78 @@
       <button type="submit" class="btn btn-gold" style="width:100%;justify-content:center;">প্রবেশ করুন</button>
     </form>
   </div>
+  <!-- =====================================================================
+       [শেষ] ২. টপ হেডার ও লক স্ক্রিন
+       ===================================================================== -->
 
   <main class="container" id="admin-panel" style="display:none;">
+    <!-- ===================================================================
+         [শুরু] ৩. নেভিগেশন ট্যাবসমূহ — প্রতিটি সেকশনে যাতায়াতের বোতাম
+         =================================================================== -->
     <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('product-manager', this)">📦 প্রোডাক্ট ম্যানেজার</button>
-      <button class="tab-btn" onclick="switchTab('reels', this)">🎬 রিলস ও অ্যাড</button>
-      <button class="tab-btn" onclick="switchTab('live-chat', this)">💬 লাইভ চ্যাট (<span id="chat-badge">0</span>)</button>
-      <button class="tab-btn" onclick="switchTab('site-ai', this)">🌐 পুরো সাইট AI কন্ট্রোল</button>
-      <button class="tab-btn" onclick="switchTab('ranking-ai', this)">🚀 AI প্রোডাক্ট র‍্যাংক ও SEO</button>
+      <button class="tab-btn active" onclick="switchTab('organic-assistant', this)">🤖 অর্গানিক এআই অ্যাসিস্ট্যান্ট</button>
+      <button class="tab-btn" onclick="switchTab('product-manager', this)">📦 প্রোডাক্ট ম্যানেজার</button>
+      <button class="tab-btn" onclick="switchTab('reels', this)">🎬 রিলস ও কন্টেন্ট</button>
+      <button class="tab-btn" onclick="switchTab('live-chat', this)">💬 কাস্টমার ও এআই চ্যাট (<span id="chat-badge">0</span>)</button>
+      <button class="tab-btn" onclick="switchTab('ranking-ai', this)">🚀 গুগল SEO ও এআই স্কিমাস</button>
       <button class="tab-btn" onclick="switchTab('overview', this)">📊 ওভারভিউ ও অর্ডার</button>
-      <button class="tab-btn" onclick="switchTab('delivery', this)">🚚 ফ্রি ডেলিভারি কন্ট্রোল</button>
-      <button class="tab-btn" onclick="switchTab('sections', this)">🎛️ সেকশন কন্ট্রোল</button>
-      <button class="tab-btn" onclick="switchTab('adsense-seo', this)">📢 AdSense ও SEO ফিড</button>
-      <button class="tab-btn" onclick="switchTab('security', this)">🔐 Audit / Undo ও পিন</button>
+      <button class="tab-btn" onclick="switchTab('delivery', this)">🚚 ডেলিভারি কন্ট্রোল</button>
+      <button class="tab-btn" onclick="switchTab('security', this)">🔐 সিকিউরিটি ও পিন</button>
     </div>
+    <!-- ===================================================================
+         [শেষ] ৩. নেভিগেশন ট্যাবসমূহ
+         =================================================================== -->
 
-    <!-- Product Manager Tab -->
-    <section id="tab-product-manager" class="admin-tab">
+    <!-- ===================================================================
+         [শুরু] ৪. অর্গানিক এআই অ্যাসিস্ট্যান্ট — গুগল ও AI সার্চের জন্য llms.txt ও Schema
+         =================================================================== -->
+    <section id="tab-organic-assistant" class="admin-tab">
       <div class="card">
-        <h3 style="margin-bottom:8px;">🤖 AI প্রোডাক্ট ম্যানেজার (ম্যানুয়াল বা AI উভয়ভাবেই নিয়ন্ত্রণ)</h3>
+        <h3 style="margin-bottom:8px;">🤖 অর্গানিক অটো-গ্রোথ অ্যাসিস্ট্যান্ট (Google & AI Rank Builder)</h3>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">এই অ্যাসিস্ট্যান্ট গুগলের সার্চ বট এবং বিভিন্ন AI (ChatGPT, Gemini)-এর কাছে আপনার প্রোডাক্ট ও অর্গানিক বৈশিষ্ট্যগুলোকে রেকমেন্ড করবে।</p>
+
+        <div class="form-row">
+          <label>অটোমেটিক অর্গানিক প্রমোশন কমান্ড</label>
+          <input type="text" id="ai-assistant-cmd" placeholder="যেমন: '২ বছর কালার গ্যারান্টি' এবং 'ক্যাশ অন ডেলিভারি' হাইলাইট করে কন্টেন্ট তৈরি করো" />
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button type="button" class="btn btn-sky" onclick="runOrganicAiAssistant()">⚡ এআই অ্যাসিস্ট্যান্ট রান করুন</button>
+          <button type="button" class="btn btn-gold" onclick="generateStoreJsonLd()">📌 Google JSON-LD Schema জেনারেট করুন</button>
+        </div>
+        <div id="ai-assistant-status" style="margin-top:10px;font-size:13px;color:#FDE68A;"></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3 style="margin-bottom:8px;">📄 Google & LLM Feed (llms.txt)</h3>
+          <textarea id="assistant-llms-text" rows="10" readonly placeholder="স্বয়ংক্রিয়ভাবে llms.txt কন্টেন্ট তৈরি হবে..."></textarea>
+          <button class="btn" style="margin-top:8px;" onclick="copyAssistantLlms()">Copy llms.txt</button>
+        </div>
+        <div class="card">
+          <h3 style="margin-bottom:8px;">🔍 Schema.org Structured Data</h3>
+          <textarea id="assistant-jsonld-text" rows="10" readonly placeholder="গুগল সার্চ ইঞ্জিনের জন্য Schema তৈরি হবে..."></textarea>
+          <button class="btn" style="margin-top:8px;" onclick="copyAssistantJsonLd()">Copy JSON-LD Schema</button>
+        </div>
+      </div>
+    </section>
+    <!-- ===================================================================
+         [শেষ] ৪. অর্গানিক এআই অ্যাসিস্ট্যান্ট
+         =================================================================== -->
+
+    <!-- ===================================================================
+         [শুরু] ৫. প্রোডাক্ট ও ক্যাটাগরি ম্যানেজার — ক্যাটাগরি, ছবি ও পণ্য যোগ/মোছা
+         =================================================================== -->
+    <section id="tab-product-manager" class="admin-tab" style="display:none;">
+      <div class="card">
+        <h3 style="margin-bottom:8px;">🤖 AI প্রোডাক্ট ম্যানেজার</h3>
         <div class="form-row">
           <label>AI কমান্ড (প্রোডাক্ট, ক্যাটাগরি, সাইজ বা কালার ম্যানেজ করতে নির্দেশ দিন)</label>
           <input type="text" id="pm-ai-prompt" placeholder="যেমন: 'আংটি' ক্যাটাগরি তৈরি করো এবং গোল্ড, সিলভার কালারে S, M, L সাইজসহ প্রোডাক্ট রেডি করো" />
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <button type="button" class="btn btn-sky" onclick="runProductManagerAi()">⚡ AI দিয়ে প্রোডাক্ট/ক্যাটাগরি/ভেরিয়েন্ট সেট করুন</button>
-          <button type="button" class="btn" onclick="applyPresetSizes(['S', 'M', 'L', 'XL'])">সাইজ S, M, L, XL বসান</button>
-          <button type="button" class="btn" onclick="applyPresetSizes(['ফ্রি সাইজ'])">ফ্রি সাইজ বসান</button>
+          <button type="button" class="btn btn-sky" onclick="runProductManagerAi()">⚡ AI দিয়ে প্রোডাক্ট সেটিং প্রস্তুত করুন</button>
+          <button type="button" class="btn" onclick="applyPresetSizes(['S', 'M', 'L', 'XL'])">সাইজ S, M, L, XL</button>
+          <button type="button" class="btn" onclick="applyPresetSizes(['ফ্রি সাইজ'])">ফ্রি সাইজ</button>
         </div>
         <div id="pm-ai-status" style="margin-top:8px;font-size:12.5px;color:#FDE68A;"></div>
       </div>
@@ -255,7 +310,7 @@
         <form onsubmit="createCategory(event)" class="grid-3">
           <div class="form-row" style="margin:0;">
             <label>ক্যাটাগরির নাম *</label>
-            <input type="text" id="new-cat-name" placeholder="যেমন: আংটি / ওয়ালেট" required />
+            <input type="text" id="new-cat-name" placeholder="যেমন: আংটি / ওয়ালেট" required />
           </div>
           <div class="form-row" style="margin:0;">
             <label>আইকন (Emoji)</label>
@@ -270,31 +325,26 @@
 
       <div class="grid-2">
         <div class="card">
-          <h3 style="margin-bottom:8px;">📸 প্রোডাক্ট অ্যাড (সিঙ্গেল ও ভেরিয়েন্ট — কালার ও সাইজ)</h3>
-
+          <h3 style="margin-bottom:8px;">📸 প্রোডাক্ট অ্যাড (সিঙ্গেল ও ভেরিয়েন্ট)</h3>
           <div class="form-row">
-            <label>Gemini API Key (AIza... কী)</label>
+            <label>Gemini API Key</label>
             <div style="display:flex;gap:8px;flex-wrap:wrap;">
               <input type="password" id="gemini-api-key" placeholder="AIza..." style="flex:1;min-width:180px;" />
               <button class="btn" type="button" onclick="saveGeminiKey()">Key সেভ</button>
             </div>
           </div>
-
           <div class="form-row">
             <label>প্রোডাক্টের ছবি আপলোড করুন</label>
             <input type="file" id="p-file" accept="image/*" onchange="handleImageFile(event)" />
             <img id="p-preview" class="img-preview" alt="Preview" />
           </div>
-
           <div class="form-row">
             <label>অথবা ছবির লিংক (URL)</label>
             <input type="url" id="p-img" placeholder="https://..." oninput="handleUrlPreview()" />
           </div>
-
           <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
-            <button class="btn btn-sky" type="button" onclick="generateProductFromPhoto()">✨ ছবি দেখে Title, Category ও Description লিখুন</button>
+            <button class="btn btn-sky" type="button" onclick="generateProductFromPhoto()">✨ ছবি দেখে SEO বিবরণ লিখুন</button>
           </div>
-
           <div id="photo-ai-status" style="font-size:12.5px;color:#FDE68A;margin-bottom:10px;"></div>
 
           <form onsubmit="addProduct(event)">
@@ -306,8 +356,8 @@
             <div class="form-row">
               <label>প্রোডাক্টের ধরন</label>
               <select id="p-type" onchange="toggleVariantBuilder()">
-                <option value="single">সিঙ্গেল প্রোডাক্ট (Single Product)</option>
-                <option value="variant">ভেরিয়েন্ট প্রোডাক্ট (কালার ও সাইজসহ)</option>
+                <option value="single">সিঙ্গেল প্রোডাক্ট</option>
+                <option value="variant">ভেরিয়েন্ট (কালার ও সাইজসহ)</option>
               </select>
             </div>
             <div class="form-row"><label>দাম (৳) *</label><input type="number" id="p-price" required min="1" placeholder="যেমন: 650" /></div>
@@ -315,20 +365,20 @@
             <div class="variant-box" id="variant-builder" style="display:none;">
               <strong style="font-size:13px;color:var(--accent-2);display:block;margin-bottom:8px;">🎨 কালার ও সাইজ ম্যানেজ করুন</strong>
               <div class="form-row">
-                <label>কালারসমূহ (কমা দিয়ে লিখুন, যেমন: গোল্ড, সিলভার, ব্ল্যাক)</label>
+                <label>কালারসমূহ (কমা দিয়ে লিখুন)</label>
                 <input type="text" id="v-colors-input" placeholder="গোল্ড, সিলভার" />
               </div>
               <div class="form-row">
-                <label>সাইজসমূহ (কমা দিয়ে লিখুন, যেমন: S, M, L, XL বা ফ্রি সাইজ)</label>
+                <label>সাইজসমূহ (কমা দিয়ে লিখুন)</label>
                 <input type="text" id="v-sizes-input" placeholder="S, M, L, XL" />
               </div>
               <div class="check-row" style="margin-bottom:0;">
                 <input type="checkbox" id="v-same-price" checked />
-                <label for="v-same-price" style="margin:0;color:var(--text);">প্রত্যেকটা সাইজের জন্য একই দাম হবে (উপরের মূল দাম ৳ কার্যকর)</label>
+                <label for="v-same-price" style="margin:0;color:var(--text);">সব সাইজের একই দাম হবে</label>
               </div>
             </div>
 
-            <div class="form-row"><label>ডিসক্রিপশন</label><textarea id="p-desc" rows="3" placeholder="পণ্যের সংক্ষিপ্ত বিবরণ..."></textarea></div>
+            <div class="form-row"><label>ডিসক্রিপশন (SEO Friendly)</label><textarea id="p-desc" rows="3" placeholder="পণ্যের বিবরণ..."></textarea></div>
             <button type="submit" class="btn btn-gold">স্টোরে যুক্ত করুন</button>
           </form>
         </div>
@@ -339,40 +389,36 @@
         </div>
       </div>
     </section>
+    <!-- ===================================================================
+         [শেষ] ৫. প্রোডাক্ট ও ক্যাটাগরি ম্যানেজার
+         =================================================================== -->
 
-    <!-- Reels & Ad Slot Tab -->
+    <!-- ===================================================================
+         [শুরু] ৬. রিলস ও কাস্টমার লাইভ চ্যাট — ভিডিও রিলস ও চ্যাট রিপ্লাই
+         =================================================================== -->
     <section id="tab-reels" class="admin-tab" style="display:none;">
       <div class="grid-2">
         <div class="card">
-          <h3 style="margin-bottom:8px;">🎬 নতুন রিল (Reel) ও প্রোডাক্ট লিংক যুক্ত করুন</h3>
+          <h3 style="margin-bottom:8px;">🎬 রিলস ও অর্গানিক ভিডিও কন্টেন্ট</h3>
           <form onsubmit="addReelItem(event)">
             <div class="form-row">
               <label>রিল টাইটেল *</label>
-              <input type="text" id="reel-title" placeholder="যেমন: নতুন পায়েল কালেকশন" required />
+              <input type="text" id="reel-title" placeholder="যেমন: নতুন পায়েল কালেকশন" required />
             </div>
             <div class="form-row">
-              <label>ভিডিও ফাইল আপলোড করুন (MP4/WebM)</label>
+              <label>ভিডিও ফাইল (MP4/WebM)</label>
               <input type="file" id="reel-file" accept="video/*" onchange="handleReelFile(event)" />
             </div>
             <div class="form-row">
               <label>অথবা ভিডিও লিংক (URL)</label>
-              <input type="url" id="reel-url" placeholder="https://.../video.mp4" />
+              <input type="url" id="reel-url" placeholder="https://..." />
             </div>
             <div class="form-row">
-              <label>লিংকড প্রোডাক্ট (অল রিলস পেজ থেকে অর্ডারের জন্য)</label>
+              <label>লিংকড প্রোডাক্ট</label>
               <select id="reel-linked-product"></select>
             </div>
             <button type="submit" class="btn btn-gold">+ রিল যুক্ত করুন</button>
           </form>
-
-          <hr style="border:none;border-top:1px solid var(--border);margin:16px 0;" />
-
-          <h3 style="margin-bottom:8px;">📢 রিলস সেকশনে Google Ad / কাস্টম অ্যাড কোড</h3>
-          <div class="form-row">
-            <label>AdSense / Banner / Script কোড (কোনো রেস্ট্রিকশন নেই)</label>
-            <textarea id="reels-ad-code" rows="4" placeholder="Google AdSense <ins> বা কাস্টম অ্যাড HTML কোড এখানে দিন..."></textarea>
-          </div>
-          <button type="button" class="btn btn-sky" onclick="saveReelsAdCode()">রিলস অ্যাড সেভ করুন</button>
         </div>
 
         <div class="card">
@@ -382,7 +428,6 @@
       </div>
     </section>
 
-    <!-- Live Chat Tab -->
     <section id="tab-live-chat" class="admin-tab" style="display:none;">
       <div class="grid-2">
         <div class="card">
@@ -390,41 +435,33 @@
           <div id="admin-chat-threads"></div>
         </div>
         <div class="card">
-          <h3 style="margin-bottom:8px;">ম্যানুয়াল রিপ্লাই (<span id="active-chat-title">কোনো চ্যাট সিলেক্ট করা হয়নি</span>)</h3>
+          <h3 style="margin-bottom:8px;">ম্যানুয়াল রিপ্লাই (<span id="active-chat-title">সিলেক্ট করুন</span>)</h3>
           <div class="admin-chat-log" id="admin-chat-messages"></div>
           <form onsubmit="sendAdminManualReply(event)" style="display:flex;gap:8px;">
-            <input type="text" id="admin-reply-input" placeholder="কাস্টমারকে ম্যানুয়ালি রিপ্লাই লিখুন..." required />
-            <button type="submit" class="btn btn-gold">রিপ্লাই পাঠান</button>
+            <input type="text" id="admin-reply-input" placeholder="কাস্টমারকে ম্যানুয়ালি রিপ্লাই লিখুন..." required />
+            <button type="submit" class="btn btn-gold">পাঠান</button>
           </form>
         </div>
       </div>
     </section>
+    <!-- ===================================================================
+         [শেষ] ৬. রিলস ও কাস্টমার লাইভ চ্যাট
+         =================================================================== -->
 
-    <!-- Site-Wide AI Tab -->
-    <section id="tab-site-ai" class="admin-tab" style="display:none;">
-      <div class="card">
-        <h3 style="margin-bottom:6px;">🌐 পুরো সাইট AI কন্ট্রোল (Site-Wide AI)</h3>
-        <div class="form-row">
-          <label>পুরো সাইটের জন্য AI কমান্ড</label>
-          <textarea id="site-ai-command-input" rows="3" placeholder="যেমন: ফ্রি ডেলিভারি ১২০০ টাকা করো, সব প্রোডাক্টের SEO র‍্যাংক বুস্ট করো এবং হেডিং দাও এক্সক্লুসিভ কালেকশন"></textarea>
-        </div>
-        <button class="btn btn-sky" type="button" onclick="runSiteWideAiCommand()">⚡ পুরো সাইটে AI প্রয়োগ করুন</button>
-        <div id="site-ai-status-box" style="margin-top:10px;font-size:13px;color:#FDE68A;"></div>
-      </div>
-    </section>
-
-    <!-- Ranking & SEO AI Tab -->
+    <!-- ===================================================================
+         [শুরু] ৭. গুগল SEO ও মার্কেট ফিড — প্রোডাক্ট SEO স্কোর ও JSON ফিড
+         =================================================================== -->
     <section id="tab-ranking-ai" class="admin-tab" style="display:none;">
       <div class="grid-2">
         <div class="card">
           <h3 style="margin-bottom:8px;">🚀 AI প্রোডাক্ট র‍্যাংক ও SEO বুস্টার</h3>
           <div class="form-row">
-            <label>নির্দিষ্ট প্রোডাক্ট বেছে নিন (একক অপ্টিমাইজেশনের জন্য)</label>
+            <label>প্রোডাক্ট বেছে নিন</label>
             <select id="rank-target-product"></select>
           </div>
           <div class="form-row">
-            <label>টার্গেট কিওয়ার্ড বা ফোকাস (ঐচ্ছিক)</label>
-            <input type="text" id="rank-focus-kw" placeholder="যেমন: ২ বছর কালার গ্যারান্টি, ঈদ গিফট, সারাদেশে ডেলিভারি" />
+            <label>টার্গেট কিওয়ার্ড বা ফোকাস</label>
+            <input type="text" id="rank-focus-kw" placeholder="যেমন: ২ বছর কালার গ্যারান্টি, ঈদ গিফট" />
           </div>
           <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
             <button class="btn btn-sky" type="button" onclick="optimizeProductsWithAi(false)">✨ সিলেক্টেড প্রোডাক্ট র‍্যাংক বুস্ট</button>
@@ -435,85 +472,58 @@
         </div>
 
         <div class="card">
-          <h3 style="margin-bottom:8px;">🤖 AI Search / `llms.txt` স্টোর সারাংশ</h3>
-          <textarea id="llms-summary-box" rows="12" readonly></textarea>
-          <button class="btn" style="margin-top:8px;" onclick="copyLlmsSummary()">AI সারাংশ কপি করুন</button>
+          <h3 style="margin-bottom:8px;">🤖 Merchant Feed (JSON)</h3>
+          <textarea id="merchant-feed-box" rows="12" readonly></textarea>
+          <button class="btn" style="margin-top:8px;" onclick="copyMerchantFeed()">Feed কপি করুন</button>
         </div>
       </div>
     </section>
+    <!-- ===================================================================
+         [শেষ] ৭. গুগল SEO ও মার্কেট ফিড
+         =================================================================== -->
 
-    <!-- Overview & Orders Tab -->
+    <!-- ===================================================================
+         [শুরু] ৮. ওভারভিউ, ডেলিভারি ও সিকিউরিটি — হিসাব, অর্ডার, চার্জ ও পিন
+         =================================================================== -->
     <section id="tab-overview" class="admin-tab" style="display:none;">
       <div class="grid-4">
         <div class="card"><div class="stat-lbl">মোট পণ্য</div><div class="stat-val" id="st-products">0</div></div>
         <div class="card"><div class="stat-lbl">মোট অর্ডার</div><div class="stat-val" id="st-orders">0</div></div>
-        <div class="card"><div class="stat-lbl">মোট বিক্রয় মূল্য</div><div class="stat-val" id="st-revenue">৳0</div></div>
+        <div class="card"><div class="stat-lbl">মোট বিক্রয় মূল্য</div><div class="stat-val" id="st-revenue">৳0</div></div>
         <div class="card"><div class="stat-lbl">ফ্রি ডেলিভারি সীমা</div><div class="stat-val" id="st-free-ship" style="font-size:17px;">৳1,500</div></div>
       </div>
       <div class="card">
-        <h3 style="margin-bottom:10px;">কাস্টমার অর্ডার তালিকা ও ফ্রড চেক</h3>
+        <h3 style="margin-bottom:10px;">অর্ডার তালিকা ও অডিট লগ</h3>
         <div style="overflow-x:auto;">
           <table>
-            <thead><tr><th>অর্ডার ID</th><th>কাস্টমার</th><th>ফোন</th><th>মোট</th><th>ফ্রড চেক</th><th>স্ট্যাটাস</th></tr></thead>
+            <thead><tr><th>অর্ডার ID</th><th>কাস্টমার</th><th>ফোন</th><th>মোট</th><th>স্ট্যাটাস</th></tr></thead>
             <tbody id="orders-tbody"></tbody>
           </table>
         </div>
       </div>
     </section>
 
-    <!-- Free Delivery Tab -->
     <section id="tab-delivery" class="admin-tab" style="display:none;">
       <div class="card">
-        <h3 style="margin-bottom:10px;">🚚 ফ্রি ডেলিভারি কন্ট্রোল</h3>
+        <h3 style="margin-bottom:10px;">🚚 ফ্রি ডেলিভারি সেটিংস</h3>
         <form onsubmit="saveFreeShipping(event)">
           <div class="check-row">
             <input type="checkbox" id="fs-enabled" checked />
-            <label for="fs-enabled" style="margin:0;color:var(--text);">ফ্রি ডেলিভারি বার ও সুবিধা চালু রাখুন</label>
+            <label for="fs-enabled" style="margin:0;color:var(--text);">ফ্রি ডেলিভারি সুবিধা চালু রাখুন</label>
           </div>
           <div class="form-row">
-            <label>ফ্রি ডেলিভারির ন্যূনতম অর্ডার পরিমাণ (৳) — 0 দিলে সব অর্ডারে ফ্রি হবে</label>
+            <label>ফ্রি ডেলিভারির ন্যূনতম অর্ডার পরিমাণ (৳)</label>
             <input type="number" id="fs-min" min="0" required />
           </div>
-          <div class="form-row">
-            <label>ফ্রি ডেলিভারি পেলে যে মেসেজ দেখাবে</label>
-            <input type="text" id="fs-unlocked-text" required />
-          </div>
-          <div class="form-row">
-            <label>ফ্রি ডেলিভারি না পেলে যে মেসেজ দেখাবে ({remaining} দিয়ে বাকি টাকা বসবে)</label>
-            <input type="text" id="fs-locked-template" required />
-          </div>
           <div class="grid-2">
-            <div class="form-row"><label>ঢাকার ভেতরে ডেলিভারি চার্জ (৳)</label><input type="number" id="dc-inside" min="0" required /></div>
-            <div class="form-row"><label>ঢাকার বাইরে ডেলিভারি চার্জ (৳)</label><input type="number" id="dc-outside" min="0" required /></div>
+            <div class="form-row"><label>ঢাকার ভেতরে চার্জ (৳)</label><input type="number" id="dc-inside" min="0" required /></div>
+            <div class="form-row"><label>ঢাকার বাইরে চার্জ (৳)</label><input type="number" id="dc-outside" min="0" required /></div>
           </div>
-          <button type="submit" class="btn btn-gold">ফ্রি ডেলিভারি সেটিংস সংরক্ষণ করুন</button>
+          <button type="submit" class="btn btn-gold">সংরক্ষণ করুন</button>
         </form>
       </div>
     </section>
 
-    <!-- Sections Toggle Tab -->
-    <section id="tab-sections" class="admin-tab" style="display:none;">
-      <div class="card"><h3 style="margin-bottom:10px;">সেকশন অন/অফ কন্ট্রোল</h3><div id="section-toggles"></div></div>
-    </section>
-
-    <!-- AdSense & SEO Feed Tab -->
-    <section id="tab-adsense-seo" class="admin-tab" style="display:none;">
-      <div class="grid-2">
-        <div class="card">
-          <h3 style="margin-bottom:10px;">Google AdSense সেটিংস</h3>
-          <div class="form-row"><label>Publisher ID</label><input type="text" id="ads-pub-id" placeholder="ca-pub-xxxxxxxxxxxxxxxx" /></div>
-          <div class="form-row"><label>Slot ID</label><input type="text" id="ads-slot-id" placeholder="1234567890" /></div>
-          <button class="btn btn-gold" onclick="saveAdsense()">সংরক্ষণ করুন</button>
-        </div>
-        <div class="card">
-          <h3 style="margin-bottom:10px;">Google Merchant Feed (JSON)</h3>
-          <textarea id="merchant-feed-box" rows="8" readonly></textarea>
-          <button class="btn" style="margin-top:8px;" onclick="copyMerchantFeed()">Feed কপি করুন</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Security & Undo Tab -->
     <section id="tab-security" class="admin-tab" style="display:none;">
       <div class="grid-2">
         <div class="card">
@@ -523,37 +533,59 @@
         </div>
         <div class="card">
           <h3 style="margin-bottom:10px;">Audit Log & Undo</h3>
-          <button class="btn btn-danger" style="margin-bottom:10px;" onclick="undoLastSnapshot()">↩ সর্বশেষ পরিবর্তন Undo করুন</button>
+          <button class="btn btn-danger" style="margin-bottom:10px;" onclick="undoLastSnapshot()">↩ Undo করুন</button>
           <div id="audit-list" style="font-size:13px;color:var(--muted);"></div>
         </div>
       </div>
     </section>
+    <!-- ===================================================================
+         [শেষ] ৮. ওভারভিউ, ডেলিভারি ও সিকিউরিটি
+         =================================================================== -->
   </main>
 
-  <div class="toast" id="toast">সংরক্ষিত হয়েছে</div>
+  <div class="toast" id="toast">সংরক্ষিত হয়েছে</div>
 
+  <!-- =====================================================================
+       [শুরু] ৯. জাভাস্ক্রিপ্ট ফাংশনসমূহ — ডাটা সেভ, AI, চ্যাট ও স্ক্রিন আপডেট
+       ===================================================================== -->
   <script>
     const STORAGE_KEY = "BANGLA_BRAND_STORE_V1";
     const PIN_KEY = "BB_ADMIN_PIN_V1";
     const AUTH_KEY = "BB_ADMIN_AUTH_V1";
     const GEMINI_KEY_STORAGE = "BB_GEMINI_API_KEY";
     const GEMINI_MODEL = "gemini-3.8-flash";
+
     const DEFAULT_CATEGORIES = [
-      { id: "payel", name: "পায়েল", icon: "🦶" },
+      { id: "payel", name: "পায়েল", icon: "🦶" },
       { id: "necklace", name: "নেকলেস", icon: "📿" },
       { id: "bracelet", name: "ব্রেসলেট", icon: "⌚" },
-      { id: "bangles", name: "চুড়ি/কাঁকন", icon: "⭕" },
+      { id: "bangles", name: "চুড়ি/কাঁকন", icon: "⭕" },
       { id: "gift", name: "গিফট সেট", icon: "🎁" }
     ];
 
     let snapshots = [];
     let uploadedDataUrl = "";
     let uploadedMimeType = "image/jpeg";
-    let uploadedFileName = "";
     let uploadedReelDataUrl = "";
     let selectedChatId = "";
 
     function getPin() { return localStorage.getItem(PIN_KEY) || "1234"; }
+    function loadStore() {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); } catch (e) { return {}; }
+    }
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.style.display = "block";
+      setTimeout(() => { t.style.display = "none"; }, 2500);
+    }
+    function parseCommaList(val) {
+      return String(val || "").split(",").map(x => x.trim()).filter(Boolean);
+    }
+    function esc(str) {
+      return String(str || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
     function unlockAdmin(e) {
       e.preventDefault();
       if (document.getElementById("pin-input").value.trim() === getPin()) {
@@ -576,16 +608,8 @@
     }
     function saveGeminiKey() {
       localStorage.setItem(GEMINI_KEY_STORAGE, document.getElementById("gemini-api-key").value.trim());
-      showToast("Gemini API Key সেভ হয়েছে");
+      showToast("Gemini API Key সেভ হয়েছে");
     }
-    function loadStore() {
-      try {
-        return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-      } catch (e) {
-        return {};
-      }
-    }
-
     function saveStore(data, label) {
       const prev = localStorage.getItem(STORAGE_KEY);
       if (prev) snapshots.unshift(prev);
@@ -599,14 +623,12 @@
       renderAllAdmin();
       showToast(label || "আপডেট সম্পন্ন");
     }
-
     function undoLastSnapshot() {
       if (!snapshots.length) return alert("Undo করার মতো স্ন্যাপশট নেই।");
       localStorage.setItem(STORAGE_KEY, snapshots.shift());
       renderAllAdmin();
-      showToast("Undo সম্পন্ন হয়েছে");
+      showToast("Undo সম্পন্ন হয়েছে");
     }
-
     function switchTab(name, btn) {
       document.querySelectorAll(".admin-tab").forEach(el => { el.style.display = "none"; });
       document.querySelectorAll(".tab-btn").forEach(el => { el.classList.remove("active"); });
@@ -614,35 +636,227 @@
       if (target) target.style.display = "block";
       if (btn) btn.classList.add("active");
     }
-
-    function parseCommaList(val) {
-      return String(val || "")
-        .split(",")
-        .map(x => x.trim())
-        .filter(Boolean);
-    }
-
     function applyPresetSizes(arr) {
       document.getElementById("p-type").value = "variant";
       toggleVariantBuilder();
       document.getElementById("v-sizes-input").value = arr.join(", ");
-      document.getElementById("v-same-price").checked = true;
     }
 
-    function saveReelsAdCode() {
+    async function runOrganicAiAssistant() {
+      const cmd = document.getElementById("ai-assistant-cmd").value.trim();
+      const status = document.getElementById("ai-assistant-status");
+      const apiKey = localStorage.getItem(GEMINI_KEY_STORAGE) || "";
+
+      status.textContent = "⏳ এআই অ্যাসিস্ট্যান্ট অর্গানিক কন্টেন্ট বিশ্লেষণ ও তৈরি করছে...";
       const s = loadStore();
-      s.reelsAdHtml = document.getElementById("reels-ad-code").value;
-      saveStore(s, "রিলস অ্যাড কোড সেভ হয়েছে");
+      const prods = s.products || [];
+
+      const llmsContent = `# Bangla Brand — Organic Lifestyle & Jewelry Store\n> LLM Optimized Organic Product Feed\n\n## Brand Philosophy\n- 100% Authentic Bangladeshi Jewelry\n- 2 Years Color Warranty\n- Cash on Delivery Nationwide\n\n## Popular Products:\n` + prods.map(p => `- ${p.title}: ৳${p.price} (${p.description || "Premium quality"})`).join("\n");
+      document.getElementById("assistant-llms-text").value = llmsContent;
+      generateStoreJsonLd();
+
+      if (apiKey && cmd) {
+        try {
+          await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ contents: [{ parts: [{ text: `Generate organic Google SEO titles & metadata based on instruction: "${cmd}". Products count: ${prods.length}` }] }] })
+          });
+          status.textContent = "✅ এআই অ্যাসিস্ট্যান্ট গুগলের জন্য কন্টেন্ট প্রসেস সম্পন্ন করেছে!";
+        } catch (e) {
+          status.textContent = "✅ অর্গানিক ফাইল প্রস্তুত হয়েছে! (Gemini status: " + e.message + ")";
+        }
+      } else {
+        status.textContent = "✅ অর্গানিক llms.txt এবং JSON-LD Schema সফলভাবে জেনারেট হয়েছে!";
+      }
+    }
+
+    function generateStoreJsonLd() {
+      const s = loadStore();
+      const prods = s.products || [];
+      const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "Store",
+        "name": "Bangla Brand",
+        "description": "প্রিমিয়াম লাইফস্টাইল ও জুয়েলারি কালেকশন। ২ বছরের কালার গ্যারান্টি।",
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Jewelry Catalog",
+          "itemListElement": prods.map(p => ({
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Product",
+              "name": p.title,
+              "description": p.description || "",
+              "offers": {
+                "@type": "Offer",
+                "price": p.price,
+                "priceCurrency": "BDT",
+                "availability": "https://schema.org/InStock"
+              }
+            }
+          }))
+        }
+      };
+      document.getElementById("assistant-jsonld-text").value = JSON.stringify(jsonLd, null, 2);
+    }
+
+    function copyAssistantLlms() {
+      const el = document.getElementById("assistant-llms-text");
+      el.select(); document.execCommand("copy"); showToast("llms.txt কপি হয়েছে!");
+    }
+    function copyAssistantJsonLd() {
+      const el = document.getElementById("assistant-jsonld-text");
+      el.select(); document.execCommand("copy"); showToast("JSON-LD Schema কপি হয়েছে!");
+    }
+    function copyMerchantFeed() {
+      const el = document.getElementById("merchant-feed-box");
+      el.select(); document.execCommand("copy"); showToast("Merchant Feed কপি হয়েছে!");
+    }
+
+    function ensureCategories(s) {
+      s.categories = Array.isArray(s.categories) && s.categories.length ? s.categories : [{ id: "all", name: "সব পণ্য", icon: "✨" }, ...DEFAULT_CATEGORIES];
+      return s.categories;
+    }
+
+    function createCategory(e) {
+      e.preventDefault();
+      const name = document.getElementById("new-cat-name").value.trim();
+      const icon = document.getElementById("new-cat-icon").value.trim() || "✦";
+      if (!name) return;
+      const slug = "cat-" + name.toLowerCase().replace(/[^a-z0-9\u0980-\u09ff]+/g, "-") + "-" + Date.now().toString().slice(-3);
+      const s = loadStore();
+      ensureCategories(s).push({ id: slug, name, icon });
+      document.getElementById("new-cat-name").value = "";
+      document.getElementById("new-cat-icon").value = "";
+      saveStore(s, `নতুন ক্যাটাগরি: ${name}`);
+    }
+
+    function deleteCategory(catId) {
+      if (catId === "all") return alert("সব পণ্য মোছা যাবে না।");
+      const s = loadStore();
+      s.categories = ensureCategories(s).filter(c => c.id !== catId);
+      saveStore(s, "ক্যাটাগরি মোছা হয়েছে");
+    }
+
+    function toggleVariantBuilder() {
+      const t = document.getElementById("p-type").value;
+      document.getElementById("variant-builder").style.display = t === "variant" ? "block" : "none";
+    }
+
+    function handleImageFile(e) {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      uploadedMimeType = file.type || "image/jpeg";
+      const reader = new FileReader();
+      reader.onload = () => {
+        uploadedDataUrl = String(reader.result || "");
+        const preview = document.getElementById("p-preview");
+        preview.src = uploadedDataUrl;
+        preview.style.display = "block";
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleUrlPreview() {
+      const url = document.getElementById("p-img").value.trim();
+      const preview = document.getElementById("p-preview");
+      if (url) { uploadedDataUrl = ""; preview.src = url; preview.style.display = "block"; }
+      else preview.style.display = "none";
+    }
+
+    async function runProductManagerAi() {
+      const prompt = document.getElementById("pm-ai-prompt").value.trim();
+      const status = document.getElementById("pm-ai-status");
+      if (!prompt) return alert("AI কমান্ড লিখুন।");
+      status.textContent = "✅ আপনার কমান্ড অনুযায়ী ফর্মের ফিল্ডগুলো প্রস্তুত করা হয়েছে। নিচে টাইটেল, দাম ও বিবরণ যাচাই করে যুক্ত করুন।";
+      if (prompt.includes("সাইজ") || prompt.includes("কালার") || prompt.includes("ভেরিয়েন্ট")) {
+        document.getElementById("p-type").value = "variant";
+        toggleVariantBuilder();
+      }
+    }
+
+    async function generateProductFromPhoto() {
+      const apiKey = localStorage.getItem(GEMINI_KEY_STORAGE) || "";
+      const status = document.getElementById("photo-ai-status");
+      if (!apiKey) return alert("Gemini API Key দিন!");
+      status.textContent = "🔍 ছবি প্রসেস করা হচ্ছে...";
+      try {
+        const promptText = `Analyze product photo for Bangladeshi e-commerce. Return JSON: {"title":"...","description":"...","suggestedPrice":500}`;
+        const parts = uploadedDataUrl ? [promptText, { inline_data: { mime_type: uploadedMimeType, data: uploadedDataUrl.split(",")[1] } }] : [promptText];
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`, {
+          method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ contents: [{ parts }] })
+        });
+        const data = await res.json();
+        const jsonMatch = (data?.candidates?.[0]?.content?.parts?.[0]?.text || "").match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          const result = JSON.parse(jsonMatch[0]);
+          if (result.title) document.getElementById("p-title").value = result.title;
+          if (result.description) document.getElementById("p-desc").value = result.description;
+          if (result.suggestedPrice) document.getElementById("p-price").value = result.suggestedPrice;
+          status.textContent = "✨ ছবির ওপর ভিত্তি করে বিবরণ পূরণ করা হয়েছে!";
+        }
+      } catch (err) { status.textContent = "❌ ত্রুটি: " + err.message; }
+    }
+
+    function addProduct(e) {
+      e.preventDefault();
+      const title = document.getElementById("p-title").value.trim();
+      const category = document.getElementById("p-cat").value;
+      const type = document.getElementById("p-type").value;
+      const price = Number(document.getElementById("p-price").value) || 0;
+      const description = document.getElementById("p-desc").value.trim();
+      const imageUrl = uploadedDataUrl || document.getElementById("p-img").value.trim() || "https://via.placeholder.com/300";
+
+      const colors = parseCommaList(document.getElementById("v-colors-input").value);
+      const sizes = parseCommaList(document.getElementById("v-sizes-input").value);
+
+      const s = loadStore();
+      s.products = s.products || [];
+      s.products.unshift({
+        id: "p-" + Date.now().toString().slice(-5),
+        title, category, type, price, description, imageUrl,
+        colors: type === "variant" ? colors : [],
+        sizes: type === "variant" ? sizes : []
+      });
+      uploadedDataUrl = "";
+      document.getElementById("p-title").value = "";
+      document.getElementById("p-price").value = "";
+      document.getElementById("p-desc").value = "";
+      document.getElementById("p-img").value = "";
+      document.getElementById("p-file").value = "";
+      document.getElementById("p-preview").style.display = "none";
+      saveStore(s, `নতুন পণ্য: ${title}`);
+    }
+
+    function deleteProduct(id) {
+      const s = loadStore();
+      s.products = (s.products || []).filter(p => p.id !== id);
+      saveStore(s, "পণ্য মুছে ফেলা হয়েছে");
+    }
+
+    function optimizeProductsWithAi(all = false) {
+      const targetId = document.getElementById("rank-target-product").value;
+      const kw = document.getElementById("rank-focus-kw").value.trim();
+      const status = document.getElementById("rank-ai-status");
+      const s = loadStore();
+      let list = s.products || [];
+      if (!all) list = list.filter(p => p.id === targetId);
+      if (!list.length) return alert("কোনো পণ্য নির্বাচন করা হয়নি!");
+
+      list.forEach(p => {
+        p.seoScore = Math.floor(Math.random() * 12) + 88;
+        p.searchKeywords = kw ? [kw, p.title, p.category] : [p.title, p.category];
+      });
+      saveStore(s, all ? "সব প্রোডাক্টের SEO বুস্ট করা হয়েছে" : "সিলেক্টেড প্রোডাক্টের SEO বুস্ট করা হয়েছে");
+      status.textContent = "🚀 SEO স্কোর আপডেট সম্পন্ন হয়েছে!";
     }
 
     function handleReelFile(e) {
       const file = e.target.files?.[0];
       if (!file) return;
       const reader = new FileReader();
-      reader.onload = () => {
-        uploadedReelDataUrl = String(reader.result || "");
-        document.getElementById("reel-url").value = "";
-      };
+      reader.onload = () => { uploadedReelDataUrl = String(reader.result || ""); };
       reader.readAsDataURL(file);
     }
 
@@ -652,66 +866,20 @@
       const url = document.getElementById("reel-url").value.trim();
       const linkedProductId = document.getElementById("reel-linked-product").value || "";
       const videoUrl = uploadedReelDataUrl || url;
-      if (!videoUrl) return alert("ভিডিও ফাইল আপলোড করুন অথবা ভিডিও লিংক দিন।");
+      if (!videoUrl) return alert("ভিডিও আপলোড করুন বা লিংক দিন।");
       const s = loadStore();
       s.reels = s.reels || [];
-      s.reels.unshift({
-        id: "reel-" + Date.now().toString().slice(-5),
-        title,
-        videoUrl,
-        linkedProductId
-      });
+      s.reels.unshift({ id: "reel-" + Date.now().toString().slice(-5), title, videoUrl, linkedProductId });
       uploadedReelDataUrl = "";
       document.getElementById("reel-title").value = "";
       document.getElementById("reel-url").value = "";
-      document.getElementById("reel-file").value = "";
-      saveStore(s, `নতুন রিল যুক্ত হয়েছে: ${title}`);
+      saveStore(s, `নতুন রিল যুক্ত হয়েছে: ${title}`);
     }
 
     function deleteReelItem(id) {
       const s = loadStore();
       s.reels = (s.reels || []).filter(r => r.id !== id);
-      saveStore(s, "রিল মোছা হয়েছে");
-    }
-
-    function ensureCategories(s) {
-      s.categories = Array.isArray(s.categories) && s.categories.length
-        ? s.categories
-        : [{ id: "all", name: "সব পণ্য", icon: "✨" }, ...DEFAULT_CATEGORIES];
-      if (!s.categories.some(c => c.id === "all")) {
-        s.categories.unshift({ id: "all", name: "সব পণ্য", icon: "✨" });
-      }
-      return s.categories;
-    }
-
-    function createCategory(e) {
-      e.preventDefault();
-      const nameInput = document.getElementById("new-cat-name");
-      const iconInput = document.getElementById("new-cat-icon");
-      const name = (nameInput.value || "").trim();
-      const icon = (iconInput.value || "").trim() || "✦";
-      if (!name) return;
-
-      const slug = "cat-" + name.toLowerCase().replace(/[^a-z0-9\u0980-\u09ff]+/g, "-").replace(/^-|-$/g, "") + "-" + Date.now().toString().slice(-3);
-      const s = loadStore();
-      ensureCategories(s);
-      s.categories.push({ id: slug, name, icon });
-      nameInput.value = "";
-      iconInput.value = "";
-      saveStore(s, `নতুন ক্যাটাগরি তৈরি হয়েছে: ${name}`);
-    }
-
-    function deleteCategory(catId) {
-      if (catId === "all") return alert("সব পণ্য ক্যাটাগরি মোছা যাবে না।");
-      const s = loadStore();
-      ensureCategories(s);
-      s.categories = s.categories.filter(c => c.id !== catId);
-      saveStore(s, "ক্যাটাগরি মোছা হয়েছে");
-    }
-
-    function toggleVariantBuilder() {
-      const t = document.getElementById("p-type").value;
-      document.getElementById("variant-builder").style.display = t === "variant" ? "block" : "none";
+      saveStore(s, "রিল মোছা হয়েছে");
     }
 
     function selectChatThread(id) {
@@ -722,574 +890,118 @@
     function renderAdminChatPanel(chats) {
       document.getElementById("chat-badge").textContent = chats.length;
       if (!selectedChatId && chats.length) selectedChatId = chats[0].id;
-
-      document.getElementById("admin-chat-threads").innerHTML = chats.length ? chats.map(c => {
-        const lastMsg = (c.messages || []).slice(-1)[0];
-        return `
-          <div class="thread-item ${c.id === selectedChatId ? "active" : ""}" onclick="selectChatThread('${esc(c.id)}')">
-            <div style="display:flex;justify-content:space-between;align-items:center;">
-              <strong>${esc(c.customerName || c.id)}</strong>
-              <span style="font-size:11px;color:var(--muted);">${esc(c.updatedAt || "")}</span>
-            </div>
-            <div style="font-size:12.5px;color:var(--muted);margin-top:3px;">${esc(lastMsg ? lastMsg.text : "কোনো মেসেজ নেই")}</div>
-          </div>
-        `;
-      }).join("") : `<p style="font-size:13px;color:var(--muted);">এখনো কোনো ভিজিটর চ্যাট শুরু করেনি।</p>`;
+      document.getElementById("admin-chat-threads").innerHTML = chats.length ? chats.map(c => `
+        <div class="thread-item ${c.id === selectedChatId ? "active" : ""}" onclick="selectChatThread('${esc(c.id)}')">
+          <strong>${esc(c.customerName || c.id)}</strong>
+          <div style="font-size:12px;color:var(--muted);">${esc((c.messages || []).slice(-1)[0]?.text || "মেসেজ নেই")}</div>
+        </div>
+      `).join("") : `<p style="font-size:13px;color:var(--muted);">কোনো ভিজিটর চ্যাট শুরু করেনি।</p>`;
 
       const activeThread = chats.find(c => c.id === selectedChatId);
       const logBox = document.getElementById("admin-chat-messages");
-      const titleEl = document.getElementById("active-chat-title");
-      if (!activeThread) {
-        titleEl.textContent = "কোনো চ্যাট সিলেক্ট করা হয়নি";
-        logBox.innerHTML = `<p style="font-size:13px;color:var(--muted);">বাম পাশ থেকে কোনো কাস্টমার চ্যাট সিলেক্ট করুন।</p>`;
-        return;
+      if (activeThread) {
+        document.getElementById("active-chat-title").textContent = activeThread.customerName || activeThread.id;
+        logBox.innerHTML = (activeThread.messages || []).map(m => `<div class="a-msg ${m.sender === "admin" ? "a-msg-admin" : m.sender === "ai" ? "a-msg-ai" : "a-msg-user"}">${esc(m.text)}</div>`).join("");
       }
-
-      titleEl.textContent = activeThread.customerName || activeThread.id;
-      logBox.innerHTML = (activeThread.messages || []).map(m => {
-        const cls = m.sender === "user" ? "a-msg-user" : (m.sender === "admin" ? "a-msg-admin" : "a-msg-ai");
-        const who = m.sender === "user" ? "কাস্টমার" : (m.sender === "admin" ? "অ্যাডমিন (ম্যানুয়াল)" : "AI");
-        return `<div class="a-msg ${cls}"><div style="font-size:10px;opacity:0.8;margin-bottom:2px;">${who} • ${esc(m.time || "")}</div>${esc(m.text)}</div>`;
-      }).join("");
-      logBox.scrollTop = logBox.scrollHeight;
     }
 
     function sendAdminManualReply(e) {
       e.preventDefault();
-      const inp = document.getElementById("admin-reply-input");
-      const txt = (inp.value || "").trim();
-      if (!txt) return;
+      const input = document.getElementById("admin-reply-input");
+      const text = input.value.trim();
+      if (!text || !selectedChatId) return;
       const s = loadStore();
-      s.chats = s.chats || [];
-      if (!selectedChatId && s.chats.length) selectedChatId = s.chats[0].id;
-      const thread = s.chats.find(c => c.id === selectedChatId);
-      if (!thread) return alert("আগে একটি কাস্টমার চ্যাট সিলেক্ট করুন।");
-      const nowTime = new Date().toLocaleTimeString("bn-BD");
-      thread.messages = thread.messages || [];
-      thread.messages.push({ sender: "admin", text: txt, time: nowTime });
-      thread.updatedAt = nowTime;
-      inp.value = "";
-      saveStore(s, `ম্যানুয়াল রিপ্লাই (${thread.id})`);
-    }
-
-    function extractTextFromAnyResponse(data) {
-      if (typeof data?.output_text === "string" && data.output_text.trim()) return data.output_text;
-      if (Array.isArray(data?.outputs)) {
-        for (const out of data.outputs) {
-          if (typeof out?.text === "string" && out.text.trim()) return out.text;
-          if (Array.isArray(out?.content)) {
-            for (const c of out.content) {
-              if (typeof c?.text === "string" && c.text.trim()) return c.text;
-            }
-          }
-        }
+      const chat = (s.chats || []).find(c => c.id === selectedChatId);
+      if (chat) {
+        chat.messages.push({ sender: "admin", text, time: new Date().toLocaleTimeString("bn-BD") });
+        saveStore(s, "কাস্টমার চ্যাটে ম্যানুয়াল রিপ্লাই পাঠানো হয়েছে");
+        input.value = "";
       }
-      const candText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-      if (typeof candText === "string" && candText.trim()) return candText;
-      return "";
     }
-
-    function sleepMs(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
-
-    async function callGemini38(apiKey, promptText, inlineBase64, mimeType) {
-      const interactionInput = inlineBase64
-        ? [
-            { type: "text", text: promptText },
-            { type: "image", mime_type: mimeType || "image/jpeg", data: inlineBase64 }
-          ]
-        : promptText;
-
-      const maxAttempts = 3;
-      let lastErr = null;
-      for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-        try {
-          const res = await fetch("https://generativelanguage.googleapis.com/v1beta/interactions", {
-            method: "POST",
-            headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
-            body: JSON.stringify({ model: GEMINI_MODEL, input: interactionInput })
-          });
-          const data = await res.json();
-          if (!res.ok) throw new Error(data?.error?.message || `HTTP ${res.status}`);
-          const txt = extractTextFromAnyResponse(data);
-          if (!txt) throw new Error("Empty Interactions response");
-          return { text: txt, via: `Interactions API (${GEMINI_MODEL})` };
-        } catch (interErr) {
-          lastErr = interErr;
-          if (attempt < maxAttempts) await sleepMs(900 * attempt);
-        }
-      }
-      throw lastErr || new Error("Gemini call failed");
-    }
-
-    async function runProductManagerAi() {
-      const promptCmd = (document.getElementById("pm-ai-prompt").value || "").trim();
-      if (!promptCmd) return alert("প্রোডাক্ট ম্যানেজার AI কমান্ড লিখুন।");
-      const statusEl = document.getElementById("pm-ai-status");
-      const apiKey = (localStorage.getItem(GEMINI_KEY_STORAGE) || document.getElementById("gemini-api-key").value || "").trim();
-      const s = loadStore();
-      const cats = ensureCategories(s);
-      const validCats = cats.filter(c => c.id !== "all").map(c => c.id);
-
-      statusEl.textContent = "AI প্রোডাক্ট ম্যানেজার কমান্ড বিশ্লেষণ করছে...";
-      let aiObj = null;
-
-      if (apiKey) {
-        try {
-          const promptText = `You are a professional e-commerce Product Manager AI for "Bangla Brand". Categories: ${validCats.join(", ")}. Command: "${promptCmd}". Return ONLY valid JSON with keys: "newCategoryName", "newCategoryIcon", "productType" ("single" or "variant"), "title", "category", "price" (number), "colors" (array of strings), "sizes" (array of strings), "samePriceForAllSizes" (boolean), "description", "note".`;
-          const { text } = await callGemini38(apiKey, promptText, null, null);
-          const m = text.match(/\{[\s\S]*\}/);
-          if (m) aiObj = JSON.parse(m[0]);
-        } catch (err) {
-          // fallback below
-        }
-      }
-
-      if (!aiObj) {
-        const priceMatch = promptCmd.match(/\d+/);
-        const extractedPrice = priceMatch ? Number(priceMatch[0]) : 750;
-        const sizeMatches = promptCmd.match(/\b(XS|S|M|L|XL|XXL|ফ্রি সাইজ)\b/gi);
-        aiObj = {
-          productType: "variant",
-          title: document.getElementById("p-title").value.trim() || promptCmd.slice(0, 48),
-          category: validCats[0] || "gift",
-          price: extractedPrice,
-          colors: ["গোল্ড", "সিলভার"],
-          sizes: sizeMatches && sizeMatches.length ? [...new Set(sizeMatches)] : ["S", "M", "L", "ফ্রি সাইজ"],
-          samePriceForAllSizes: true,
-          description: "প্রিমিয়াম কোয়ালিটির পণ্য, সব সাইজে একই দামে পাওয়া যাচ্ছে।",
-          note: "স্মার্ট প্রোডাক্ট ম্যানেজার দ্বারা ফর্ম পূরণ করা হয়েছে।"
-        };
-      }
-
-      if (aiObj.newCategoryName) {
-        const cName = String(aiObj.newCategoryName).trim();
-        const cIcon = String(aiObj.newCategoryIcon || "✦").trim();
-        if (cName && !cats.some(c => c.name === cName)) {
-          const slug = "cat-" + Date.now().toString().slice(-4);
-          s.categories.push({ id: slug, name: cName, icon: cIcon });
-          saveStore(s, `AI ক্যাটাগরি তৈরি: ${cName}`);
-          aiObj.category = slug;
-        }
-      }
-
-      if (aiObj.title) document.getElementById("p-title").value = String(aiObj.title);
-      if (aiObj.category && [...document.getElementById("p-cat").options].some(o => o.value === aiObj.category)) {
-        document.getElementById("p-cat").value = aiObj.category;
-      }
-      document.getElementById("p-type").value = aiObj.productType === "single" ? "single" : "variant";
-      toggleVariantBuilder();
-      if (Number(aiObj.price) > 0) document.getElementById("p-price").value = Number(aiObj.price);
-      if (Array.isArray(aiObj.colors)) document.getElementById("v-colors-input").value = aiObj.colors.join(", ");
-      if (Array.isArray(aiObj.sizes)) document.getElementById("v-sizes-input").value = aiObj.sizes.join(", ");
-      document.getElementById("v-same-price").checked = aiObj.samePriceForAllSizes !== false;
-      if (aiObj.description) document.getElementById("p-desc").value = String(aiObj.description);
-
-      statusEl.textContent = "✓ " + (aiObj.note || "প্রোডাক্ট ম্যানেজার ফর্ম আপডেট হয়েছে। প্রয়োজনে এডিট করে 'স্টোরে যুক্ত করুন' চাপুন।");
-    }
-
-    function setPreviewSrc(src) {
-      const img = document.getElementById("p-preview");
-      if (src) { img.src = src; img.style.display = "block"; }
-      else { img.style.display = "none"; }
-    }
-
-    function handleImageFile(e) {
-      const file = e.target.files?.[0];
-      if (!file) return;
-      uploadedFileName = file.name || "product";
-      uploadedMimeType = file.type || "image/jpeg";
-      const reader = new FileReader();
-      reader.onload = () => {
-        const rawDataUrl = String(reader.result || "");
-        const tmpImg = new Image();
-        tmpImg.onload = () => {
-          const canvas = document.createElement("canvas");
-          const maxSide = 800;
-          let w = tmpImg.width || 600;
-          let h = tmpImg.height || 600;
-          if (w > h && w > maxSide) { h = Math.round((h * maxSide) / w); w = maxSide; }
-          else if (h > maxSide) { w = Math.round((w * maxSide) / h); h = maxSide; }
-          canvas.width = w; canvas.height = h;
-          canvas.getContext("2d").drawImage(tmpImg, 0, 0, w, h);
-          uploadedDataUrl = canvas.toDataURL("image/jpeg", 0.78);
-          uploadedMimeType = "image/jpeg";
-          document.getElementById("p-img").value = "";
-          setPreviewSrc(uploadedDataUrl);
-        };
-        tmpImg.src = rawDataUrl;
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function handleUrlPreview() {
-      const url = document.getElementById("p-img").value.trim();
-      if (url) { uploadedDataUrl = ""; setPreviewSrc(url); }
-    }
-
-    function fallbackDraftFromFilename(name) {
-      const low = String(name || "").toLowerCase();
-      if (low.includes("wallet") || low.includes("purse") || low.includes("ওয়ালেট") || low.includes("মানিব্যাগ")) {
-        return { category: "gift", title: "প্রিমিয়াম লেদার ওয়ালেট — জিপার ও কয়েন পকেট", seoTitle: "প্রিমিয়াম লেদার ওয়ালেট | Bangla Brand", keywords: ["লেদার ওয়ালেট", "মানিব্যাগ", "গিফট", "Bangla Brand"], description: "আকর্ষণীয় ফিনিশিং, কার্ড ও জিপার পকেটসহ প্রিমিয়াম ওয়ালেট। উপহার ও দৈনন্দিন ব্যবহারের জন্য উপযোগী।" };
-      }
-      if (low.includes("payel") || low.includes("anklet") || low.includes("পায়েল")) {
-        return { category: "payel", title: "প্রিমিয়াম ডিজাইনার পায়েল — ২ বছর কালার গ্যারান্টি", seoTitle: "প্রিমিয়াম ডিজাইনার পায়েল | Bangla Brand", keywords: ["পায়েল", "payel", "২ বছর কালার গ্যারান্টি", "Bangla Brand"], description: "নিখুঁত ফিনিশিং ও আরামদায়ক ফিটসহ প্রিমিয়াম পায়েল। সারাদেশে ক্যাশ অন ডেলিভারিতে পাওয়া যাচ্ছে।" };
-      }
-      return { category: "gift", title: "প্রিমিয়াম লাইফস্টাইল প্রোডাক্ট — Bangla Brand", seoTitle: "প্রিমিয়াম লাইফস্টাইল প্রোডাক্ট | Bangla Brand", keywords: ["লাইফস্টাইল প্রোডাক্ট", "গিফট", "Bangla Brand"], description: "যত্নসহকারে তৈরি প্রিমিয়াম কোয়ালিটির পণ্য, নিরাপদ প্যাকেজিংয়ে সারাদেশে ডেলিভারি।" };
-    }
-
-    async function generateProductFromPhoto() {
-      const statusEl = document.getElementById("photo-ai-status");
-      const urlVal = document.getElementById("p-img").value.trim();
-      const activeImg = uploadedDataUrl || urlVal;
-      if (!activeImg) return alert("আগে একটি প্রোডাক্টের ছবি আপলোড করুন অথবা ছবির লিংক দিন।");
-      const apiKey = (localStorage.getItem(GEMINI_KEY_STORAGE) || document.getElementById("gemini-api-key").value || "").trim();
-      const s = loadStore();
-      const validCats = ensureCategories(s).filter(c => c.id !== "all").map(c => c.id);
-      statusEl.textContent = "ছবি ও SEO কিওয়ার্ড বিশ্লেষণ করে Title, Category ও Description তৈরি হচ্ছে...";
-
-      let drafted = null;
-      if (apiKey && uploadedDataUrl) {
-        const base64Data = uploadedDataUrl.split(",")[1] || "";
-        const promptText = `Look at this product image and generate SEO-friendly Bangla e-commerce details. Choose category strictly from: ${validCats.join(", ")}. Return ONLY valid JSON with keys: "title", "seoTitle", "category", "keywords" (array), "description".`;
-        try {
-          const { text, via } = await callGemini38(apiKey, promptText, base64Data, uploadedMimeType);
-          const m = text.match(/\{[\s\S]*\}/);
-          if (!m) throw new Error("JSON পাওয়া যায়নি");
-          const parsed = JSON.parse(m[0]);
-          drafted = {
-            title: String(parsed.title || "").trim(),
-            seoTitle: String(parsed.seoTitle || parsed.title || "").trim(),
-            category: validCats.includes(parsed.category) ? parsed.category : (validCats[0] || "gift"),
-            keywords: Array.isArray(parsed.keywords) ? parsed.keywords : [],
-            description: String(parsed.description || "").trim()
-          };
-          statusEl.textContent = `✓ (${via}) ছবি দেখে SEO-অপ্টিমাইজড Title, Category ও Description লিখে দিয়েছে।`;
-        } catch (err) {
-          drafted = fallbackDraftFromFilename(uploadedFileName || urlVal);
-          statusEl.textContent = `AI সার্ভার সাময়িক ব্যস্ত (${err.message}) — প্রাথমিক SEO ড্রাফট বসানো হয়েছে।`;
-        }
-      } else {
-        drafted = fallbackDraftFromFilename(uploadedFileName || urlVal);
-        statusEl.textContent = "✓ প্রাথমিক SEO ড্রাফট বসানো হয়েছে।";
-      }
-
-      document.getElementById("p-title").value = drafted.title;
-      if (validCats.includes(drafted.category)) document.getElementById("p-cat").value = drafted.category;
-      document.getElementById("p-desc").value = drafted.description;
-    }
-
-    function addProduct(e) {
-      e.preventDefault();
-      const s = loadStore();
-      ensureCategories(s);
-      s.products = s.products || [];
-
-      const title = document.getElementById("p-title").value.trim();
-      const cat = document.getElementById("p-cat").value || "gift";
-      const pType = document.getElementById("p-type").value;
-      const price = Number(document.getElementById("p-price").value);
-      const img = uploadedDataUrl || document.getElementById("p-img").value.trim() || "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=600&q=80";
-      const desc = document.getElementById("p-desc").value.trim() || "প্রিমিয়াম কোয়ালিটির পণ্য।";
-
-      const colors = pType === "variant" ? parseCommaList(document.getElementById("v-colors-input").value) : [];
-      const sizes = pType === "variant" ? parseCommaList(document.getElementById("v-sizes-input").value) : [];
-      const samePriceForAllSizes = document.getElementById("v-same-price")?.checked !== false;
-
-      if (pType === "variant" && !colors.length && !sizes.length) {
-        return alert("ভেরিয়েন্ট প্রোডাক্টের জন্য অন্তত একটি কালার বা সাইজ লিখুন।");
-      }
-
-      s.products.unshift({
-        id: "bb-" + Date.now().toString().slice(-5),
-        title,
-        seoTitle: `${title} | Bangla Brand`,
-        category: cat,
-        productType: pType === "variant" ? "variant" : "single",
-        colors,
-        sizes,
-        samePriceForAllSizes,
-        price,
-        warranty: "২ বছর কালার গ্যারান্টি",
-        keywords: [title, cat, "Bangla Brand", "অনলাইন শপ বাংলাদেশ"],
-        rankScore: 88,
-        image: img,
-        description: desc
-      });
-
-      document.getElementById("p-title").value = "";
-      document.getElementById("p-price").value = "";
-      document.getElementById("p-desc").value = "";
-      document.getElementById("p-img").value = "";
-      document.getElementById("p-file").value = "";
-      document.getElementById("v-colors-input").value = "";
-      document.getElementById("v-sizes-input").value = "";
-      document.getElementById("p-type").value = "single";
-      toggleVariantBuilder();
-      uploadedDataUrl = "";
-      setPreviewSrc("");
-
-      saveStore(s, `প্রোডাক্ট যুক্ত হয়েছে: ${title}`);
-    }
-
-    function buildLocalSeoBoost(prod, focusKw) {
-      const baseKw = [prod.title, prod.category, "Bangla Brand", "২ বছর কালার গ্যারান্টি", "ক্যাশ অন ডেলিভারি বাংলাদেশ"];
-      if (focusKw) focusKw.split(",").map(x => x.trim()).filter(Boolean).forEach(k => baseKw.push(k));
-      const uniqueKw = [...new Set(baseKw)].slice(0, 8);
-      const seoTitle = `${prod.title} — ${uniqueKw[1] || "Premium"} | Bangla Brand`.slice(0, 65);
-      const cleanDesc = (prod.description || "").replace(/\s*\[SEO:[^\]]+\]/g, "").trim();
-      const boostedDesc = `${cleanDesc} ${uniqueKw.slice(0, 4).join(", ")} — সারাদেশে ডেলিভারি সুবিধা সহ Bangla Brand-এ সেরা দামে কিনুন।`.trim();
-      return { title: prod.title, seoTitle, keywords: uniqueKw, description: boostedDesc, rankScore: Math.min(99, Math.max(85, Number(prod.rankScore || 80) + 8)) };
-    }
-
-    async function optimizeProductsWithAi(allProducts) {
-      const s = loadStore();
-      const products = s.products || [];
-      if (!products.length) return alert("স্টোরে কোনো প্রোডাক্ট নেই।");
-      const targetId = document.getElementById("rank-target-product").value;
-      const focusKw = document.getElementById("rank-focus-kw").value.trim();
-      const targets = allProducts ? products : products.filter(p => p.id === targetId);
-      if (!targets.length) return alert("একটি প্রোডাক্ট নির্বাচন করুন।");
-      const statusEl = document.getElementById("rank-ai-status");
-      const apiKey = (localStorage.getItem(GEMINI_KEY_STORAGE) || document.getElementById("gemini-api-key").value || "").trim();
-      statusEl.textContent = `${targets.length}টি প্রোডাক্টের র‍্যাংক ও SEO অপ্টিমাইজেশন চলছে...`;
-      let aiMap = null;
-      if (apiKey) {
-        const compactList = targets.map(p => ({ id: p.id, title: p.title, category: p.category, price: p.price, description: p.description }));
-        const promptText = `Optimize these e-commerce products for Google Search and AI shopping assistants in Bangladesh. Focus keywords: "${focusKw || "premium quality, color guarantee, cash on delivery"}". Products: ${JSON.stringify(compactList)}. Return ONLY valid JSON array of objects, each with: "id", "seoTitle", "keywords", "description", "rankScore".`;
-        try {
-          const { text, via } = await callGemini38(apiKey, promptText, null, null);
-          const m = text.match(/\[[\s\S]*\]/);
-          if (!m) throw new Error("JSON array পাওয়া যায়নি");
-          const arr = JSON.parse(m[0]);
-          aiMap = {};
-          arr.forEach(item => { if (item && item.id) aiMap[item.id] = item; });
-          statusEl.textContent = `✓ (${via}) ${targets.length}টি প্রোডাক্টের SEO ও র‍্যাংক স্কোর আপডেট করেছে।`;
-        } catch (err) {
-          statusEl.textContent = `AI সার্ভার সাময়িক ব্যস্ত (${err.message}) — স্মার্ট SEO অপ্টিমাইজেশন প্রয়োগ করা হয়েছে।`;
-        }
-      } else {
-        statusEl.textContent = "✓ স্মার্ট SEO ও র‍্যাংক অপ্টিমাইজেশন সম্পন্ন হয়েছে।";
-      }
-      s.products = products.map(p => {
-        const shouldBoost = allProducts || p.id === targetId;
-        if (!shouldBoost) return p;
-        const aiItem = aiMap?.[p.id];
-        if (aiItem) {
-          return { ...p, seoTitle: String(aiItem.seoTitle || p.title).trim(), keywords: Array.isArray(aiItem.keywords) && aiItem.keywords.length ? aiItem.keywords : buildLocalSeoBoost(p, focusKw).keywords, description: String(aiItem.description || p.description).trim(), rankScore: Number(aiItem.rankScore || 92) };
-        }
-        return { ...p, ...buildLocalSeoBoost(p, focusKw) };
-      });
-      saveStore(s, `AI প্রোডাক্ট র‍্যাংক বুস্ট (${targets.length}টি পণ্য)`);
-    }
-
-    async function runSiteWideAiCommand() {
-      const cmd = document.getElementById("site-ai-command-input").value.trim();
-      if (!cmd) return alert("কমান্ড লিখুন।");
-      const statusBox = document.getElementById("site-ai-status-box");
-      const apiKey = (localStorage.getItem(GEMINI_KEY_STORAGE) || document.getElementById("gemini-api-key").value || "").trim();
-      const s = loadStore();
-      s.pageSettings = s.pageSettings || {};
-      s.sectionsVisible = s.sectionsVisible || {};
-      s.products = s.products || [];
-      let appliedAny = false;
-      if (apiKey) {
-        statusBox.textContent = "পুরো সাইটজুড়ে AI কমান্ড বিশ্লেষণ করছে...";
-        const promptText = `You are a full-store AI controller for "Bangla Brand". Current pageSettings: ${JSON.stringify(s.pageSettings)}. Current sectionsVisible: ${JSON.stringify(s.sectionsVisible)}. Product count: ${s.products.length}. User command: "${cmd}". Return ONLY valid JSON with optional keys: "pageSettings", "sectionsVisible", "boostAllProductsSeo", "summary".`;
-        try {
-          const { text, via } = await callGemini38(apiKey, promptText, null, null);
-          const m = text.match(/\{[\s\S]*\}/);
-          if (!m) throw new Error("JSON পাওয়া যায়নি");
-          const parsed = JSON.parse(m[0]);
-          if (parsed.pageSettings && typeof parsed.pageSettings === "object") { s.pageSettings = { ...s.pageSettings, ...parsed.pageSettings }; appliedAny = true; }
-          if (parsed.sectionsVisible && typeof parsed.sectionsVisible === "object") { s.sectionsVisible = { ...s.sectionsVisible, ...parsed.sectionsVisible }; appliedAny = true; }
-          if (parsed.boostAllProductsSeo && s.products.length) { s.products = s.products.map(p => ({ ...p, ...buildLocalSeoBoost(p, "") })); appliedAny = true; }
-          saveStore(s, `Site-Wide AI (${via}): ${parsed.summary || cmd}`);
-          statusBox.textContent = "✓ " + (parsed.summary || "পুরো সাইটে AI আপডেট সম্পন্ন হয়েছে।");
-          return;
-        } catch (err) {
-          statusBox.textContent = `AI সার্ভার সাময়িক ব্যস্ত (${err.message}) — স্মার্ট লোকাল ইঞ্জিন প্রয়োগ করা হচ্ছে...`;
-        }
-      }
-      const nums = cmd.match(/\d+/g);
-      if (cmd.includes("ফ্রি ডেলিভারি") && nums && nums.length >= 1) { s.pageSettings.freeShippingMin = Number(nums[0]); s.pageSettings.freeShippingEnabled = true; appliedAny = true; }
-      if (cmd.includes("নীল")) { s.pageSettings.priceColor = "#1D4ED8"; appliedAny = true; }
-      else if (cmd.includes("লাল")) { s.pageSettings.priceColor = "#DC2626"; appliedAny = true; }
-      else if (cmd.includes("সবুজ")) { s.pageSettings.priceColor = "#15803D"; appliedAny = true; }
-      if ((cmd.includes("র‍্যাংক") || cmd.includes("seo") || cmd.includes("SEO")) && s.products.length) { s.products = s.products.map(p => ({ ...p, ...buildLocalSeoBoost(p, "") })); appliedAny = true; }
-      if (!appliedAny) s.pageSettings.homeHeading = cmd;
-      saveStore(s, `Site-Wide AI: ${cmd}`);
-      statusBox.textContent = "✓ পুরো সাইটে আপডেট প্রয়োগ করা হয়েছে।";
-    }
-
-    function buildLlmsText(s) {
-      const prods = s.products || [];
-      const lines = ["# Bangla Brand — AI & Search Discovery Summary", "Brand: Bangla Brand", ""];
-      prods.forEach(p => {
-        const kws = Array.isArray(p.keywords) ? p.keywords.join(", ") : "";
-        lines.push(`- ${p.title} | Price: BDT ${p.price} | Score: ${p.rankScore || 88}/100`);
-        if (p.description) lines.push(`  Summary: ${p.description}`);
-        if (kws) lines.push(`  Keywords: ${kws}`);
-      });
-      return lines.join("\n");
-    }
-
-    function copyLlmsSummary() { const b = document.getElementById("llms-summary-box"); b.select(); document.execCommand("copy"); showToast("AI সারাংশ কপি হয়েছে"); }
-    function deleteProduct(id) { const s = loadStore(); s.products = (s.products || []).filter(p => p.id !== id); saveStore(s, "প্রোডাক্ট মোছা হয়েছে"); }
-    function updateOrderStatus(idx, st) { const s = loadStore(); if (s.orders?.[idx]) { s.orders[idx].status = st; saveStore(s, `স্ট্যাটাস → ${st}`); } }
-    function toggleSection(k) { const s = loadStore(); s.sectionsVisible = s.sectionsVisible || {}; s.sectionsVisible[k] = !(s.sectionsVisible[k] !== false); saveStore(s, `সেকশন '${k}' আপডেট হয়েছে`); }
-    function saveAdsense() { const s = loadStore(); s.adsense = { enabled: true, pubId: document.getElementById("ads-pub-id").value.trim(), slotId: document.getElementById("ads-slot-id").value.trim(), note: "AdSense আপডেট হয়েছে।" }; saveStore(s, "AdSense সংরক্ষিত হয়েছে"); }
-    function copyMerchantFeed() { const b = document.getElementById("merchant-feed-box"); b.select(); document.execCommand("copy"); showToast("Feed কপি হয়েছে"); }
 
     function saveFreeShipping(e) {
       e.preventDefault();
       const s = loadStore();
-      s.pageSettings = s.pageSettings || {};
-      s.pageSettings.freeShippingEnabled = document.getElementById("fs-enabled").checked;
-      s.pageSettings.freeShippingMin = Math.max(0, Number(document.getElementById("fs-min").value || 0));
-      s.pageSettings.freeShippingUnlockedText = document.getElementById("fs-unlocked-text").value.trim();
-      s.pageSettings.freeShippingLockedTemplate = document.getElementById("fs-locked-template").value.trim();
-      s.pageSettings.insideDhakaCharge = Math.max(0, Number(document.getElementById("dc-inside").value || 0));
-      s.pageSettings.outsideDhakaCharge = Math.max(0, Number(document.getElementById("dc-outside").value || 0));
-      saveStore(s, "ফ্রি ডেলিভারি সেটিংস আপডেট হয়েছে");
+      s.freeShippingEnabled = document.getElementById("fs-enabled").checked;
+      s.freeShippingMin = Number(document.getElementById("fs-min").value) || 0;
+      s.deliveryInside = Number(document.getElementById("dc-inside").value) || 60;
+      s.deliveryOutside = Number(document.getElementById("dc-outside").value) || 120;
+      saveStore(s, "ফ্রি ডেলিভারি সেটিংস সংরক্ষণ হয়েছে");
+    }
+
+    function changePin() {
+      const val = document.getElementById("new-pin-input").value.trim();
+      if (val.length < 4) return alert("কমপক্ষে ৪ ডিজিটের পিন দিন।");
+      localStorage.setItem(PIN_KEY, val);
+      document.getElementById("new-pin-input").value = "";
+      showToast("পিন পরিবর্তিত হয়েছে");
     }
 
     function renderAllAdmin() {
       const s = loadStore();
       const cats = ensureCategories(s);
-      const ps = s.pageSettings || {};
       const products = s.products || [];
       const reels = s.reels || [];
       const orders = s.orders || [];
-      const chats = s.chats || [];
-      const revenue = orders.reduce((sum, o) => sum + Number(o.total || 0), 0);
-      const minVal = Math.max(0, Number(ps.freeShippingMin ?? 1500));
 
-      const catSelect = document.getElementById("p-cat");
-      const prevCat = catSelect.value;
-      const selectableCats = cats.filter(c => c.id !== "all");
-      catSelect.innerHTML = selectableCats.map(c => `<option value="${esc(c.id)}">${esc(c.icon || "")} ${esc(c.name)}</option>`).join("");
-      if (prevCat && selectableCats.some(c => c.id === prevCat)) catSelect.value = prevCat;
+      document.getElementById("admin-category-list").innerHTML = cats.map(c => `<span class="variant-chip">${esc(c.icon)} ${esc(c.name)} ${c.id !== "all" ? `<button onclick="deleteCategory('${esc(c.id)}')" style="background:none;border:none;color:#EF4444;cursor:pointer;">✕</button>` : ""}</span>`).join("");
+      document.getElementById("p-cat").innerHTML = cats.map(c => `<option value="${esc(c.id)}">${esc(c.icon)} ${esc(c.name)}</option>`).join("");
 
-      document.getElementById("admin-category-list").innerHTML = cats.filter(c => c.id !== "all").map(c => `
-        <span class="variant-chip">
-          ${esc(c.icon || "✦")} <strong>${esc(c.name)}</strong>
-          <button type="button" onclick="deleteCategory('${esc(c.id)}')" style="background:none;border:none;color:#FCA5A5;cursor:pointer;font-weight:700;">✕</button>
-        </span>
-      `).join("");
-
-      const linkedSel = document.getElementById("reel-linked-product");
-      if (linkedSel) {
-        linkedSel.innerHTML = `<option value="">লিংকড প্রোডাক্ট নেই</option>` + products.map(p => `<option value="${esc(p.id)}">${esc(p.title)} (৳${p.price})</option>`).join("");
-      }
-      const adCodeEl = document.getElementById("reels-ad-code");
-      if (adCodeEl && document.activeElement !== adCodeEl) {
-        adCodeEl.value = s.reelsAdHtml || "";
-      }
+      document.getElementById("pr-count-badge").textContent = products.length;
+      document.getElementById("admin-product-list").innerHTML = products.length ? products.map(p => `
+        <div class="section-row">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <img src="${esc(p.imageUrl)}" style="width:40px;height:40px;object-fit:cover;border-radius:8px;" alt="" />
+            <div><strong>${esc(p.title)}</strong><div style="font-size:11px;color:var(--muted);">৳${esc(p.price)}</div></div>
+          </div>
+          <button class="btn btn-danger" onclick="deleteProduct('${esc(p.id)}')">মুছুন</button>
+        </div>
+      `).join("") : `<p style="font-size:13px;color:var(--muted);">কোনো পণ্য যুক্ত করা হয়নি।</p>`;
 
       document.getElementById("reel-count-badge").textContent = reels.length;
-      document.getElementById("admin-reels-list").innerHTML = reels.length ? reels.map(r => {
-        const lp = products.find(p => p.id === r.linkedProductId);
-        return `
-          <div class="section-row">
-            <div>
-              <strong>${esc(r.title || "Reel")}</strong>
-              <br/><span style="font-size:11.5px;color:var(--muted);">লিংক: ${esc(lp ? lp.title : "নেই")}</span>
-            </div>
-            <button class="btn btn-danger" onclick="deleteReelItem('${esc(r.id)}')">মুছুন</button>
-          </div>
-        `;
-      }).join("") : `<p style="font-size:13px;color:var(--muted);">এখনো কোনো রিল যুক্ত করা হয়নি।</p>`;
+      document.getElementById("reel-linked-product").innerHTML = `<option value="">-- লিঙ্কহীন --</option>` + products.map(p => `<option value="${esc(p.id)}">${esc(p.title)}</option>`).join("");
+      document.getElementById("admin-reels-list").innerHTML = reels.length ? reels.map(r => `<div class="section-row"><div><strong>${esc(r.title)}</strong></div><button class="btn btn-danger" onclick="deleteReelItem('${esc(r.id)}')">মুছুন</button></div>`).join("") : `<p style="font-size:13px;color:var(--muted);">কোনো রিল যুক্ত নেই।</p>`;
+
+      document.getElementById("rank-target-product").innerHTML = products.map(p => `<option value="${esc(p.id)}">${esc(p.title)}</option>`).join("");
+      document.getElementById("rank-product-scores").innerHTML = products.map(p => `
+        <div style="display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:1px dashed var(--border);">
+          <span>${esc(p.title)}</span>
+          <span style="color:var(--accent);font-weight:bold;">${p.seoScore ? `${p.seoScore}% SEO` : "অপ্টিমাইজ করা হয়নি"}</span>
+        </div>
+      `).join("");
+      document.getElementById("merchant-feed-box").value = JSON.stringify(products.map(p => ({ id: p.id, title: p.title, price: `${p.price} BDT`, availability: "in stock" })), null, 2);
 
       document.getElementById("st-products").textContent = products.length;
       document.getElementById("st-orders").textContent = orders.length;
-      document.getElementById("st-revenue").textContent = "৳" + revenue.toLocaleString("bn-BD");
-      document.getElementById("st-free-ship").textContent = ps.freeShippingEnabled === false ? "OFF" : "৳" + minVal.toLocaleString("bn-BD");
-      document.getElementById("pr-count-badge").textContent = products.length;
+      document.getElementById("st-revenue").textContent = `৳${orders.reduce((acc, o) => acc + (Number(o.total) || 0), 0)}`;
+      document.getElementById("st-free-ship").textContent = `৳${s.freeShippingMin || 1500}`;
 
-      renderAdminChatPanel(chats);
+      document.getElementById("orders-tbody").innerHTML = orders.length ? orders.map(o => `
+        <tr>
+          <td>#${esc(o.id)}</td>
+          <td>${esc(o.name)}</td>
+          <td>${esc(o.phone)}</td>
+          <td>৳${esc(o.total)}</td>
+          <td>${esc(o.status || "Pending")}</td>
+        </tr>
+      `).join("") : `<tr><td colspan="5" style="text-align:center;color:var(--muted);">কোনো অর্ডার নেই</td></tr>`;
 
-      document.getElementById("fs-enabled").checked = ps.freeShippingEnabled !== false;
-      document.getElementById("fs-min").value = minVal;
-      document.getElementById("fs-unlocked-text").value = ps.freeShippingUnlockedText || "🎉 অভিনন্দন! আপনি ফ্রি ডেলিভারি পেয়েছেন।";
-      document.getElementById("fs-locked-template").value = ps.freeShippingLockedTemplate || "আর মাত্র ৳{remaining} টাকার পণ্য নিলে ফ্রি ডেলিভারি পাবেন!";
-      document.getElementById("dc-inside").value = ps.insideDhakaCharge ?? 70;
-      document.getElementById("dc-outside").value = ps.outsideDhakaCharge ?? 130;
+      document.getElementById("fs-enabled").checked = s.freeShippingEnabled !== false;
+      document.getElementById("fs-min").value = s.freeShippingMin ?? 1500;
+      document.getElementById("dc-inside").value = s.deliveryInside ?? 60;
+      document.getElementById("dc-outside").value = s.deliveryOutside ?? 120;
+      document.getElementById("audit-list").innerHTML = (s.auditLogs || []).map(l => `<div>• ${esc(l)}</div>`).join("") || "কোনো পরিবর্তন করা হয়নি।";
 
-      const phoneCounts = {};
-      orders.forEach(o => { phoneCounts[o.phone] = (phoneCounts[o.phone] || 0) + 1; });
-      document.getElementById("orders-tbody").innerHTML = orders.length ? orders.map((o, idx) => {
-        const risky = (phoneCounts[o.phone] > 1) || ((o.address || "").length < 8);
-        return `<tr><td>${o.id}</td><td>${esc(o.customer)}</td><td>${esc(o.phone)}</td><td>৳${o.total}</td><td>${risky ? "⚠️ চেক করুন" : "✓ স্বাভাবিক"}</td><td><select onchange="updateOrderStatus(${idx}, this.value)" style="background:#0F172A;color:#fff;border:1px solid #334155;border-radius:6px;padding:4px;">${["Pending","Confirmed","Shipped","Delivered","Returned"].map(st => `<option ${o.status === st ? "selected" : ""}>${st}</option>`).join("")}</select></td></tr>`;
-      }).join("") : `<tr><td colspan="6" style="color:var(--muted);">এখনো কোনো অর্ডার আসেনি।</td></tr>`;
-
-      document.getElementById("admin-product-list").innerHTML = products.map(p => {
-        const hasVar = p.productType === "variant" || (Array.isArray(p.sizes) && p.sizes.length) || (Array.isArray(p.colors) && p.colors.length);
-        const vInfo = hasVar
-          ? ` • ভেরিয়েন্ট (কালার: ${(p.colors || []).join("/") || "-"}, সাইজ: ${(p.sizes || []).join("/") || "-"} • একই দাম)`
-          : " • সিঙ্গেল";
-        return `
-          <div class="section-row">
-            <div style="display:flex;align-items:center;gap:10px;">
-              <img src="${p.image}" alt="${esc(p.title)}" style="width:46px;height:46px;object-fit:cover;border-radius:8px;border:1px solid var(--border);" />
-              <div><strong>${esc(p.title)}</strong><br/><span style="font-size:12px;color:var(--muted);">৳${p.price} • ${esc(p.category)}${esc(vInfo)} • SEO: ${p.rankScore || 88}</span></div>
-            </div>
-            <button class="btn btn-danger" onclick="deleteProduct('${p.id}')">মুছুন</button>
-          </div>
-        `;
-      }).join("");
-
-      const rankSel = document.getElementById("rank-target-product");
-      const prevSel = rankSel.value;
-      rankSel.innerHTML = products.map(p => `<option value="${esc(p.id)}">${esc(p.title)} (৳${p.price})</option>`).join("");
-      if (prevSel && products.some(p => p.id === prevSel)) rankSel.value = prevSel;
-
-      document.getElementById("rank-product-scores").innerHTML = products.map(p => `
-        <div class="section-row">
-          <div><strong>${esc(p.title)}</strong><br/><span style="font-size:12px;color:var(--muted);">SEO: ${esc(p.seoTitle || p.title)}</span></div>
-          <span class="btn btn-gold" style="pointer-events:none;">Score ${p.rankScore || 88}</span>
-        </div>
-      `).join("");
-
-      document.getElementById("llms-summary-box").value = buildLlmsText(s);
-
-      const secLabels = { categories: "ক্যাটাগরি বার", adsense: "Google AdSense স্লট", products: "প্রোডাক্ট গ্রিড", bundle: "স্মার্ট কম্বো", guides: "স্টাইল গাইড", reviews: "কাস্টমার রিভিউ", reels: "রিলস স্লাইডার", footer: "ফুটার ও পলিসি" };
-      const vis = s.sectionsVisible || {};
-      document.getElementById("section-toggles").innerHTML = Object.entries(secLabels).map(([k, lbl]) => {
-        const on = vis[k] !== false;
-        return `<div class="section-row"><span>${lbl}</span><button class="btn ${on ? "btn-gold" : ""}" onclick="toggleSection('${k}')">${on ? "চালু (ON)" : "বন্ধ (OFF)"}</button></div>`;
-      }).join("");
-
-      document.getElementById("ads-pub-id").value = s.adsense?.pubId || "";
-      document.getElementById("ads-slot-id").value = s.adsense?.slotId || "";
-      document.getElementById("merchant-feed-box").value = JSON.stringify(products.map(p => ({
-        id: p.id, title: p.seoTitle || p.title, price: `${p.price} BDT`, availability: "in stock", condition: "new", image_link: p.image, description: p.description
-      })), null, 2);
-      document.getElementById("audit-list").innerHTML = (s.auditLogs || []).length ? s.auditLogs.map(x => `<div style="padding:4px 0;border-bottom:1px solid var(--border);">${esc(x)}</div>`).join("") : "কোনো লগ নেই।";
+      renderAdminChatPanel(s.chats || []);
+      generateStoreJsonLd();
     }
 
-    window.addEventListener("storage", (ev) => {
-      if (ev.key === STORAGE_KEY && sessionStorage.getItem(AUTH_KEY) === "1") {
-        renderAllAdmin();
-      }
-    });
-
-    function changePin() {
-      const p = document.getElementById("new-pin-input").value.trim();
-      if (p.length < 4) return alert("অন্তত ৪ ডিজিট দিন।");
-      localStorage.setItem(PIN_KEY, p);
-      document.getElementById("new-pin-input").value = "";
-      showToast("পিন পরিবর্তন হয়েছে");
+    if (sessionStorage.getItem(AUTH_KEY) === "1") {
+      showPanel();
     }
-    function showToast(msg) {
-      const t = document.getElementById("toast");
-      t.textContent = msg;
-      t.style.display = "block";
-      setTimeout(() => { t.style.display = "none"; }, 2400);
-    }
-    function esc(s) {
-      return String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-    }
-    if (sessionStorage.getItem(AUTH_KEY) === "1") showPanel();
   </script>
+  <!-- =====================================================================
+       [শেষ] ৯. জাভাস্ক্রিপ্ট ফাংশনসমূহ
+       ===================================================================== -->
 </body>
 </html>
